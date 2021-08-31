@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 223974234}
   - component: {fileID: 223974233}
   - component: {fileID: 223974232}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,9 +159,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectAction:
-    id: 0
-    description: None
-    axisConstraint: 0
+    id: 1
+    description: Select
+    axisConstraint: 2
   voiceSelect: []
   dwellTimeInSec: 0.8
   onLookAtStart:
