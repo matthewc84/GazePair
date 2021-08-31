@@ -135,10 +135,12 @@ GameObject:
   - component: {fileID: 223974230}
   - component: {fileID: 223974229}
   - component: {fileID: 223974228}
-  - component: {fileID: 223974227}
   - component: {fileID: 223974234}
   - component: {fileID: 223974233}
   - component: {fileID: 223974232}
+  - component: {fileID: 223974227}
+  - component: {fileID: 223974236}
+  - component: {fileID: 223974235}
   m_Layer: 31
   m_Name: Cube
   m_TagString: Untagged
@@ -159,44 +161,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectAction:
-    id: 1
-    description: Select
-    axisConstraint: 2
+    id: 0
+    description: None
+    axisConstraint: 0
   voiceSelect: []
   dwellTimeInSec: 0.8
   onLookAtStart:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 223974229}
-        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-        m_MethodName: set_material
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 2100000, guid: b62873551dfeef943be6324c304cd0ab, type: 2}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   whileLookingAtTarget:
     m_PersistentCalls:
       m_Calls: []
   onLookAway:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 223974229}
-        m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
-        m_MethodName: set_material
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 2100008, guid: a37785fa4a4129246a58f79132a1b6c6, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Material, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onDwell:
     m_PersistentCalls:
       m_Calls: []
@@ -357,6 +335,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoConstraintSelection: 1
   selectedConstraints: []
+--- !u!114 &223974235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223974226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 855d3e1019018ec47b435cc812e1fbf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tapAction:
+    id: 0
+    description: None
+    axisConstraint: 0
+  color_IdleState: {r: 0, g: 1, b: 1, a: 1}
+  color_OnHover: {r: 1, g: 1, b: 1, a: 1}
+  color_OnSelect: {r: 0, g: 0, b: 1, a: 1}
+--- !u!114 &223974236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223974226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a62acb66e089a848a58065542ef5444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &390542230
 GameObject:
   m_ObjectHideFlags: 0

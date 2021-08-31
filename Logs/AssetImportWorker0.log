@@ -1,0 +1,986 @@
+Using pre-set license
+Built from '2020.3/staging' branch; Version is '2020.3.16f1 (049d6eca3c44) revision 302446'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10 Enterprise; OS build 19042.1165; Version 2009; 64bit' Language: 'en' Physical Memory: 32483 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+ COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2020.3.16f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+C:/Users/Matt/Net
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+51125
+Successfully changed project path to: C:/Users/Matt/Net
+C:/Users/Matt/Net
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 95.49 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 5.21 ms.
+Initialize engine version: 2020.3.16f1 (049d6eca3c44)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.16f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/Matt/Net/Assets
+GfxDevice: creating device client; threaded=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: Intel(R) UHD Graphics 630 (ID=0x9bc5)
+    Vendor:   
+    VRAM:     16241 MB
+    Driver:   27.20.100.9664
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.16f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.16f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.16f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56312
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.16f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001286 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 63.47 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.09 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  0.811 seconds
+Domain Reload Profiling:
+	ReloadAssembly (811ms)
+		BeginReloadAssembly (39ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (0ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (1ms)
+		EndReloadAssembly (347ms)
+			LoadAssemblies (37ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (109ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (24ms)
+			SetupLoadedEditorAssemblies (155ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (3ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (64ms)
+				BeforeProcessingInitializeOnLoad (9ms)
+				ProcessInitializeOnLoadAttributes (59ms)
+				ProcessInitializeOnLoadMethodAttributes (20ms)
+				AfterProcessingInitializeOnLoad (0ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (0ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.015812 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 80.68 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.13 ms.
+[XR] [Mixed Reality OpenXR Mesh]: RegisterLifecycleProvider.
+[XR] [Mixed Reality OpenXR Input]: RegisterLifecycleProvider.
+Added DLL directory C:\Users\Matt\Net\Library\PackageCache\com.microsoft.windows.mixedreality.dotnetwinrt@a14c00445f05-1630435386582\Plugins\x64 to the user search path.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Microsoft.Windows.MixedReality.DotNetWinRT.Init:.cctor () (at Library/PackageCache/com.microsoft.windows.mixedreality.dotnetwinrt@a14c00445f05-1630435386582/Editor/Microsoft.Windows.MixedReality.DotNetWinRT.Init.cs:46)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+(Filename: Library/PackageCache/com.microsoft.windows.mixedreality.dotnetwinrt@a14c00445f05-1630435386582/Editor/Microsoft.Windows.MixedReality.DotNetWinRT.Init.cs Line: 46)
+
+Added DLL directory C:\Users\Matt\Net\Library\PackageCache\com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185\Plugins\Windows\x64 to the user search path.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Microsoft.MixedReality.Input.Init:.cctor () (at Library/PackageCache/com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185/Editor/Microsoft.MixedReality.Input.Init.cs:88)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+(Filename: Library/PackageCache/com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185/Editor/Microsoft.MixedReality.Input.Init.cs Line: 88)
+
+[XR] Error loading subsystem: Display (1) (header mismatch?)
+Mono: successfully reloaded assembly
+- Completed reload, in  2.181 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2182ms)
+		BeginReloadAssembly (109ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (4ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (14ms)
+		EndReloadAssembly (2020ms)
+			LoadAssemblies (87ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (290ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (58ms)
+			SetupLoadedEditorAssemblies (1473ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (3ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (81ms)
+				BeforeProcessingInitializeOnLoad (104ms)
+				ProcessInitializeOnLoadAttributes (986ms)
+				ProcessInitializeOnLoadMethodAttributes (294ms)
+				AfterProcessingInitializeOnLoad (4ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (5ms)
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
+Refreshing native plugins compatible for Editor in 1.44 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.10 ms.
+Unloading 4070 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 163.9 MB.
+System memory in use after: 163.6 MB.
+
+Unloading 625 unused Assets to reduce memory usage. Loaded Objects now: 4364.
+Total: 4.431900 ms (FindLiveObjects: 0.403100 ms CreateObjectMapping: 0.209100 ms MarkObjects: 3.350500 ms  DeleteObjects: 0.468400 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  path: Assets/Scripts/ColorTapScript.cs
+  artifactKey: Guid(8f0ca51a5210ef1418dcb0bc93be0902) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/ColorTapScript.cs using Guid(8f0ca51a5210ef1418dcb0bc93be0902) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '28748f6e8fe1de85bba76870e0372084') in 0.017394 seconds 
+  Import took 0.021994 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 64.485311 seconds.
+  path: Assets/Scripts/ColorTapCube.cs
+  artifactKey: Guid(2a62acb66e089a848a58065542ef5444) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/ColorTapCube.cs using Guid(2a62acb66e089a848a58065542ef5444) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ed54db6159592c5dce6db77d94894fb0') in 0.008139 seconds 
+  Import took 0.013451 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016083 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.48 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.12 ms.
+Added DLL directory C:\Users\Matt\Net\Library\PackageCache\com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185\Plugins\Windows\x64 to the user search path.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Microsoft.MixedReality.Input.Init:.cctor () (at Library/PackageCache/com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185/Editor/Microsoft.MixedReality.Input.Init.cs:88)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+(Filename: Library/PackageCache/com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185/Editor/Microsoft.MixedReality.Input.Init.cs Line: 88)
+
+Error when attempting to update scene info fields. Scene info data may be stale.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+Microsoft.MixedReality.Toolkit.Editor.SceneInfoUtils:RefreshSceneInfoFieldsInScriptableObjects () (at Library/PackageCache/com.microsoft.mixedreality.toolkit.foundation@7ab72a083e35-1630435386405/Core/Inspectors/PropertyDrawers/SceneInfoUtils.cs:313)
+Microsoft.MixedReality.Toolkit.Editor.SceneInfoUtils:InitializeOnLoad () (at Library/PackageCache/com.microsoft.mixedreality.toolkit.foundation@7ab72a083e35-1630435386405/Core/Inspectors/PropertyDrawers/SceneInfoUtils.cs:231)
+System.Reflection.MonoMethod:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadMethodAttributes ()
+
+(Filename: Library/PackageCache/com.microsoft.mixedreality.toolkit.foundation@7ab72a083e35-1630435386405/Core/Inspectors/PropertyDrawers/SceneInfoUtils.cs Line: 313)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.723 seconds
+Domain Reload Profiling:
+	ReloadAssembly (1724ms)
+		BeginReloadAssembly (113ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (3ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (37ms)
+		EndReloadAssembly (1562ms)
+			LoadAssemblies (83ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (261ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (46ms)
+			SetupLoadedEditorAssemblies (1044ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (3ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (2ms)
+				BeforeProcessingInitializeOnLoad (102ms)
+				ProcessInitializeOnLoadAttributes (773ms)
+				ProcessInitializeOnLoadMethodAttributes (159ms)
+				AfterProcessingInitializeOnLoad (4ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (9ms)
+Platform modules already initialized, skipping
+Switching build target platform(19) subTarget(0) extendedPlatform(0) -> platform(21) subTarget(3) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.37 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.09 ms.
+Unloading 3946 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 154.4 MB.
+System memory in use after: 154.3 MB.
+
+Unloading 156 unused Assets to reduce memory usage. Loaded Objects now: 4368.
+Total: 3.492700 ms (FindLiveObjects: 0.326900 ms CreateObjectMapping: 0.169400 ms MarkObjects: 2.846200 ms  DeleteObjects: 0.149700 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 20.874945 seconds.
+  path: Assets/Scripts/ColorTapCube.cs
+  artifactKey: Guid(2a62acb66e089a848a58065542ef5444) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/ColorTapCube.cs using Guid(2a62acb66e089a848a58065542ef5444) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a022dbdcf36d5805dfadaf89ac9ea938') in 0.006830 seconds 
+  Import took 0.012178 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015779 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.47 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.10 ms.
+Added DLL directory C:\Users\Matt\Net\Library\PackageCache\com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185\Plugins\Windows\x64 to the user search path.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Microsoft.MixedReality.Input.Init:.cctor () (at Library/PackageCache/com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185/Editor/Microsoft.MixedReality.Input.Init.cs:88)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+(Filename: Library/PackageCache/com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185/Editor/Microsoft.MixedReality.Input.Init.cs Line: 88)
+
+Error when attempting to update scene info fields. Scene info data may be stale.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+Microsoft.MixedReality.Toolkit.Editor.SceneInfoUtils:RefreshSceneInfoFieldsInScriptableObjects () (at Library/PackageCache/com.microsoft.mixedreality.toolkit.foundation@7ab72a083e35-1630435386405/Core/Inspectors/PropertyDrawers/SceneInfoUtils.cs:313)
+Microsoft.MixedReality.Toolkit.Editor.SceneInfoUtils:InitializeOnLoad () (at Library/PackageCache/com.microsoft.mixedreality.toolkit.foundation@7ab72a083e35-1630435386405/Core/Inspectors/PropertyDrawers/SceneInfoUtils.cs:231)
+System.Reflection.MonoMethod:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadMethodAttributes ()
+
+(Filename: Library/PackageCache/com.microsoft.mixedreality.toolkit.foundation@7ab72a083e35-1630435386405/Core/Inspectors/PropertyDrawers/SceneInfoUtils.cs Line: 313)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.693 seconds
+Domain Reload Profiling:
+	ReloadAssembly (1693ms)
+		BeginReloadAssembly (102ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (3ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (35ms)
+		EndReloadAssembly (1543ms)
+			LoadAssemblies (83ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (275ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (34ms)
+			SetupLoadedEditorAssemblies (1020ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (3ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (2ms)
+				BeforeProcessingInitializeOnLoad (97ms)
+				ProcessInitializeOnLoadAttributes (757ms)
+				ProcessInitializeOnLoadMethodAttributes (156ms)
+				AfterProcessingInitializeOnLoad (4ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (8ms)
+Platform modules already initialized, skipping
+Switching build target platform(19) subTarget(0) extendedPlatform(0) -> platform(21) subTarget(3) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.38 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.09 ms.
+Unloading 3945 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 154.4 MB.
+System memory in use after: 154.3 MB.
+
+Unloading 157 unused Assets to reduce memory usage. Loaded Objects now: 4370.
+Total: 3.424400 ms (FindLiveObjects: 0.307800 ms CreateObjectMapping: 0.187500 ms MarkObjects: 2.816700 ms  DeleteObjects: 0.111700 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.015730 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.45 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.10 ms.
+Added DLL directory C:\Users\Matt\Net\Library\PackageCache\com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185\Plugins\Windows\x64 to the user search path.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Microsoft.MixedReality.Input.Init:.cctor () (at Library/PackageCache/com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185/Editor/Microsoft.MixedReality.Input.Init.cs:88)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+(Filename: Library/PackageCache/com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185/Editor/Microsoft.MixedReality.Input.Init.cs Line: 88)
+
+Error when attempting to update scene info fields. Scene info data may be stale.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+Microsoft.MixedReality.Toolkit.Editor.SceneInfoUtils:RefreshSceneInfoFieldsInScriptableObjects () (at Library/PackageCache/com.microsoft.mixedreality.toolkit.foundation@7ab72a083e35-1630435386405/Core/Inspectors/PropertyDrawers/SceneInfoUtils.cs:313)
+Microsoft.MixedReality.Toolkit.Editor.SceneInfoUtils:InitializeOnLoad () (at Library/PackageCache/com.microsoft.mixedreality.toolkit.foundation@7ab72a083e35-1630435386405/Core/Inspectors/PropertyDrawers/SceneInfoUtils.cs:231)
+System.Reflection.MonoMethod:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadMethodAttributes ()
+
+(Filename: Library/PackageCache/com.microsoft.mixedreality.toolkit.foundation@7ab72a083e35-1630435386405/Core/Inspectors/PropertyDrawers/SceneInfoUtils.cs Line: 313)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.704 seconds
+Domain Reload Profiling:
+	ReloadAssembly (1704ms)
+		BeginReloadAssembly (96ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (3ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (36ms)
+		EndReloadAssembly (1560ms)
+			LoadAssemblies (83ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (274ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (35ms)
+			SetupLoadedEditorAssemblies (1024ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (3ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (2ms)
+				BeforeProcessingInitializeOnLoad (95ms)
+				ProcessInitializeOnLoadAttributes (763ms)
+				ProcessInitializeOnLoadMethodAttributes (157ms)
+				AfterProcessingInitializeOnLoad (4ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (9ms)
+Platform modules already initialized, skipping
+Switching build target platform(19) subTarget(0) extendedPlatform(0) -> platform(21) subTarget(3) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.50 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.10 ms.
+Unloading 3944 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 154.5 MB.
+System memory in use after: 154.4 MB.
+
+Unloading 157 unused Assets to reduce memory usage. Loaded Objects now: 4372.
+Total: 3.451600 ms (FindLiveObjects: 0.332500 ms CreateObjectMapping: 0.192000 ms MarkObjects: 2.810400 ms  DeleteObjects: 0.115800 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 58.077930 seconds.
+  path: Assets/XR/Loaders/AR Core Loader.asset
+  artifactKey: Guid(14f1b0eb702f7ac4ca1e62f21bf0d0ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/XR/Loaders/AR Core Loader.asset using Guid(14f1b0eb702f7ac4ca1e62f21bf0d0ee) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b94ac010d4e5f63f8d9b1ce5279c40a3') in 0.017666 seconds 
+  Import took 0.022978 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000248 seconds.
+  path: Assets/XR/Settings/AR Core Loader Settings.asset
+  artifactKey: Guid(7975bb9165a61cd4a9054534adba9dd6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/XR/Settings/AR Core Loader Settings.asset using Guid(7975bb9165a61cd4a9054534adba9dd6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2eb7fc89cde4dd357dd55629e49ded35') in 0.005632 seconds 
+  Import took 0.010114 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000155 seconds.
+  path: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
+  artifactKey: Guid(2e498d1c8094910479dc3e1b768306a4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset using Guid(2e498d1c8094910479dc3e1b768306a4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '73c4f4f2da4d2ab57d901e0f40ae3f2f') in 0.099989 seconds 
+  Import took 0.104445 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000224 seconds.
+  path: Assets/XR/Settings/OpenXR Package Settings.asset
+  artifactKey: Guid(6693ecf6357383b4690aab5d5873e0b8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/XR/Settings/OpenXR Package Settings.asset using Guid(6693ecf6357383b4690aab5d5873e0b8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b884086a0b930e9a552905cde9e84893') in 0.013990 seconds 
+  Import took 0.018707 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000173 seconds.
+  path: Assets/XR/Settings/AR Core Settings.asset
+  artifactKey: Guid(24ed366107a967f44b9866174acf3c2e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/XR/Settings/AR Core Settings.asset using Guid(24ed366107a967f44b9866174acf3c2e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c6aeffe8f3f9e510b176a110a558373a') in 0.005049 seconds 
+  Import took 0.010617 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 10.777237 seconds.
+  path: Assets/MixedRealityToolkit.Generated/ProjectPreferences.asset
+  artifactKey: Guid(2537d64b8863878439b26ce77cfcde14) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/MixedRealityToolkit.Generated/ProjectPreferences.asset using Guid(2537d64b8863878439b26ce77cfcde14) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f8ba43bab8e984713ba1b709056d4f6b') in 0.005323 seconds 
+  Import took 0.010816 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.730418 seconds.
+  path: Assets/MixedRealityToolkit.Generated/MRTK.Generated.sentinel
+  artifactKey: Guid(1472f2e7b569d8f48955697b491a9ae2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/MixedRealityToolkit.Generated/MRTK.Generated.sentinel using Guid(1472f2e7b569d8f48955697b491a9ae2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '721bcaa1f26e1ef74158f727d67d1507') in 0.005913 seconds 
+  Import took 0.010784 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004944 seconds.
+  path: Assets/MixedRealityToolkit.Generated/MRTK.Generated.sentinel
+  artifactKey: Guid(1472f2e7b569d8f48955697b491a9ae2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/MixedRealityToolkit.Generated/MRTK.Generated.sentinel using Guid(1472f2e7b569d8f48955697b491a9ae2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '721bcaa1f26e1ef74158f727d67d1507') in 0.002344 seconds 
+  Import took 0.007851 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 6.925965 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.examples/MRTK.Examples.asmdef
+  artifactKey: Guid(46ec937f2368478f92e0e97b791e88ac) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.examples/MRTK.Examples.asmdef using Guid(46ec937f2368478f92e0e97b791e88ac) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'eebb24eda447bf2b65965e7dd8329963') in 0.005570 seconds 
+  Import took 0.010560 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000236 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.examples/package.json
+  artifactKey: Guid(fbc7cacfb4fa6ff479eecf999ae6ad4b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.examples/package.json using Guid(fbc7cacfb4fa6ff479eecf999ae6ad4b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7b6a6615ea1d51a151cffc189b17ae56') in 0.008351 seconds 
+  Import took 0.013228 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.955109 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.examples/StandardAssets
+  artifactKey: Guid(0a077ce9547f4627b1a08665a839e574) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.examples/StandardAssets using Guid(0a077ce9547f4627b1a08665a839e574) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '778f9f570837b481a4f6f31ee5316118') in 0.006356 seconds 
+  Import took 0.011500 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.692692 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.examples/Common
+  artifactKey: Guid(99de592199e4eff4d8cbd6b035e94107) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.examples/Common using Guid(99de592199e4eff4d8cbd6b035e94107) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4faaa4b63361577968ce15e0f69df854') in 0.005913 seconds 
+  Import took 0.011093 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.641468 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.examples/Common/Scripts
+  artifactKey: Guid(a0aa83dab773e2b4ab976df976841f79) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.examples/Common/Scripts using Guid(a0aa83dab773e2b4ab976df976841f79) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9efd7bfd62d2280be11a635a937ff1db') in 0.002884 seconds 
+  Import took 0.008636 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.591413 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.examples/Common/Scripts/ColorChanger.cs
+  artifactKey: Guid(494f23d66f4f1fe40ab0ee05fe75e766) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.examples/Common/Scripts/ColorChanger.cs using Guid(494f23d66f4f1fe40ab0ee05fe75e766) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9970448a85be676078f9aaf14c7019a7') in 0.004431 seconds 
+  Import took 0.009182 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.016289 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.examples/Common/Scripts/ColorChanger.cs
+  artifactKey: Guid(494f23d66f4f1fe40ab0ee05fe75e766) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.examples/Common/Scripts/ColorChanger.cs using Guid(494f23d66f4f1fe40ab0ee05fe75e766) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9970448a85be676078f9aaf14c7019a7') in 0.002487 seconds 
+  Import took 0.007943 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.738261 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.examples/Common/Scripts/DemoSpatialMeshHandler.cs
+  artifactKey: Guid(868feaaaeee122248958e04354e4b1f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.examples/Common/Scripts/DemoSpatialMeshHandler.cs using Guid(868feaaaeee122248958e04354e4b1f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '894df3c13268fd27d261f8c32440b8d6') in 0.004831 seconds 
+  Import took 0.010843 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000486 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.examples/Common/Scripts/DemoSpatialMeshHandler.cs
+  artifactKey: Guid(868feaaaeee122248958e04354e4b1f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.examples/Common/Scripts/DemoSpatialMeshHandler.cs using Guid(868feaaaeee122248958e04354e4b1f0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '894df3c13268fd27d261f8c32440b8d6') in 0.002432 seconds 
+  Import took 0.007882 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 19.460484 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.tools/MRTK.Tools.asmdef
+  artifactKey: Guid(0894cfc12853192419b32e8cb5b453aa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.tools/MRTK.Tools.asmdef using Guid(0894cfc12853192419b32e8cb5b453aa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4051d0fec5771b3240b28ecca3377a39') in 0.005260 seconds 
+  Import took 0.010328 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000235 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.tools/package.json
+  artifactKey: Guid(a8bd6d6f4b8d7bb4bb30c9d7c3e90849) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.tools/package.json using Guid(a8bd6d6f4b8d7bb4bb30c9d7c3e90849) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f94647aced1ac544f3415d664eca0eca') in 0.002098 seconds 
+  Import took 0.006105 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 183.088549 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.extensions/package.json
+  artifactKey: Guid(593ce641688b4e54e876f85685d45fcc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.extensions/package.json using Guid(593ce641688b4e54e876f85685d45fcc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8407006ffd369fc7ec854b260ea6d54a') in 0.002239 seconds 
+  Import took 0.007307 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.196376 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.foundation/package.json
+  artifactKey: Guid(07675bcd31d98194486b2fea188bcc6b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.foundation/package.json using Guid(07675bcd31d98194486b2fea188bcc6b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '52c11174c31f5000aa3f887f40720b62') in 0.002244 seconds 
+  Import took 0.006942 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.628305 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.gpustats/Microsoft.MixedReality.Toolkit.GpuStats.asmdef
+  artifactKey: Guid(c922f469ae7ff384da50290aaa1e84e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.gpustats/Microsoft.MixedReality.Toolkit.GpuStats.asmdef using Guid(c922f469ae7ff384da50290aaa1e84e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0a58c96f3a0f37adcb8e3b2f61438245') in 0.004721 seconds 
+  Import took 0.010153 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000214 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.gpustats/package.json
+  artifactKey: Guid(1a5173b26141006469159e5ad47c5ffd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.gpustats/package.json using Guid(1a5173b26141006469159e5ad47c5ffd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c3fe7f845580bbe37696d49af3ddaff7') in 0.002442 seconds 
+  Import took 0.006944 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.688071 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.micstream/Microsoft.MixedReality.Toolkit.MicStream.asmdef
+  artifactKey: Guid(d324afe11ed7b7c46b4fb2c509dfefb2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.micstream/Microsoft.MixedReality.Toolkit.MicStream.asmdef using Guid(d324afe11ed7b7c46b4fb2c509dfefb2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9f341248d830a152209cd0c097dd8828') in 0.004566 seconds 
+  Import took 0.009341 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000194 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.micstream/package.json
+  artifactKey: Guid(998b051fd7ca6234aa46c01587a4acba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.micstream/package.json using Guid(998b051fd7ca6234aa46c01587a4acba) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a3cafe5c5e097359ae177ec27fc0b4e7') in 0.002098 seconds 
+  Import took 0.006182 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.981848 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.planefinding/Microsoft.MixedReality.Toolkit.PlaneFinding.asmdef
+  artifactKey: Guid(b2d588c73aaa89b42921e77be79a2569) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.planefinding/Microsoft.MixedReality.Toolkit.PlaneFinding.asmdef using Guid(b2d588c73aaa89b42921e77be79a2569) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1e194a16045d3a53c66803ec8ea21b1f') in 0.004375 seconds 
+  Import took 0.009357 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000154 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.planefinding/package.json
+  artifactKey: Guid(55186cc6d3ef6dc4d9f79bf8ab3f604f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.planefinding/package.json using Guid(55186cc6d3ef6dc4d9f79bf8ab3f604f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a57bb31fadc52fb45f18fa2fed6f17a6') in 0.001892 seconds 
+  Import took 0.006326 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.546077 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.standardassets/package.json
+  artifactKey: Guid(3c876f4ed6a6d014387c52b7a0f1752a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.standardassets/package.json using Guid(3c876f4ed6a6d014387c52b7a0f1752a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9e1fb88fd8ab6c37c370416a00db4a7b') in 0.002025 seconds 
+  Import took 0.006985 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.937778 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.testutilities/MRTK.Tests.Utilities.asmdef
+  artifactKey: Guid(68c436a49a0802043a4e84498f249208) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.testutilities/MRTK.Tests.Utilities.asmdef using Guid(68c436a49a0802043a4e84498f249208) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2876c19544d85b55426987ad425824fe') in 0.004579 seconds 
+  Import took 0.010295 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000116 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.testutilities/package.json
+  artifactKey: Guid(5b20be1339bede24a9cbdce69fd58cc8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.testutilities/package.json using Guid(5b20be1339bede24a9cbdce69fd58cc8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e48ed1efb997f07e8f179b82ac38b32f') in 0.002009 seconds 
+  Import took 0.006072 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.202151 seconds.
+  path: Packages/com.microsoft.windows.mixedreality.dotnetwinrt/package.json
+  artifactKey: Guid(8232072bf7b224240a5a8b7a9e8fa19b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.windows.mixedreality.dotnetwinrt/package.json using Guid(8232072bf7b224240a5a8b7a9e8fa19b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '105a298e05346d4f064472365d986ba3') in 0.002363 seconds 
+  Import took 0.007354 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.954198 seconds.
+  path: Packages/com.microsoft.mixedreality.webrtc/package.json
+  artifactKey: Guid(f7c1f095fb7759f4c8038b5ea7ddb3ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.webrtc/package.json using Guid(f7c1f095fb7759f4c8038b5ea7ddb3ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e058fe18929e1675859d30ef60aba745') in 0.002536 seconds 
+  Import took 0.007488 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.579123 seconds.
+  path: Packages/com.microsoft.mixedreality.openxr/package.json
+  artifactKey: Guid(1adea270d8ae3ec428b7a7cc41633514) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.openxr/package.json using Guid(1adea270d8ae3ec428b7a7cc41633514) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1df40b1ef5fb18a21fd538e28c3a8786') in 0.002446 seconds 
+  Import took 0.007443 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.993415 seconds.
+  path: Packages/com.microsoft.mixedreality.input/package.json
+  artifactKey: Guid(8456ab7e97494950bdf3fe3635074e75) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.input/package.json using Guid(8456ab7e97494950bdf3fe3635074e75) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '77febcf6f696ee5a7e0c13690819507f') in 0.002302 seconds 
+  Import took 0.006935 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.814492 seconds.
+  path: Packages/com.microsoft.mixedreality.sceneunderstanding/package.json
+  artifactKey: Guid(b574c0669bb9f804eb5528455e91b073) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.sceneunderstanding/package.json using Guid(b574c0669bb9f804eb5528455e91b073) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4bb50e306850f3e188b7aac8c0175e95') in 0.002292 seconds 
+  Import took 0.007206 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.203379 seconds.
+  path: Packages/com.microsoft.mixedreality.toolkit.examples/NOTICE.md
+  artifactKey: Guid(c5459736aaa829a42b0fce4d05266f06) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.microsoft.mixedreality.toolkit.examples/NOTICE.md using Guid(c5459736aaa829a42b0fce4d05266f06) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '355f14c8e979d74b48ca56c2d81cdff9') in 0.007574 seconds 
+  Import took 0.012478 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 107.192173 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking
+  artifactKey: Guid(a375d036432343c4d9ed7f4657f39e1a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking using Guid(a375d036432343c4d9ed7f4657f39e1a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '94fdf3886ff94dd624fdf8591a5ea8d3') in 0.005847 seconds 
+  Import took 0.011027 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.016006 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 2.07 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.13 ms.
+Added DLL directory C:\Users\Matt\Net\Library\PackageCache\com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185\Plugins\Windows\x64 to the user search path.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+Microsoft.MixedReality.Input.Init:.cctor () (at Library/PackageCache/com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185/Editor/Microsoft.MixedReality.Input.Init.cs:88)
+System.Runtime.CompilerServices.RuntimeHelpers:RunClassConstructor (System.RuntimeTypeHandle)
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
+
+(Filename: Library/PackageCache/com.microsoft.mixedreality.input@58d07b43e5ec-1630435386185/Editor/Microsoft.MixedReality.Input.Init.cs Line: 88)
+
+Error when attempting to update scene info fields. Scene info data may be stale.
+UnityEngine.StackTraceUtility:ExtractStackTrace ()
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:LogWarning (object)
+Microsoft.MixedReality.Toolkit.Editor.SceneInfoUtils:RefreshSceneInfoFieldsInScriptableObjects () (at Library/PackageCache/com.microsoft.mixedreality.toolkit.foundation@7ab72a083e35-1630435386405/Core/Inspectors/PropertyDrawers/SceneInfoUtils.cs:313)
+Microsoft.MixedReality.Toolkit.Editor.SceneInfoUtils:InitializeOnLoad () (at Library/PackageCache/com.microsoft.mixedreality.toolkit.foundation@7ab72a083e35-1630435386405/Core/Inspectors/PropertyDrawers/SceneInfoUtils.cs:231)
+System.Reflection.MonoMethod:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+UnityEditor.EditorAssemblies:ProcessInitializeOnLoadMethodAttributes ()
+
+(Filename: Library/PackageCache/com.microsoft.mixedreality.toolkit.foundation@7ab72a083e35-1630435386405/Core/Inspectors/PropertyDrawers/SceneInfoUtils.cs Line: 313)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  1.761 seconds
+Domain Reload Profiling:
+	ReloadAssembly (1761ms)
+		BeginReloadAssembly (104ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (3ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (36ms)
+		EndReloadAssembly (1609ms)
+			LoadAssemblies (84ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (264ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (35ms)
+			SetupLoadedEditorAssemblies (1083ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (4ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (2ms)
+				BeforeProcessingInitializeOnLoad (100ms)
+				ProcessInitializeOnLoadAttributes (782ms)
+				ProcessInitializeOnLoadMethodAttributes (190ms)
+				AfterProcessingInitializeOnLoad (4ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (8ms)
+Platform modules already initialized, skipping
+Switching build target platform(19) subTarget(0) extendedPlatform(0) -> platform(21) subTarget(3) extendedPlatform(0)
+Refreshing native plugins compatible for Editor in 1.38 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.09 ms.
+Unloading 4024 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 162.9 MB.
+System memory in use after: 162.8 MB.
+
+Unloading 309 unused Assets to reduce memory usage. Loaded Objects now: 4471.
+Total: 3.774900 ms (FindLiveObjects: 0.317300 ms CreateObjectMapping: 0.185600 ms MarkObjects: 2.914700 ms  DeleteObjects: 0.356300 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 14.331959 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetPositioning
+  artifactKey: Guid(f56707b0ba31ba348b3f6baaf0357590) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetPositioning using Guid(f56707b0ba31ba348b3f6baaf0357590) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '19d4caab10e95fd8a308f194a12894ed') in 0.009423 seconds 
+  Import took 0.014607 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.641853 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections
+  artifactKey: Guid(7476e0248098c1a448786ce2677d6a49) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections using Guid(7476e0248098c1a448786ce2677d6a49) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bf79ab12030ff0387456843b39afdff5') in 0.005799 seconds 
+  Import took 0.010936 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.809195 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoBasicSetup
+  artifactKey: Guid(9838308fd2080d24c91f74bc5471a262) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoBasicSetup using Guid(9838308fd2080d24c91f74bc5471a262) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '044a615b2eafa86a7a26e5bc75331e88') in 0.007693 seconds 
+  Import took 0.012718 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.974023 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoBasicSetup/Scripts
+  artifactKey: Guid(d64d667b1311592479f863d5caa12c0f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoBasicSetup/Scripts using Guid(d64d667b1311592479f863d5caa12c0f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c1cda966920bfadccd5916a6dd531d9f') in 0.002680 seconds 
+  Import took 0.008527 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.253738 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoBasicSetup/Scripts/ColorTap.cs
+  artifactKey: Guid(855d3e1019018ec47b435cc812e1fbf2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoBasicSetup/Scripts/ColorTap.cs using Guid(855d3e1019018ec47b435cc812e1fbf2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bbc8caa4150def5fb432766aa395a0b0') in 0.005597 seconds 
+  Import took 0.011122 seconds .
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 28.72 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.09 ms.
+Unloading 118 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 81.9 MB.
+System memory in use after: 82.1 MB.
+
+Unloading 118 unused Assets to reduce memory usage. Loaded Objects now: 4471.
+Total: 4.034900 ms (FindLiveObjects: 0.428000 ms CreateObjectMapping: 0.268200 ms MarkObjects: 3.284100 ms  DeleteObjects: 0.053600 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 436.170806 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoBasicSetup/Scripts/FollowEyeGazeGazeProvider.cs
+  artifactKey: Guid(d28a62c7a69a49546a4740215e90d289) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoBasicSetup/Scripts/FollowEyeGazeGazeProvider.cs using Guid(d28a62c7a69a49546a4740215e90d289) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7f8bb074271247603cbacab1656d67c8') in 0.005416 seconds 
+  Import took 0.011745 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000731 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoBasicSetup/Scripts/FollowEyeGazeGazeProvider.cs
+  artifactKey: Guid(d28a62c7a69a49546a4740215e90d289) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoBasicSetup/Scripts/FollowEyeGazeGazeProvider.cs using Guid(d28a62c7a69a49546a4740215e90d289) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7f8bb074271247603cbacab1656d67c8') in 0.001754 seconds 
+  Import took 0.006902 seconds .
+
+========================================================================
+Received Prepare
+Refreshing native plugins compatible for Editor in 27.01 ms, found 23 plugins.
+Preloading 2 native plugins for Editor in 0.09 ms.
+Unloading 118 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 81.9 MB.
+System memory in use after: 82.2 MB.
+
+Unloading 118 unused Assets to reduce memory usage. Loaded Objects now: 4471.
+Total: 4.255500 ms (FindLiveObjects: 0.325200 ms CreateObjectMapping: 0.179700 ms MarkObjects: 3.705300 ms  DeleteObjects: 0.044600 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  Time since last request: 825.620187 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/ToggleGameObject.cs
+  artifactKey: Guid(3eb9148c1cd001b4dbcfbb1da5b8fab7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/ToggleGameObject.cs using Guid(3eb9148c1cd001b4dbcfbb1da5b8fab7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ee9a9d17b0ce993b4608b2f19da27d5d') in 0.007516 seconds 
+  Import took 0.013743 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 3.890242 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/TargetGroupIterator.cs
+  artifactKey: Guid(36b713bbc7d01dd42a2bdd3e201d15cf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/TargetGroupIterator.cs using Guid(36b713bbc7d01dd42a2bdd3e201d15cf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd4fdc15a7c1a5925a1d4618a406440ff') in 0.005519 seconds 
+  Import took 0.010567 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.116827 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/TargetGroupCreatorRadial.cs
+  artifactKey: Guid(9e05e4e2276e7164eb468cd1391873bb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/TargetGroupCreatorRadial.cs using Guid(9e05e4e2276e7164eb468cd1391873bb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1fa56fba143b76b89a7e32fe31a19b8a') in 0.005868 seconds 
+  Import took 0.012040 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.001940 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/TargetGroupCreatorRadial.cs
+  artifactKey: Guid(9e05e4e2276e7164eb468cd1391873bb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/TargetGroupCreatorRadial.cs using Guid(9e05e4e2276e7164eb468cd1391873bb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1fa56fba143b76b89a7e32fe31a19b8a') in 0.002050 seconds 
+  Import took 0.007789 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.889155 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/RotateWithConstSpeedDir.cs
+  artifactKey: Guid(094a6cb9d3eee294f8fb34131017de33) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/RotateWithConstSpeedDir.cs using Guid(094a6cb9d3eee294f8fb34131017de33) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '794500505792dbc3c6b942a95b5826a4') in 0.005037 seconds 
+  Import took 0.010964 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000613 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/RotateWithConstSpeedDir.cs
+  artifactKey: Guid(094a6cb9d3eee294f8fb34131017de33) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/RotateWithConstSpeedDir.cs using Guid(094a6cb9d3eee294f8fb34131017de33) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '794500505792dbc3c6b942a95b5826a4') in 0.001907 seconds 
+  Import took 0.007339 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.236780 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/HitBehaviorDestroyOnSelect.cs
+  artifactKey: Guid(be78a17129be5a340aebc4adf9004689) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/HitBehaviorDestroyOnSelect.cs using Guid(be78a17129be5a340aebc4adf9004689) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b08d9ba61b536d027075faf5a709add6') in 0.004861 seconds 
+  Import took 0.011019 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.001634 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/HitBehaviorDestroyOnSelect.cs
+  artifactKey: Guid(be78a17129be5a340aebc4adf9004689) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/DemoTargetSelections/Scripts/HitBehaviorDestroyOnSelect.cs using Guid(be78a17129be5a340aebc4adf9004689) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b08d9ba61b536d027075faf5a709add6') in 0.002444 seconds 
+  Import took 0.007804 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 9.848464 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/General/Scripts/Targeting
+  artifactKey: Guid(154309d664e118d4b946cc209d2d6e44) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/General/Scripts/Targeting using Guid(154309d664e118d4b946cc209d2d6e44) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e3bfe6fccecbca02025010c5525b4b35') in 0.005314 seconds 
+  Import took 0.010420 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.260613 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/General/Scripts/Targeting/DwellSelection.cs
+  artifactKey: Guid(a656c6c65ef0f744197614591beb4193) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/General/Scripts/Targeting/DwellSelection.cs using Guid(a656c6c65ef0f744197614591beb4193) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd33141fd36d7a56dd48d38f3c69784c0') in 0.004797 seconds 
+  Import took 0.010041 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1.319592 seconds.
+  path: Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/General/Scripts/Targeting/TargetEventArgs.cs
+  artifactKey: Guid(5c37dc85bc6ec78469e4f5a99753e10d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Samples/Mixed Reality Toolkit Examples/2.7.2/Demos - EyeTracking/General/Scripts/Targeting/TargetEventArgs.cs using Guid(5c37dc85bc6ec78469e4f5a99753e10d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cf4ad702da53b8249a8f04fb2f191ff9') in 0.005991 seconds 
+  Import took 0.011293 seconds .
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
