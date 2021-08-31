@@ -166,9 +166,6 @@ MonoBehaviour:
   dwellTimeInSec: 0.8
   onLookAtStart:
     m_PersistentCalls:
-      m_Calls: []
-  whileLookingAtTarget:
-    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 223974229}
         m_TargetAssemblyTypeName: UnityEngine.Renderer, UnityEngine
@@ -182,6 +179,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  whileLookingAtTarget:
+    m_PersistentCalls:
+      m_Calls: []
   onLookAway:
     m_PersistentCalls:
       m_Calls:
