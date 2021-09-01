@@ -1,35 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using MLAPI;
 
+using MLAPI;
+using UnityEngine;
 
 namespace HelloWorld
+
 {
-    public class Manager : MonoBehaviour
+    public class SessionManager : MonoBehaviour
     {
-        void OnGUI()
+        void OnAwake()
         {
-            GUILayout.BeginArea(new Rect(10, 10, 300, 300));
+
             if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
             {
-                StartButtons();
+                NetworkManager.Singleton.StartServer();
             }
             else
             {
-                StatusLabels();
 
-                SubmitNewPosition();
+                NetworkManager.Singleton.StartClient();
             }
 
-            GUILayout.EndArea();
         }
 
-        static void StartButtons()
+        void OnUpdate()
         {
-            if (GUILayout.Button("Host")) NetworkManager.Singleton.StartHost();
-            if (GUILayout.Button("Client")) NetworkManager.Singleton.StartClient();
-            if (GUILayout.Button("Server")) NetworkManager.Singleton.StartServer();
+            SubmitNewPosition();
+            StatusLabels();
         }
 
         static void StatusLabels()
