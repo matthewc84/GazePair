@@ -9,6 +9,15 @@ namespace HelloWorld
 {
     public class SessionManager : MonoBehaviour
     {
+
+        void OnGUI()
+        {
+            GUILayout.BeginArea(new Rect(10, 10, 300, 300));
+
+            StatusLabels();
+
+            GUILayout.EndArea();
+        }
         void OnAwake()
         {
 
