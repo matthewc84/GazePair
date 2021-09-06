@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4220985400465758323}
   - component: {fileID: 4220985400465758322}
   - component: {fileID: 4220985400465758316}
+  - component: {fileID: 637830154679643576}
   m_Layer: 0
   m_Name: target_yellow (1)
   m_TagString: Untagged
@@ -169,11 +170,11 @@ MonoBehaviour:
   audio_OnDragStart: {fileID: 8300000, guid: 9a10debaf8483ae49aa91211098634f1, type: 3}
   audio_OnDragStop: {fileID: 8300000, guid: 59244bce6dca9494ebc881d9543fa339, type: 3}
   voiceAction_PutThis:
-    id: 16
+    id: 0
     description: StartToDrag
     axisConstraint: 0
   voiceAction_OverHere:
-    id: 17
+    id: 0
     description: StopToDrag
     axisConstraint: 0
   OnDragStart:
@@ -236,3 +237,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &637830154679643576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4220985400465758324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkInstanceId: 0
+  PrefabHash: 3337341882928341887
+  PrefabHashGenerator: target_yellow (1)
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0

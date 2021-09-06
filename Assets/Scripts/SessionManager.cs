@@ -21,7 +21,7 @@ namespace HelloWorld
         void OnAwake()
         {
 
-            if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
+            if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer && !NetworkManager.Singleton.IsHost)
             {
                 NetworkManager.Singleton.StartServer();
             }
