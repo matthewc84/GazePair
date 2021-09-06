@@ -88,7 +88,7 @@ public class ExampleNetworkDiscovery : NetworkDiscovery<DiscoveryBroadcastData, 
 
     public void clientButtonPressed()
     {
-        if (!m_NetworkManager.IsServer)
+        if (m_NetworkManager.IsServer)
         {
             //When Button pressed, start server
             NetworkManager.Singleton.StartClient();

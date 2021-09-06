@@ -49,10 +49,7 @@ public class ExampleNetworkDiscoveryHud : MonoBehaviour
 
     void OnServerFound(IPEndPoint sender, DiscoveryResponseData response)
     {
-        buttonParent = GameObject.Find("ButtonParent");
-        GameObject myButton = Instantiate(buttonPrefab, buttonParent.transform.position, buttonParent.transform.rotation) as GameObject;
-        myButton.transform.SetParent(buttonParent.transform);
-        myButton.GetComponentInChildren<TextMeshPro>().text = "la di da";
+
         discoveredServers[sender.Address] = response;
     }
 
