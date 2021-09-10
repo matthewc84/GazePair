@@ -1,62 +1,55 @@
-using TMPro;
-using System;
+using System.Collections.Generic;
 using System.Net;
 using MLAPI;
 using MLAPI.Transports.UNET;
 using UnityEngine;
-using UnityEngine.Events;
-using Random = UnityEngine.Random;
-using UnityEngine.UI;
-using System.Collections;
+using Object = UnityEngine.Object;
+using TMPro;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.Events;
+#endif
 
-[RequireComponent(typeof(NetworkManager))]
-public class ExampleNetworkDiscovery : NetworkDiscovery<DiscoveryBroadcastData, DiscoveryResponseData>
+//[RequireComponent(typeof(GazePairNetworkDiscovery))]
+//[RequireComponent(typeof(NetworkManager))]
+public class GazePairHud : MonoBehaviour
 {
+    [SerializeField, HideInInspector]
+    NetworkManager m_NetworkManager;
 
-    [Serializable]
-    public class ServerFoundEvent : UnityEvent<IPEndPoint, DiscoveryResponseData>
-    {
-    };
+    Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new Dictionary<IPAddress, DiscoveryResponseData>();
 
+    //public GameObject buttonPrefab;
     GameObject buttonParent;
     GameObject buttonChild;
 
-    public GameObject serverButtonPrefab;
-    public GameObject clientButtonPrefab;
-
-
-    NetworkManager m_NetworkManager;
-
-    [SerializeField]
-    [Tooltip("If true NetworkDiscovery will make the server visible and answer to client broadcasts as soon as MLAPI starts running as server.")]
-    bool m_StartWithServer = true;
-
-    public string ServerName = "EnterName";
-
-    public ServerFoundEvent OnServerFound;
-    //ExampleNetworkDiscovery m_Discovery;
-
-
-    public void Awake()
+    void Awake()
     {
-        m_NetworkManager = GetComponent<NetworkManager>();
-        //m_Discovery = GetComponent<NetworkDiscovery>();
-
+       // m_NetworkManager = GetComponent<NetworkManager>();
     }
 
-    public void Update()
+#if UNITY_EDITOR
+    void OnValidate()
     {
-        
+
+    }
+#endif
+
+    void OnServerFound(IPEndPoint sender, DiscoveryResponseData response)
+    {
+        discoveredServers[sender.Address] = response;
     }
 
     public void serverButtonPressed()
     {
-        if (!m_NetworkManager.IsHost && !m_NetworkManager.IsClient)
+        Camera maincam = GameObject.Find("Main Camera").GetComponent<Camera>();
+
+        if (!NetworkManager.Singleton.IsHost && !NetworkManager.Singleton.IsClient)
         {
-            //When Button pressed, start server
-            NetworkManager.Singleton.StartHost(null, null, null, null, null);
-            StartServer();
+            //When Button pressed, start host
+            NetworkManager.Singleton.StartHost(maincam.transform.position, null, null, null, null);
+            GazePairNetworkDiscovery.Instance.StartServer();
             //Find Button Parent and its child in hierarchy
             buttonParent = GameObject.Find("ButtonParent");
             buttonChild = GameObject.Find("ButtonParent/StartHost");
@@ -72,7 +65,7 @@ public class ExampleNetworkDiscovery : NetworkDiscovery<DiscoveryBroadcastData, 
         else
         {
             NetworkManager.Singleton.StopServer();
-            StopDiscovery();
+            GazePairNetworkDiscovery.Instance.StopDiscovery();
             buttonParent = GameObject.Find("ButtonParent");
             buttonChild = GameObject.Find("ButtonParent/StartHost");
             var TMP = GameObject.Find("ButtonParent/StartHost");
@@ -88,11 +81,11 @@ public class ExampleNetworkDiscovery : NetworkDiscovery<DiscoveryBroadcastData, 
 
     public void clientButtonPressed()
     {
-        if (m_NetworkManager.IsServer)
+        if (!NetworkManager.Singleton.IsClient)
         {
             //When Button pressed, start server
             NetworkManager.Singleton.StartClient();
-            StartClient();
+            GazePairNetworkDiscovery.Instance.StartClient();
             //Find Button Parent and its child in hierarchy
             buttonParent = GameObject.Find("ButtonParent");
             buttonChild = GameObject.Find("ButtonParent/StartClient");
@@ -108,7 +101,7 @@ public class ExampleNetworkDiscovery : NetworkDiscovery<DiscoveryBroadcastData, 
         else
         {
             NetworkManager.Singleton.StopClient();
-            StopDiscovery();
+            GazePairNetworkDiscovery.Instance.StopDiscovery();
             buttonParent = GameObject.Find("ButtonParent");
             buttonChild = GameObject.Find("ButtonParent/StartClient");
             var TMP = GameObject.Find("ButtonParent/StartClient");
@@ -120,24 +113,8 @@ public class ExampleNetworkDiscovery : NetworkDiscovery<DiscoveryBroadcastData, 
             else Debug.Log("No text child attached");
         }
 
-       // m_Discovery.ClientBroadcast(new DiscoveryBroadcastData());
+        GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
 
-    }
-
-
-    protected override bool ProcessBroadcast(IPEndPoint sender, DiscoveryBroadcastData broadCast, out DiscoveryResponseData response)
-    {
-        response = new DiscoveryResponseData()
-        {
-            ServerName = ServerName,
-            Port = (ushort)((UNetTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport).ConnectPort,
-        };
-        return true;
-    }
-
-    protected override void ResponseReceived(IPEndPoint sender, DiscoveryResponseData response)
-    {
-        OnServerFound.Invoke(sender, response);
     }
 
 

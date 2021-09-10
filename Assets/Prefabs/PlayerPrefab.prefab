@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6215762668502853031}
   - component: {fileID: 6934513885081482027}
   - component: {fileID: 779125171248368855}
-  - component: {fileID: 5963973247305492262}
+  - component: {fileID: 100433188182933215}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3324581138846024523}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -115,7 +115,7 @@ MonoBehaviour:
   PrefabHashGenerator: Capsule
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
---- !u!114 &5963973247305492262
+--- !u!114 &100433188182933215
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3324581138846024523}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30e37b481dfd8b443a0436a33921d491, type: 3}
+  m_Script: {fileID: 11500000, guid: 0fc74dab5b651df4397c31eecbcc03e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Position:
