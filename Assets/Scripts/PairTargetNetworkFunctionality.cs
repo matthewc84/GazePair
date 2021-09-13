@@ -19,8 +19,15 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
 
     public void Move()
     {
+        if (NetworkManager.Singleton.IsClient)
+        {
+           // transform.position = Position.Value;
+        }
 
+        if (NetworkManager.Singleton.IsHost)
+        {
             Position.Value = transform.position;
+        }
 
 
     }
@@ -28,7 +35,7 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
 
     void Update()
     {
-        //transform.position = Position.Value;
+
         if (NetworkManager.Singleton.ConnectedClients.TryGetValue(NetworkManager.Singleton.LocalClientId,
     out var networkedClient))
         {
