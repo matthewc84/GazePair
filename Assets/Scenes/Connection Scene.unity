@@ -1179,7 +1179,7 @@ MonoBehaviour:
   MessageBufferSize: 5120
   MaxConnections: 100
   MaxSentMessageQueueSize: 128
-  ConnectAddress: 192.168.0.163
+  ConnectAddress: 192.168.1.9
   ConnectPort: 7777
   ServerListenPort: 7777
   ServerWebsocketListenPort: 8887
@@ -1214,6 +1214,8 @@ MonoBehaviour:
     NetworkPrefabs:
     - Prefab: {fileID: 3324581138846024523, guid: 4facc326ecdff4c4c8936c766cba2ec2, type: 3}
       PlayerPrefab: 1
+    - Prefab: {fileID: 4220985400465758324, guid: 5d669c3f54f5c874697ae87f4121caa2, type: 3}
+      PlayerPrefab: 0
     PlayerPrefabHash:
       id: 0
     CreatePlayerPrefab: 1
@@ -1494,7 +1496,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1280410049}
-        m_TargetAssemblyTypeName: GazePairHud, Assembly-CSharp
+        m_TargetAssemblyTypeName: ConnectionHud, Assembly-CSharp
         m_MethodName: nextScene
         m_Mode: 1
         m_Arguments:
@@ -3871,7 +3873,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8529076334060326796}
-        m_TargetAssemblyTypeName: GazePairHud, Assembly-CSharp
+        m_TargetAssemblyTypeName: ConnectionHud, Assembly-CSharp
         m_MethodName: clientButtonPressed
         m_Mode: 1
         m_Arguments:
@@ -13017,7 +13019,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5772514277101963478}
-        m_TargetAssemblyTypeName: GazePairHud, Assembly-CSharp
+        m_TargetAssemblyTypeName: ConnectionHud, Assembly-CSharp
         m_MethodName: serverButtonPressed
         m_Mode: 1
         m_Arguments:
