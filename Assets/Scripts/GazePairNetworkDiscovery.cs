@@ -18,14 +18,11 @@ public class GazePairNetworkDiscovery : NetworkDiscovery<DiscoveryBroadcastData,
     {
     };
 
-    [SerializeField]
-    [Tooltip("If true NetworkDiscovery will make the server visible and answer to client broadcasts as soon as MLAPI starts running as server.")]
-    bool m_StartWithServer = true;
-
     public string ServerName = "EnterName";
 
     public ServerFoundEvent OnServerFound;
     public static GazePairNetworkDiscovery Instance = null;
+
 
 
     public void Awake()

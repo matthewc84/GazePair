@@ -5,40 +5,135 @@ using MLAPI.Transports.UNET;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using TMPro;
+using UnityEngine.SceneManagement;
+using MLAPI.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Events;
 #endif
 
-//[RequireComponent(typeof(GazePairNetworkDiscovery))]
-//[RequireComponent(typeof(NetworkManager))]
 public class GazePairHud : MonoBehaviour
 {
-    [SerializeField, HideInInspector]
-    NetworkManager m_NetworkManager;
 
     Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new Dictionary<IPAddress, DiscoveryResponseData>();
 
-    //public GameObject buttonPrefab;
     GameObject buttonParent;
     GameObject buttonChild;
 
+    public Vector2 DrawOffset = new Vector2(10, 210);
+
+    private SceneSwitchProgress m_SceneProgress;
+
     void Awake()
     {
-       // m_NetworkManager = GetComponent<NetworkManager>();
-    }
-
-#if UNITY_EDITOR
-    void OnValidate()
-    {
 
     }
-#endif
 
-    void OnServerFound(IPEndPoint sender, DiscoveryResponseData response)
+    void Update()
     {
+        /*foreach (var discoveredServer in discoveredServers)
+        {
+            Debug.Log("Found Server");
+            if (GUILayout.Button($"{discoveredServer.Value.ServerName}[{discoveredServer.Key.ToString()}]"))
+            {
+                UNetTransport transport = (UNetTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+                transport.ConnectAddress = discoveredServer.Key.ToString();
+                transport.ConnectPort = discoveredServer.Value.Port;
+                //NetworkManager.Singleton.StartClient();
+            }
+        }
+
+        if (NetworkManager.Singleton.IsHost)
+        {
+
+        }
+        else if (NetworkManager.Singleton.IsClient)
+        {
+            //GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
+        }*/
+    }
+    public void OnServerFound(IPEndPoint sender, DiscoveryResponseData response)
+    {
+        Debug.Log("Found Server");
         discoveredServers[sender.Address] = response;
+    }
+
+
+    void OnGUI()
+    {
+        GUILayout.BeginArea(new Rect(DrawOffset, new Vector2(200, 600)));
+
+        if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsClient)
+        {
+            if (NetworkManager.Singleton.IsServer)
+            {
+                ServerControlsGUI();
+            }
+        }
+        else
+        {
+            ClientSearchGUI();
+        }
+
+        GUILayout.EndArea();
+    }
+
+    void ClientSearchGUI()
+    {
+        if (GazePairNetworkDiscovery.Instance.IsRunning)
+        {
+            if (GUILayout.Button("Stop Client Discovery"))
+            {
+                GazePairNetworkDiscovery.Instance.StopDiscovery();
+                discoveredServers.Clear();
+            }
+
+            if (GUILayout.Button("Refresh List"))
+            {
+                discoveredServers.Clear();
+                GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
+            }
+
+            GUILayout.Space(40);
+
+            foreach (var discoveredServer in discoveredServers)
+            {
+                if (GUILayout.Button($"{discoveredServer.Value.ServerName}[{discoveredServer.Key.ToString()}]"))
+                {
+                    UNetTransport transport = (UNetTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
+                    transport.ConnectAddress = discoveredServer.Key.ToString();
+                    transport.ConnectPort = discoveredServer.Value.Port;
+                    NetworkManager.Singleton.StartClient();
+                }
+            }
+        }
+        else
+        {
+            if (GUILayout.Button("Discover Servers"))
+            {
+                GazePairNetworkDiscovery.Instance.StartClient();
+                GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
+            }
+        }
+    }
+
+    void ServerControlsGUI()
+    {
+        if (GazePairNetworkDiscovery.Instance.IsRunning)
+        {
+            if (GUILayout.Button("Stop Server Discovery"))
+            {
+                GazePairNetworkDiscovery.Instance.StopDiscovery();
+            }
+        }
+        else
+        {
+            if (GUILayout.Button("Start Server Discovery"))
+            {
+                GazePairNetworkDiscovery.Instance.StartServer();
+            }
+        }
     }
 
     public void serverButtonPressed()
@@ -84,8 +179,9 @@ public class GazePairHud : MonoBehaviour
         if (!NetworkManager.Singleton.IsClient)
         {
             //When Button pressed, start server
-            NetworkManager.Singleton.StartClient();
+            //NetworkManager.Singleton.StartClient();
             GazePairNetworkDiscovery.Instance.StartClient();
+            GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
             //Find Button Parent and its child in hierarchy
             buttonParent = GameObject.Find("ButtonParent");
             buttonChild = GameObject.Find("ButtonParent/StartClient");
@@ -113,8 +209,21 @@ public class GazePairHud : MonoBehaviour
             else Debug.Log("No text child attached");
         }
 
-        GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
+        //GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
 
+    }
+
+    public void nextScene()
+    {
+
+        if (NetworkManager.Singleton.IsListening)
+        {
+            m_SceneProgress = NetworkSceneManager.SwitchScene("PairScene");
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync("PairScene");
+        }
     }
 
 

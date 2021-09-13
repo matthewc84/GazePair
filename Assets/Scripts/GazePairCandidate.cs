@@ -5,9 +5,16 @@ using UnityEngine;
 
 public class GazePairCandidate : NetworkBehaviour
 {
+    Camera maincam;
+    public void Start()
+    {
+
+        maincam = GameObject.Find("Main Camera").GetComponent<Camera>();
+    }
     public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
     {
-        WritePermission = NetworkVariablePermission.ServerOnly,
+        // WritePermission = NetworkVariablePermission.ServerOnly,
+        WritePermission = NetworkVariablePermission.OwnerOnly,
         ReadPermission = NetworkVariablePermission.Everyone
     });
 
@@ -18,11 +25,11 @@ public class GazePairCandidate : NetworkBehaviour
 
     public void Move()
     {
+
         if (NetworkManager.Singleton.IsServer)
         {
-            var randomPosition = GetRandomPositionOnPlane();
-            transform.position = randomPosition;
-            Position.Value = randomPosition;
+            transform.position = maincam.transform.position;
+            Position.Value = maincam.transform.position;
         }
         else
         {
@@ -33,16 +40,21 @@ public class GazePairCandidate : NetworkBehaviour
     [ServerRpc]
     void SubmitPositionRequestServerRpc(ServerRpcParams rpcParams = default)
     {
-        Position.Value = GetRandomPositionOnPlane();
+        transform.position = Position.Value;
+        Position.Value = maincam.transform.position;
     }
 
-    static Vector3 GetRandomPositionOnPlane()
-    {
-        return new Vector3(Random.Range(-3f, 3f), 1f, Random.Range(-3f, 3f));
-    }
 
     void Update()
     {
-        transform.position = Position.Value;
+        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(NetworkManager.Singleton.LocalClientId,
+                    out var networkedClient))
+        {
+            var player = networkedClient.PlayerObject.GetComponent<GazePairCandidate>();
+            if (player)
+            {
+                player.Move();
+            }
+        }
     }
 }
