@@ -5,46 +5,41 @@ using UnityEngine;
 
 public class PairTargetNetworkFunctionality : NetworkBehaviour
 {
-
+    GameObject target;
     public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
     {
         WritePermission = NetworkVariablePermission.OwnerOnly,
         ReadPermission = NetworkVariablePermission.Everyone
     });
 
-    public override void NetworkStart()
+
+public override void NetworkStart()
     {
-        Move();
+        //Move();
     }
 
     public void Move()
     {
-        if (NetworkManager.Singleton.IsClient)
-        {
-           // transform.position = Position.Value;
-        }
-
-        if (NetworkManager.Singleton.IsHost)
-        {
-            Position.Value = transform.position;
-        }
-
+        
+       // Position.Value = this.transform.position;
 
     }
 
 
     void Update()
     {
-
-        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(NetworkManager.Singleton.LocalClientId,
-    out var networkedClient))
+        if (NetworkManager.Singleton.IsHost)
         {
-            var player = networkedClient.PlayerObject.GetComponent<PairTargetNetworkFunctionality>();
-            if (player)
-            {
-                player.Move();
-            }
+            Position.Value = this.transform.position;
+            //Debug.Log(Position.Value);
         }
+
+        if (NetworkManager.Singleton.IsClient)
+        {
+            this.transform.position = Position.Value;
+            //Debug.Log(Position.Value);
+        }
+
     }
 
 }

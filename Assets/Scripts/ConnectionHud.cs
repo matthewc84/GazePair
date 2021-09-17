@@ -125,7 +125,7 @@ public class ConnectionHud : MonoBehaviour
         {
             //When Button pressed, start host
             NetworkManager.Singleton.StartHost(maincam.transform.position, null, null, null, null);
-            GazePairNetworkDiscovery.Instance.StartServer();
+            //GazePairNetworkDiscovery.Instance.StartServer();
             //Find Button Parent and its child in hierarchy
             buttonParent = GameObject.Find("ButtonParent");
             buttonChild = GameObject.Find("ButtonParent/StartHost");
@@ -141,7 +141,7 @@ public class ConnectionHud : MonoBehaviour
         else
         {
             NetworkManager.Singleton.StopServer();
-            GazePairNetworkDiscovery.Instance.StopDiscovery();
+            //GazePairNetworkDiscovery.Instance.StopDiscovery();
             buttonParent = GameObject.Find("ButtonParent");
             buttonChild = GameObject.Find("ButtonParent/StartHost");
             var TMP = GameObject.Find("ButtonParent/StartHost");
