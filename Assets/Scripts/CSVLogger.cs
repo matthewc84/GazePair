@@ -8,6 +8,7 @@ using UnityEngine;
 using Windows.Storage;
 #endif
 
+
     /// <summary>
     /// Component that Logs data to a CSV.
     /// Assumes header is fixed.
@@ -32,7 +33,8 @@ using Windows.Storage;
     {
         #region Constants to modify
         private const string DataSuffix = "data";
-        private const string CSVHeader = "Timestamp,SessionID,RecordingID,GazeOrigin_x,GazeOrigin_y,GazeOrigin_z,GazeDirection_x,GazeDirection_y,GazeDirection_z,Hit Object";
+        private const string CSVHeader = "Timestamp,SessionID,RecordingID," +
+                                        "blah,blah,blah";
         private const string SessionFolderRoot = "CSVLogger";
         #endregion
 
@@ -49,7 +51,7 @@ using Windows.Storage;
         #endregion
 
         // Use this for initialization
-        public async void Start()
+        async void Start()
         {
             await MakeNewSession();
         }
@@ -136,7 +138,7 @@ using Windows.Storage;
         {
             List<String> rowData = new List<String>();
             rowData.Add(Time.timeSinceLevelLoad.ToString("##.000"));
-            rowData.Add(m_sessionId);
+            rowData.Add(m_recordingId);
             rowData.Add(m_recordingId);
             return rowData;
         }

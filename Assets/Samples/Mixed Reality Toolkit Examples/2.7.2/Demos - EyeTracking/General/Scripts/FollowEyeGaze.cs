@@ -3,6 +3,11 @@
 
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.Utilities;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Microsoft.MixedReality.Toolkit.Examples.Demos.EyeTracking
@@ -18,15 +23,22 @@ namespace Microsoft.MixedReality.Toolkit.Examples.Demos.EyeTracking
         [SerializeField]
         private float defaultDistanceInMeters = 2f;
 
+
+        void Awake()
+        {
+
+        }
+
         private void Update()
         {
             var eyeGazeProvider = CoreServices.InputSystem?.EyeGazeProvider;
             if (eyeGazeProvider != null)
             {
+
                 gameObject.transform.position = eyeGazeProvider.GazeOrigin + eyeGazeProvider.GazeDirection.normalized * defaultDistanceInMeters;
 
                 EyeTrackingTarget lookedAtEyeTarget = EyeTrackingTarget.LookedAtEyeTarget;
-
+                //Debug.Log(eyeGazeProvider);
                 // Update GameObject to the current eye gaze position at a given distance
                 if (lookedAtEyeTarget != null)
                 {
@@ -50,6 +62,7 @@ namespace Microsoft.MixedReality.Toolkit.Examples.Demos.EyeTracking
                     gameObject.transform.position = eyeGazeProvider.GazeOrigin + eyeGazeProvider.GazeDirection.normalized * defaultDistanceInMeters;
                 }
             }
+
         }
     }
 }
