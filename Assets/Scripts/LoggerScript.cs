@@ -23,7 +23,7 @@ public class LoggerScript : MonoBehaviour
     //define filePath
     #region Constants to modify
     private const string DataSuffix = "data";
-    private const string CSVHeader = "Timestamp,SessionID,RecordingID,GazeOrigin_x,GazeOrigin_y,GazeOrigin_z,GazeDirection_x,GazeDirection_y,GazeDirection_z,Hit Object";
+    private const string CSVHeader = "Timestamp,SessionID,RecordingID,GazeOrigin_x,GazeOrigin_y,GazeOrigin_z,GazeDirection_x,GazeDirection_y,GazeDirection_z,Hit Object_Name,Hit_Object_Distance,Hit_Object_x,Hit_Object_y,Hit_Object_z";
     private const string SessionFolderRoot = "CSVLogger";
     #endregion
 
@@ -32,6 +32,7 @@ public class LoggerScript : MonoBehaviour
     private string m_filePath;
     private string m_recordingId;
     private string m_sessionId;
+    private int flushCounter;
 
     private StringBuilder m_csvData;
     #endregion
@@ -77,17 +78,54 @@ public class LoggerScript : MonoBehaviour
         var eyeGazeProvider = CoreServices.InputSystem?.EyeGazeProvider;
         if (eyeGazeProvider != null)
         {
-            List<String> newRow = RowWithStartData();
-            newRow.Add(eyeGazeProvider.GazeOrigin.x.ToString());
-            newRow.Add(eyeGazeProvider.GazeOrigin.y.ToString());
-            newRow.Add(eyeGazeProvider.GazeOrigin.z.ToString());
-            newRow.Add(eyeGazeProvider.GazeDirection.x.ToString());
-            newRow.Add(eyeGazeProvider.GazeDirection.y.ToString());
-            newRow.Add(eyeGazeProvider.GazeDirection.z.ToString());
-            newRow.Add(eyeGazeProvider.HitInfo.ToString());
 
-            AddRow(newRow);
-            FlushData();
+            EyeTrackingTarget lookedAtEyeTarget = EyeTrackingTarget.LookedAtEyeTarget;
+            // If gaze hit GameObject
+            if (lookedAtEyeTarget != null)
+            {
+                List<String> newRow = RowWithStartData();
+                newRow.Add(eyeGazeProvider.GazeOrigin.x.ToString());
+                newRow.Add(eyeGazeProvider.GazeOrigin.y.ToString());
+                newRow.Add(eyeGazeProvider.GazeOrigin.z.ToString());
+                newRow.Add(eyeGazeProvider.GazeDirection.normalized.x.ToString());
+                newRow.Add(eyeGazeProvider.GazeDirection.normalized.y.ToString());
+                newRow.Add(eyeGazeProvider.GazeDirection.normalized.z.ToString());
+                newRow.Add(eyeGazeProvider.HitInfo.collider.ToString());
+                newRow.Add(eyeGazeProvider.HitInfo.distance.ToString());
+                newRow.Add(eyeGazeProvider.HitInfo.point.x.ToString());
+                newRow.Add(eyeGazeProvider.HitInfo.point.y.ToString());
+                newRow.Add(eyeGazeProvider.HitInfo.point.z.ToString());
+                flushCounter += 1;
+
+                AddRow(newRow);
+                if (flushCounter == 60)
+                {
+                    FlushData();
+                    flushCounter = 0;
+                }
+            }
+            else
+            {
+                // If no target is hit, show the object at a default distance along the gaze ray.
+                List<String> newRow = RowWithStartData();
+                newRow.Add(eyeGazeProvider.GazeOrigin.x.ToString());
+                newRow.Add(eyeGazeProvider.GazeOrigin.y.ToString());
+                newRow.Add(eyeGazeProvider.GazeOrigin.z.ToString());
+                newRow.Add(eyeGazeProvider.GazeDirection.normalized.x.ToString());
+                newRow.Add(eyeGazeProvider.GazeDirection.y.ToString());
+                newRow.Add(eyeGazeProvider.GazeDirection.z.ToString());
+                flushCounter += 1;
+
+                AddRow(newRow);
+                if (flushCounter == 60)
+                {
+                    FlushData();
+                    flushCounter = 0;
+                }
+
+            }
+
+            
         }
     }
 
@@ -111,7 +149,7 @@ public class LoggerScript : MonoBehaviour
     {
         using (var csvWriter = new StreamWriter(m_filePath, true))
         {
-            csvWriter.WriteAsync(m_csvData.ToString());
+             await csvWriter.WriteAsync(m_csvData.ToString());
         }
         m_csvData.Clear();
     }

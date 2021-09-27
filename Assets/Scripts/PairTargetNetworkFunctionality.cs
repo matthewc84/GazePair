@@ -13,19 +13,6 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
     });
 
 
-public override void NetworkStart()
-    {
-        //Move();
-    }
-
-    public void Move()
-    {
-        
-       // Position.Value = this.transform.position;
-
-    }
-
-
     void Update()
     {
         if (NetworkManager.Singleton.IsHost)

@@ -6,9 +6,8 @@ using UnityEngine;
 public class MoveScript : MonoBehaviour
 {
 
-    private Vector3 speed = new Vector3(3, 3, 3);
-    private float force = 3f;
-    //public Vector3 randomDirection = new Vector3(Random.Range(-1, 2), 0.0f, Random.Range(-1, 2));
+    private Vector3 speed = new Vector3(1, 1, 1);
+    private float force = 1f;
     private Vector3 randomDirection;
     private Vector3 movement;
 
@@ -30,19 +29,4 @@ public class MoveScript : MonoBehaviour
         this.transform.GetComponent<Rigidbody>().velocity = Vector3.Reflect(other.relativeVelocity * -1, other.contacts[0].normal);
 
     }
-
-    /*void Update()
-    {
-        // 2 - Movement
-        movement = new Vector3(
-            speed.x * direction.x,
-            speed.y * direction.y,
-            speed.z * direction.z);
-    }
-
-    void FixedUpdate()
-    {
-        // Apply movement to the rigidbody
-        GetComponent<Rigidbody>().velocity = movement;
-    }*/
 }
