@@ -23,7 +23,7 @@ public class LoggerScript : MonoBehaviour
     //define filePath
     #region Constants to modify
     private const string DataSuffix = "data";
-    private const string CSVHeader = "Timestamp,SessionID,RecordingID,GazeOrigin_x,GazeOrigin_y,GazeOrigin_z,GazeDirection_x,GazeDirection_y,GazeDirection_z,Hit Object_Name,Hit_Object_Distance,Hit_Object_x,Hit_Object_y,Hit_Object_z";
+    private const string CSVHeader = "Timestamp,TimeInMs,SessionID,RecordingID,GazeOrigin_x,GazeOrigin_y,GazeOrigin_z,GazeDirection_x,GazeDirection_y,GazeDirection_z,Hit Object_Name,Hit_Object_Distance,Hit_Object_x,Hit_Object_y,Hit_Object_z";
     private const string SessionFolderRoot = "CSVLogger";
     #endregion
 
@@ -157,7 +157,9 @@ public class LoggerScript : MonoBehaviour
     public List<String> RowWithStartData()
     {
         List<String> rowData = new List<String>();
-        rowData.Add(Time.timeSinceLevelLoad.ToString("##.000"));
+        rowData.Add(DateTime.Now.ToString());
+        long milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+        rowData.Add(milliseconds.ToString());
         rowData.Add(m_recordingId);
         rowData.Add(m_recordingId);
         return rowData;

@@ -161,8 +161,9 @@ public class ConnectionHud : MonoBehaviour
         {
             //When Button pressed, start server
             //NetworkManager.Singleton.StartClient();
-            GazePairNetworkDiscovery.Instance.StartClient();
-            GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
+            //GazePairNetworkDiscovery.Instance.StartClient();
+            //GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
+            NetworkManager.Singleton.StartClient();
             //Find Button Parent and its child in hierarchy
             buttonParent = GameObject.Find("ButtonParent");
             buttonChild = GameObject.Find("ButtonParent/StartClient");
