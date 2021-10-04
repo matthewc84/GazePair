@@ -10,46 +10,58 @@ public class GazePairCandidate : NetworkBehaviour
 
     public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
     {
-        WritePermission = NetworkVariablePermission.OwnerOnly,
+        WritePermission = NetworkVariablePermission.ServerOnly,
         ReadPermission = NetworkVariablePermission.Everyone
     });
 
-    public override void NetworkStart()
+    public NetworkVariableVector3 GazeDirectionChange = new NetworkVariableVector3(new NetworkVariableSettings
     {
-        Move();
-    }
-
-    public void Move()
-    {
-
-            var randomPosition = GetRandomPositionOnPlane();
-            transform.position = randomPosition;
-            Position.Value = randomPosition;
-
-    }
+        WritePermission = NetworkVariablePermission.ServerOnly,
+        ReadPermission = NetworkVariablePermission.Everyone
+    });
 
     [ServerRpc]
     void SubmitPositionRequestServerRpc(ServerRpcParams rpcParams = default)
     {
-        Position.Value = GetRandomPositionOnPlane();
+        Position.Value = GetPositionOnPlane();
     }
 
-    static Vector3 GetRandomPositionOnPlane()
+    static Vector3 GetPositionOnPlane()
     {
         return GameObject.Find("Main Camera").transform.position;
     }
 
     void Update()
     {
-        transform.position = Position.Value;
-        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(NetworkManager.Singleton.LocalClientId,
-    out var networkedClient))
+        /* transform.position = Position.Value;
+         if (NetworkManager.Singleton.ConnectedClients.TryGetValue(NetworkManager.Singleton.LocalClientId,
+     out var networkedClient))
+         {
+             var player = networkedClient.PlayerObject.GetComponent<GazePairCandidate>();
+             if (player)
+             {
+                 player.Move();
+             }
+         }*/
+
+        if (NetworkManager.Singleton.IsServer)
         {
-            var player = networkedClient.PlayerObject.GetComponent<GazePairCandidate>();
-            if (player)
+           Position.Value = GetPositionOnPlane();
+            if (NetworkManager.Singleton.ConnectedClients.TryGetValue(NetworkManager.Singleton.LocalClientId,
+    out var networkedClient))
             {
-                player.Move();
+                var player = networkedClient.PlayerObject.GetComponent<GazePairCandidate>();
+                if (player)
+                {
+                    player.SubmitPositionRequestServerRpc();
+                }
             }
+
+        }
+        else
+        {
+
+            //SubmitPositionRequestServerRpc();
         }
     }
 
