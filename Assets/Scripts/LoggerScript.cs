@@ -29,7 +29,9 @@ public class LoggerScript : MonoBehaviour
     //define filePath
     #region Constants to modify
     private const string DataSuffix = "data";
-    private const string CSVHeader = "Timestamp,TimeInMs,SessionID,RecordingID,GazeOrigin_x,GazeOrigin_y,GazeOrigin_z,GazeDirection_x,GazeDirection_y,GazeDirection_z,HostGazeDirectionChange_x,HostGazeDirectionChange_y,HostGazeDirectionChange_z,HostGazeDirectionChange_x,HostGazeDirectionChange_y,HostGazeDirectionChange_z";
+    private const string CSVHeader = "Timestamp,TimeInMs,LocalGazeOrigin_x,LocalGazeOrigin_y,LocalGazeOrigin_z,LocalGazeDirection_x,LocalGazeDirection_y,LocalGazeDirection_z," +
+        "HostGazeDirectionChange_x,HostGazeDirectionChange_y,HostGazeDirectionChange_z,ClientGazeDirectionChange_x,ClientGazeDirectionChange_y,ClientGazeDirectionChange_z, GazeDirectionDifference_x,GazeDirectionDifference_y,GazeDirectionDifference_z," +
+        "OneSecondGazeDirectionChangeDifference.x,OneSecondGazeDirectionChangeDifference.y,OneSecondGazeDirectionChangeDifference.z,CubeColor";
     private const string SessionFolderRoot = "CSVLogger";
     #endregion
 
@@ -39,12 +41,15 @@ public class LoggerScript : MonoBehaviour
     private string m_recordingId;
     private string m_sessionId;
     private int flushCounter;
-    private Vector3 prevGazeDirectionVector;
 
     private StringBuilder m_csvData;
     #endregion
     #region public members
     public string RecordingInstance => m_recordingId;
+    Dictionary<ulong, Vector3> gazeComparison;
+    Vector3 oneSecondGazeChangeDifference;
+    private double gazeErrorCorrectionThreshold = .05;
+
     #endregion
 
     async void Start()
@@ -83,7 +88,9 @@ public class LoggerScript : MonoBehaviour
 
     void Update()
     {
-       
+
+        
+        gazeComparison = new Dictionary<ulong, Vector3>();
 
         var eyeGazeProvider = CoreServices.InputSystem?.EyeGazeProvider;
         if (eyeGazeProvider != null)
@@ -92,9 +99,9 @@ public class LoggerScript : MonoBehaviour
                 newRow.Add(eyeGazeProvider.GazeOrigin.x.ToString());
                 newRow.Add(eyeGazeProvider.GazeOrigin.y.ToString());
                 newRow.Add(eyeGazeProvider.GazeOrigin.z.ToString());
-                newRow.Add(eyeGazeProvider.GazeDirection.normalized.x.ToString());
-                newRow.Add(eyeGazeProvider.GazeDirection.normalized.y.ToString());
-                newRow.Add(eyeGazeProvider.GazeDirection.normalized.z.ToString());
+                newRow.Add(eyeGazeProvider.GazeDirection.x.ToString());
+                newRow.Add(eyeGazeProvider.GazeDirection.y.ToString());
+                newRow.Add(eyeGazeProvider.GazeDirection.z.ToString());
             if (NetworkManager.Singleton.IsHost)
             {
 
@@ -105,30 +112,72 @@ public class LoggerScript : MonoBehaviour
                     out var networkedClient))
                     {
                         var player = networkedClient.PlayerObject.GetComponent<GazePairCandidate>();
-
+                            //Will always begin with Host Gaze data, as Host was added to Client list first in Connection Manager
                             if (player)
                             {
-                                newRow.Add(player.GazeDirectionChange.Value.normalized.x.ToString());
-                                newRow.Add(player.GazeDirectionChange.Value.normalized.y.ToString());
-                                newRow.Add(player.GazeDirectionChange.Value.normalized.z.ToString());
+                                gazeComparison.Add(client, player.GazeDirectionChange.Value);
+                                newRow.Add(player.GazeDirectionChange.Value.x.ToString());
+                                newRow.Add(player.GazeDirectionChange.Value.y.ToString());
+                                newRow.Add(player.GazeDirectionChange.Value.z.ToString());
+
+                                
                             }
 
                     }
                 }
 
+                //If Host, compute the differnce between the two gazes
+                Vector3 differenceVector = gazeComparison.ElementAt(0).Value;
+                foreach (KeyValuePair<ulong, Vector3> client in gazeComparison.Skip(1))
+                {
+                    differenceVector = differenceVector - client.Value;
+                }
+                oneSecondGazeChangeDifference.x = oneSecondGazeChangeDifference.x + Math.Abs(differenceVector.x);
+                oneSecondGazeChangeDifference.y = oneSecondGazeChangeDifference.y + Math.Abs(differenceVector.y);
+                oneSecondGazeChangeDifference.z = oneSecondGazeChangeDifference.z + Math.Abs(differenceVector.z);
+                newRow.Add(Math.Abs(differenceVector.x).ToString());
+                newRow.Add(Math.Abs(differenceVector.y).ToString());
+                newRow.Add(Math.Abs(differenceVector.z).ToString());
+
+
+
             }
 
-                flushCounter += 1;
 
-                AddRow(newRow);
-                if (flushCounter == 60)
+            //buffer flush kills the HL2 frame rate, so this limits the flush to about ~1/sec (~60 frames/sec, flushCounter updated every frame)
+            flushCounter += 1;
+
+                
+            if (flushCounter == 60)
+            {
+                GameObject cube = GameObject.Find("GazeThresholdCube");
+                var cubeRenderer = cube.GetComponent<Renderer>();
+
+                newRow.Add(oneSecondGazeChangeDifference.x.ToString());
+                newRow.Add(oneSecondGazeChangeDifference.y.ToString());
+                newRow.Add(oneSecondGazeChangeDifference.z.ToString());
+                if(oneSecondGazeChangeDifference.x > gazeErrorCorrectionThreshold || oneSecondGazeChangeDifference.y > gazeErrorCorrectionThreshold || oneSecondGazeChangeDifference.z > gazeErrorCorrectionThreshold)
                 {
-                    FlushData();
-                    flushCounter = 0;
+                    cubeRenderer.material.SetColor("_Color", Color.red);
                 }
+                else if (oneSecondGazeChangeDifference.x < gazeErrorCorrectionThreshold && oneSecondGazeChangeDifference.y < gazeErrorCorrectionThreshold && oneSecondGazeChangeDifference.z < gazeErrorCorrectionThreshold)
+                {
+                    cubeRenderer.material.SetColor("_Color", Color.green);
+                }
+                newRow.Add(cubeRenderer.material.color.ToString());
+                AddRow(newRow);
+                FlushData();
+                oneSecondGazeChangeDifference = new Vector3();
+                flushCounter = 0;
+
+
+            }
+            else
+            {
+                AddRow(newRow);
+            }
             
         }
-        prevGazeDirectionVector = eyeGazeProvider.GazeDirection;
     }
 
     public void OnDestroy()
@@ -162,8 +211,6 @@ public class LoggerScript : MonoBehaviour
         rowData.Add(DateTime.Now.ToString());
         long milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         rowData.Add(milliseconds.ToString());
-        rowData.Add(m_recordingId);
-        rowData.Add(m_recordingId);
         return rowData;
     }
 }

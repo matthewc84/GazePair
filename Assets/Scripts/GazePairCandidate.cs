@@ -39,7 +39,11 @@ public class GazePairCandidate : NetworkBehaviour
 
     public override void NetworkStart()
     {
-        Move();
+
+        if (IsOwner)
+        {
+            Move();
+        }
     }
 
     public void Move()
