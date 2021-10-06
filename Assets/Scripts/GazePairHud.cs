@@ -16,7 +16,7 @@ using UnityEditor.Events;
 public class GazePairHud : MonoBehaviour
 {
     public GameObject myPrefab;
-    public GameObject GazeMonitorPrefab;
+    public GameObject LoggerPrefab;
 
     private SceneSwitchProgress m_SceneProgress;
 
@@ -40,9 +40,9 @@ public class GazePairHud : MonoBehaviour
         {
             GameObject go = Instantiate(myPrefab);
             go.GetComponent<NetworkObject>().Spawn();
-            //GameObject GazeMonitor = Instantiate(GazeMonitorPrefab);
-            //GazeMonitor.GetComponent<NetworkObject>().Spawn();
+            GameObject GazeMonitor = Instantiate(LoggerPrefab);
         }
+
 
     }
 

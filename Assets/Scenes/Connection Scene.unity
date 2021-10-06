@@ -1132,6 +1132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c196ecd25d75c0f4aa9833f113c53705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ConnectionManagementPrefab: {fileID: 0}
   DrawOffset: {x: 10, y: 210}
 --- !u!1 &1221816455
 GameObject:
@@ -1166,7 +1167,7 @@ MonoBehaviour:
   MessageBufferSize: 5120
   MaxConnections: 100
   MaxSentMessageQueueSize: 128
-  ConnectAddress: 192.168.1.16
+  ConnectAddress: 192.168.0.163
   ConnectPort: 7777
   ServerListenPort: 7777
   ServerWebsocketListenPort: 8887
@@ -1303,6 +1304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c196ecd25d75c0f4aa9833f113c53705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ConnectionManagementPrefab: {fileID: 0}
   DrawOffset: {x: 10, y: 210}
 --- !u!114 &1280410050
 MonoBehaviour:
@@ -14085,6 +14087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c196ecd25d75c0f4aa9833f113c53705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ConnectionManagementPrefab: {fileID: 5628702893645104175, guid: 33adb7c5ddc0c3c44b24a8e5f2d1f3e7, type: 3}
   DrawOffset: {x: 10, y: 210}
 --- !u!1 &5772514277589787768
 GameObject:
@@ -17875,6 +17878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c196ecd25d75c0f4aa9833f113c53705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ConnectionManagementPrefab: {fileID: 0}
   DrawOffset: {x: 10, y: 210}
 --- !u!114 &8529076334060326804
 MonoBehaviour:

@@ -20,6 +20,7 @@ public class ConnectionHud : MonoBehaviour
 
     GameObject buttonParent;
     GameObject buttonChild;
+    public GameObject ConnectionManagementPrefab;
 
     public Vector2 DrawOffset = new Vector2(10, 210);
 
@@ -137,6 +138,7 @@ public class ConnectionHud : MonoBehaviour
                 GameObject.Find("ButtonParent/StartHost").GetComponentInChildren<TextMeshPro>().SetText("End Client Discovery");
             }
             else Debug.Log("No text child attached");
+            Instantiate(ConnectionManagementPrefab);
         }
         else
         {
