@@ -13,6 +13,10 @@ using UnityEditor;
 using UnityEditor.Events;
 #endif
 
+/// <summary>
+///     Handles the creation of the Host or connection of the client, and changes schene when host is ready.
+/// </summary>
+/// 
 public class ConnectionHud : MonoBehaviour
 {
 
@@ -161,10 +165,16 @@ public class ConnectionHud : MonoBehaviour
     {
         if (!NetworkManager.Singleton.IsClient)
         {
+
+            byte[] buff = new byte[sizeof(float) * 3];
+            System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.x), 0, buff, 0 * sizeof(float), sizeof(float));
+            System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.y), 0, buff, 1 * sizeof(float), sizeof(float));
+            System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.z), 0, buff, 2 * sizeof(float), sizeof(float));
             //When Button pressed, start server
             //NetworkManager.Singleton.StartClient();
             //GazePairNetworkDiscovery.Instance.StartClient();
             //GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
+            NetworkManager.Singleton.NetworkConfig.ConnectionData = buff;
             NetworkManager.Singleton.StartClient();
             //Find Button Parent and its child in hierarchy
             buttonParent = GameObject.Find("ButtonParent");

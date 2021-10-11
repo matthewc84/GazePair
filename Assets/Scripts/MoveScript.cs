@@ -6,7 +6,7 @@ using UnityEngine;
 public class MoveScript : MonoBehaviour
 {
 
-    private float force = 1.5f;
+    public float force = .5f;
     private Vector3 randomDirection;
     private Vector3 movement;
 
@@ -20,6 +20,7 @@ public class MoveScript : MonoBehaviour
 
         //ForceMode.VelocityChange will ignore mass of object and apply velocity instantly
         GetComponent<Rigidbody>().AddForce(randomDirection * force, ForceMode.VelocityChange);
+        
     }
 
     void OnCollisionEnter(Collision other)

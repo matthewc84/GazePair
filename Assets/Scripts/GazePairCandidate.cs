@@ -1,6 +1,7 @@
 using MLAPI;
 using MLAPI.Messaging;
 using MLAPI.NetworkVariable;
+using MLAPI.Spawning;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +10,11 @@ using Microsoft.MixedReality.Toolkit.Utilities;
 using Microsoft.MixedReality.Toolkit;
 using System;
 
-
+/// <summary>
+///     The default player object, spawned for each host and client in the Connection Scene.  Holds the functionality for both tracking the location of the player, 
+///     and for the NetworkVariableVector3 that has their individual GazeDirectionChange.
+/// </summary>
+/// 
 public class GazePairCandidate : NetworkBehaviour
 {
     private Vector3 prevGazeDirectionVector;
@@ -104,9 +109,10 @@ public class GazePairCandidate : NetworkBehaviour
             Move();
             UpdateGazeDirectionChange();
         }
-
-
-
     }
+
+
+
+   
 
 }
