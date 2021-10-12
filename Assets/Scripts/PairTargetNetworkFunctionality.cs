@@ -6,12 +6,19 @@ using UnityEngine;
 public class PairTargetNetworkFunctionality : NetworkBehaviour
 {
     GameObject target;
+
+
     public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
     {
         WritePermission = NetworkVariablePermission.OwnerOnly,
         ReadPermission = NetworkVariablePermission.Everyone
     });
 
+
+    void Start()
+    {
+
+    }
 
     void Update()
     {

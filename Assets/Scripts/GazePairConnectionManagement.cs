@@ -39,7 +39,7 @@ public class GazePairConnectionManagement : NetworkBehaviour
                 m_ClientsInLobby.Add(NetworkManager.Singleton.LocalClientId, false);
                 //Server will be notified when a client connects
                 NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
-            NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+            
                 }
     }
 
@@ -58,17 +58,5 @@ public class GazePairConnectionManagement : NetworkBehaviour
         return m_ClientsInLobby;
     }
 
-    private void ApprovalCheck(byte[] connectionData, ulong clientId, MLAPI.NetworkManager.ConnectionApprovedDelegate callback)
-    {
-        //Your logic here
-        bool approve = true;
-        bool createPlayerObject = true;
-        
-        Vector3 vect = Vector3.zero;
-        vect.x = BitConverter.ToSingle(connectionData, 0 * sizeof(float));
-        vect.y = BitConverter.ToSingle(connectionData, 1 * sizeof(float));
-        vect.z = BitConverter.ToSingle(connectionData, 2 * sizeof(float));
-        //If approve is true, the connection gets added. If it's false. The client gets disconnected
-        callback(createPlayerObject, null, approve, vect, null);
-    }
+
 }

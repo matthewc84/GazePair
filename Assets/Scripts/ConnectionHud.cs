@@ -129,7 +129,9 @@ public class ConnectionHud : MonoBehaviour
         if (!NetworkManager.Singleton.IsHost && !NetworkManager.Singleton.IsClient)
         {
             //When Button pressed, start host
+            NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
             NetworkManager.Singleton.StartHost(maincam.transform.position, null, null, null, null);
+            
             //GazePairNetworkDiscovery.Instance.StartServer();
             //Find Button Parent and its child in hierarchy
             buttonParent = GameObject.Find("ButtonParent");
@@ -218,6 +220,20 @@ public class ConnectionHud : MonoBehaviour
         {
             SceneManager.LoadSceneAsync("PairScene");
         }
+    }
+
+    private void ApprovalCheck(byte[] connectionData, ulong clientId, MLAPI.NetworkManager.ConnectionApprovedDelegate callback)
+    {
+        //Your logic here
+        bool approve = true;
+        bool createPlayerObject = true;
+
+        Vector3 vect = Vector3.zero;
+        vect.x = System.BitConverter.ToSingle(connectionData, 0 * sizeof(float));
+        vect.y = System.BitConverter.ToSingle(connectionData, 1 * sizeof(float));
+        vect.z = System.BitConverter.ToSingle(connectionData, 2 * sizeof(float));
+        //If approve is true, the connection gets added. If it's false. The client gets disconnected
+        callback(createPlayerObject, null, approve, vect, null);
     }
 
 
