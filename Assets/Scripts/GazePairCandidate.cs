@@ -9,6 +9,8 @@ using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.Utilities;
 using Microsoft.MixedReality.Toolkit;
 using System;
+using Microsoft.MixedReality.WorldLocking.Core;
+using Microsoft.MixedReality.WorldLocking.Tools;
 
 /// <summary>
 ///     The default player object, spawned for each host and client in the Connection Scene.  Holds the functionality for both tracking the location of the player, 
@@ -40,6 +42,8 @@ public class GazePairCandidate : NetworkBehaviour
     static Vector3 GetPositionOnPlane()
     {
         return GameObject.Find("Main Camera").transform.position;
+       // Pose pose = GameObject.Find("WorldLockingManager").GetInstance().FrozenFromSpongy;
+        //return pose.position;
     }
 
     public override void NetworkStart()

@@ -48,7 +48,9 @@ public class LoggerScript : MonoBehaviour
     public string RecordingInstance => m_recordingId;
     Dictionary<ulong, Vector3> gazeComparison;
     Vector3 oneSecondGazeChangeDifference;
-    private double gazeErrorCorrectionThreshold = .05;
+    private float gazeErrorCorrectionThreshold = .40f;
+    private double stationaryGazeThreshold = .00009;
+    bool eyesStationary = false;
 
     #endregion
 
@@ -115,29 +117,45 @@ public class LoggerScript : MonoBehaviour
                             //Will always begin with Host Gaze data, as Host was added to Client list first in Connection Manager
                             if (player)
                             {
+                            //If player' gaze is below "stationary" threshold stationaryGazeThreshold
+                            if ((Math.Abs(player.GazeDirectionChange.Value.x) < stationaryGazeThreshold) || (Math.Abs(player.GazeDirectionChange.Value.y) < stationaryGazeThreshold) || (Math.Abs(player.GazeDirectionChange.Value.z) < stationaryGazeThreshold))
+                                {
+                                    eyesStationary = true;
+                                }
+ 
                                 gazeComparison.Add(client, player.GazeDirectionChange.Value);
                                 newRow.Add(player.GazeDirectionChange.Value.x.ToString());
                                 newRow.Add(player.GazeDirectionChange.Value.y.ToString());
                                 newRow.Add(player.GazeDirectionChange.Value.z.ToString());
-
-                                
                             }
 
                     }
                 }
 
-                //If Host, compute the differnce between the two gazes
-                Vector3 differenceVector = gazeComparison.ElementAt(0).Value;
+                //If Host, compute the differnce between the two gazes based on the Host's gaze, host is gazeComparison.ElementAt(0)
+                Vector3 hostDifferenceVector = gazeComparison.ElementAt(0).Value; //Start with Hosts gaze change
+                Vector3 differenceVector = new Vector3(0, 0, 0);
                 foreach (KeyValuePair<ulong, Vector3> client in gazeComparison.Skip(1))
                 {
-                    differenceVector = differenceVector - client.Value;
+                    differenceVector.x = differenceVector.x + calculateDifference(hostDifferenceVector.x, client.Value.x);
+                    differenceVector.y = differenceVector.y + calculateDifference(hostDifferenceVector.y, client.Value.y);
+                    differenceVector.z = differenceVector.z + calculateDifference(hostDifferenceVector.z, client.Value.z);
                 }
-                oneSecondGazeChangeDifference.x = oneSecondGazeChangeDifference.x + Math.Abs(differenceVector.x);
-                oneSecondGazeChangeDifference.y = oneSecondGazeChangeDifference.y + Math.Abs(differenceVector.y);
-                oneSecondGazeChangeDifference.z = oneSecondGazeChangeDifference.z + Math.Abs(differenceVector.z);
-                newRow.Add(Math.Abs(differenceVector.x).ToString());
-                newRow.Add(Math.Abs(differenceVector.y).ToString());
-                newRow.Add(Math.Abs(differenceVector.z).ToString());
+                if (!eyesStationary)
+                {
+                    oneSecondGazeChangeDifference.x = oneSecondGazeChangeDifference.x + differenceVector.x;
+                    oneSecondGazeChangeDifference.y = oneSecondGazeChangeDifference.y + differenceVector.y;
+                    oneSecondGazeChangeDifference.z = oneSecondGazeChangeDifference.z + differenceVector.z;
+                }
+                else
+                {
+                    //If eyes staionary
+                    oneSecondGazeChangeDifference = oneSecondGazeChangeDifference + new Vector3(gazeErrorCorrectionThreshold / 30f, gazeErrorCorrectionThreshold / 30f, gazeErrorCorrectionThreshold / 30f);
+                    eyesStationary = false;
+                }
+                newRow.Add(differenceVector.x.ToString());
+                newRow.Add(differenceVector.y.ToString());
+                newRow.Add(differenceVector.z.ToString());
 
 
 
@@ -183,6 +201,11 @@ public class LoggerScript : MonoBehaviour
     public void OnDestroy()
     {
         
+    }
+    private float calculateDifference(float number1, float number2)
+    {
+        float result = number1 > number2 ? number1 - number2 : number2 - number1;
+        return result;
     }
 
     public void AddRow(List<String> rowData)
