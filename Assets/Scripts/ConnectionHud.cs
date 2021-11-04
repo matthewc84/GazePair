@@ -22,15 +22,16 @@ public class ConnectionHud : MonoBehaviour
 
     Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new Dictionary<IPAddress, DiscoveryResponseData>();
 
-    GameObject buttonParent;
-    GameObject buttonChild;
     public GameObject ConnectionManagementPrefab;
 
     public Vector2 DrawOffset = new Vector2(10, 210);
 
+    public GameObject startClientButton;
+    public GameObject startHostButton;
+    public GameObject nextSceneButton;
     private SceneSwitchProgress m_SceneProgress;
 
-    void Awake()
+    void Start()
     {
 
     }
@@ -133,32 +134,18 @@ public class ConnectionHud : MonoBehaviour
             NetworkManager.Singleton.StartHost(maincam.transform.position, null, null, null, null);
             
             //GazePairNetworkDiscovery.Instance.StartServer();
-            //Find Button Parent and its child in hierarchy
-            buttonParent = GameObject.Find("ButtonParent");
-            buttonChild = GameObject.Find("ButtonParent/StartHost");
-            //create new button to replace the old
-            var TMP = GameObject.Find("ButtonParent/StartHost");
-            //If the child was found.
-            if (TMP != null)
-            {
-                GameObject.Find("ButtonParent/StartHost").GetComponentInChildren<TextMeshPro>().SetText("End Client Discovery");
-            }
-            else Debug.Log("No text child attached");
+            startHostButton.GetComponentInChildren<TextMeshPro>().SetText("End Client Discovery");
             Instantiate(ConnectionManagementPrefab);
+            nextSceneButton.SetActive(true);
+            startClientButton.SetActive(false);
         }
         else
         {
             NetworkManager.Singleton.StopServer();
             //GazePairNetworkDiscovery.Instance.StopDiscovery();
-            buttonParent = GameObject.Find("ButtonParent");
-            buttonChild = GameObject.Find("ButtonParent/StartHost");
-            var TMP = GameObject.Find("ButtonParent/StartHost");
-            //If the child was found.
-            if (TMP != null)
-            {
-                GameObject.Find("ButtonParent/StartHost").GetComponentInChildren<TextMeshPro>().SetText("Start Host");
-            }
-            else Debug.Log("No text child attached");
+            startHostButton.GetComponentInChildren<TextMeshPro>().SetText("Start Host");
+            nextSceneButton.SetActive(false);
+            startClientButton.SetActive(true);
         }
     }
 
@@ -168,41 +155,26 @@ public class ConnectionHud : MonoBehaviour
         if (!NetworkManager.Singleton.IsClient)
         {
 
-            byte[] buff = new byte[sizeof(float) * 3];
-            System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.x), 0, buff, 0 * sizeof(float), sizeof(float));
-            System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.y), 0, buff, 1 * sizeof(float), sizeof(float));
-            System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.z), 0, buff, 2 * sizeof(float), sizeof(float));
+            //byte[] buff = new byte[sizeof(float) * 3];
+            //System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.x), 0, buff, 0 * sizeof(float), sizeof(float));
+            //System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.y), 0, buff, 1 * sizeof(float), sizeof(float));
+            //System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.z), 0, buff, 2 * sizeof(float), sizeof(float));
             //When Button pressed, start server
             //NetworkManager.Singleton.StartClient();
             //GazePairNetworkDiscovery.Instance.StartClient();
             //GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
-            NetworkManager.Singleton.NetworkConfig.ConnectionData = buff;
+            //NetworkManager.Singleton.NetworkConfig.ConnectionData = buff;
             NetworkManager.Singleton.StartClient();
-            //Find Button Parent and its child in hierarchy
-            buttonParent = GameObject.Find("ButtonParent");
-            buttonChild = GameObject.Find("ButtonParent/StartClient");
-            //create new button to replace the old
-            var TMP = GameObject.Find("ButtonParent/StartClient");
-            //If the child was found.
-            if (TMP != null)
-            {
-                GameObject.Find("ButtonParent/StartClient").GetComponentInChildren<TextMeshPro>().SetText("End Host Discovery");
-            }
-            else Debug.Log("No text child attached");
+            startClientButton.GetComponentInChildren<TextMeshPro>().SetText("End Host Discovery");
+            startHostButton.SetActive(false);
         }
         else
         {
             NetworkManager.Singleton.StopClient();
             GazePairNetworkDiscovery.Instance.StopDiscovery();
-            buttonParent = GameObject.Find("ButtonParent");
-            buttonChild = GameObject.Find("ButtonParent/StartClient");
-            var TMP = GameObject.Find("ButtonParent/StartClient");
-            //If the child was found.
-            if (TMP != null)
-            {
-                GameObject.Find("ButtonParent/StartClient").GetComponentInChildren<TextMeshPro>().SetText("Start Client");
-            }
-            else Debug.Log("No text child attached");
+            startClientButton.GetComponentInChildren<TextMeshPro>().SetText("Start Client");
+            startHostButton.SetActive(true);
+
         }
 
         //GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());

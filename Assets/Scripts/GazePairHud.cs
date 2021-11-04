@@ -17,6 +17,8 @@ public class GazePairHud : MonoBehaviour
 {
     public GameObject myPrefab;
     public GameObject LoggerPrefab;
+    public GameObject spawnButton;
+
 
     private SceneSwitchProgress m_SceneProgress;
 
@@ -24,7 +26,6 @@ public class GazePairHud : MonoBehaviour
     {
         if (!NetworkManager.Singleton.IsHost)
         {
-            GameObject spawnButton = GameObject.Find("ButtonParent/SpawnTarget");
             spawnButton.SetActive(false);
         }
     }

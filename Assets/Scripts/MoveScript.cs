@@ -6,7 +6,7 @@ using UnityEngine;
 public class MoveScript : MonoBehaviour
 {
 
-    public float force = .5f;
+    public float force;
     private Vector3 randomDirection;
     private Vector3 movement;
 
