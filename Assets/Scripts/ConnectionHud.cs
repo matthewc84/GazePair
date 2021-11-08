@@ -157,13 +157,10 @@ public class ConnectionHud : MonoBehaviour
 
             //byte[] buff = new byte[sizeof(float) * 3];
             //System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.x), 0, buff, 0 * sizeof(float), sizeof(float));
-            //System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.y), 0, buff, 1 * sizeof(float), sizeof(float));
+           // System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.y), 0, buff, 1 * sizeof(float), sizeof(float));
             //System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.z), 0, buff, 2 * sizeof(float), sizeof(float));
-            //When Button pressed, start server
-            //NetworkManager.Singleton.StartClient();
-            //GazePairNetworkDiscovery.Instance.StartClient();
+           // NetworkManager.Singleton.NetworkConfig.ConnectionData = buff;
             //GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
-            //NetworkManager.Singleton.NetworkConfig.ConnectionData = buff;
             NetworkManager.Singleton.StartClient();
             startClientButton.GetComponentInChildren<TextMeshPro>().SetText("End Host Discovery");
             startHostButton.SetActive(false);
@@ -171,7 +168,7 @@ public class ConnectionHud : MonoBehaviour
         else
         {
             NetworkManager.Singleton.StopClient();
-            GazePairNetworkDiscovery.Instance.StopDiscovery();
+            //GazePairNetworkDiscovery.Instance.StopDiscovery();
             startClientButton.GetComponentInChildren<TextMeshPro>().SetText("Start Client");
             startHostButton.SetActive(true);
 

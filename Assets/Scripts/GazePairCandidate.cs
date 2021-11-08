@@ -22,6 +22,7 @@ public class GazePairCandidate : NetworkBehaviour
     private Vector3 oneSecondGazeChange;
     private String oneSecondGazeChangeString = null;
     public float errorThreshold = .02f;
+    public GameObject gazeTargetPrefab;
     int counter = 0;
     Camera mainCamera;
 
@@ -100,20 +101,39 @@ public class GazePairCandidate : NetworkBehaviour
         prevGazeDirectionVector = eyeGazeProvider.GazeDirection;
     }*/
 
-    public void UpdateSharedSecret(Vector3 oneSecondGazeChange)
+    public void UpdateSharedSecret()
     {
-        //oneSecondGazeChangeString = FloatToBinary(oneSecondGazeChange.x) + " " + FloatToBinary(oneSecondGazeChange.y) + " " + FloatToBinary(oneSecondGazeChange.z);
 
         if (NetworkManager.Singleton.IsHost)
         {
             //SharedSecret.Value = oneSecondGazeChangeString;
             //SharedSecret.Value = ((int)(oneSecondGazeChange.x * 1000000000)).ToString() + " " + ((int)(oneSecondGazeChange.y * 1000000000)).ToString() + " " + ((int)(oneSecondGazeChange.z * 1000000000)).ToString();
-            SharedSecret.Value = ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.x / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.y / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.z / errorThreshold)).ToString();
+            //SharedSecret.Value = ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.x / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.y / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.z / errorThreshold)).ToString();
+            if (CoreServices.InputSystem.EyeGazeProvider.GazeTarget)
+            {
+                if (CoreServices.InputSystem.EyeGazeProvider.GazeTarget.name == "target_yellow(Clone)")
+                {
+                    SharedSecret.Value = ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeTarget.transform.position.x / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeTarget.transform.position.y / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeTarget.transform.position.z / errorThreshold)).ToString();
+                }
+            }
+            else
+            {
+                SharedSecret.Value = ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.x / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.y / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.z / errorThreshold)).ToString();
+            }
         }
         else
         {
-            //SubmitSharedSecret_ServerRpc(oneSecondGazeChangeString);
-            SubmitSharedSecret_ServerRpc(((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.x / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.y / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.z / errorThreshold)).ToString());
+            if (CoreServices.InputSystem.EyeGazeProvider.GazeTarget)
+            {
+                if (CoreServices.InputSystem.EyeGazeProvider.GazeTarget.name == "target_yellow(Clone)")
+                {
+                    SubmitSharedSecret_ServerRpc(((int)(CoreServices.InputSystem.EyeGazeProvider.GazeTarget.transform.position.x / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeTarget.transform.position.y / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeTarget.transform.position.z / errorThreshold)).ToString());
+                }
+            }
+            else
+            {
+                SubmitSharedSecret_ServerRpc(((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.x / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.y / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.z / errorThreshold)).ToString());
+            }
         }
     }
 
@@ -146,13 +166,11 @@ public class GazePairCandidate : NetworkBehaviour
         if (IsOwner)
         {
             Move();
+            UpdateSharedSecret();
             //UpdateGazeDirectionChange();
             if (counter == 60)
             {
-                oneSecondGazeChange = CoreServices.InputSystem.EyeGazeProvider.GazeDirection - prevGazeDirectionVector;
-                prevGazeDirectionVector = CoreServices.InputSystem.EyeGazeProvider.GazeDirection;
-                UpdateSharedSecret(oneSecondGazeChange);
-                //oneSecondGazeChange = new Vector3(0, 0, 0);
+                
                 counter = 0;
             }
         }
