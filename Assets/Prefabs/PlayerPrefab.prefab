@@ -127,11 +127,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fc74dab5b651df4397c31eecbcc03e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  errorThreshold: 0.1
-  gazeTargetPrefab: {fileID: 4220985400465758324, guid: 5d669c3f54f5c874697ae87f4121caa2, type: 3}
+  sampleRate: 300
+  errorThreshold: 5
   Position:
-    m_InternalValue: {x: 0, y: 0, z: 0}
-  GazeDirectionChange:
     m_InternalValue: {x: 0, y: 0, z: 0}
   SharedSecret:
     m_InternalValue: 

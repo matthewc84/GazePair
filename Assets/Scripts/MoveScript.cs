@@ -13,7 +13,7 @@ public class MoveScript : MonoBehaviour
 
     void Start()
     {
-        randomDirection = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), 0);
+        randomDirection = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f));
 
         //Drag is how fast object slowing down 
         GetComponent<Rigidbody>().drag = 0;

@@ -29,10 +29,7 @@ public class LoggerScript : MonoBehaviour
     //define filePath
     #region Constants to modify
     private const string DataSuffix = "data";
-    //private const string CSVHeader = "Timestamp,TimeInMs,LocalGazeOrigin_x,LocalGazeOrigin_y,LocalGazeOrigin_z,LocalGazeDirection_x,LocalGazeDirection_y,LocalGazeDirection_z," +
-    //    "HostGazeDirectionChange_x,HostGazeDirectionChange_y,HostGazeDirectionChange_z,ClientGazeDirectionChange_x,ClientGazeDirectionChange_y,ClientGazeDirectionChange_z, GazeDirectionDifference_x,GazeDirectionDifference_y,GazeDirectionDifference_z," +
-     //   "OneSecondGazeDirectionChangeDifference.x,OneSecondGazeDirectionChangeDifference.y,OneSecondGazeDirectionChangeDifference.z,CubeColor, HostSharedSecret, ClientSharedSecret";
-    private const string CSVHeader = "Timestamp,TimeInMs,HostSharedSecret,ClientSharedSecret";
+    private const string CSVHeader = "Timestamp,TimeInMs,HostSharedSecret,ClientSharedSecret,RandomDegrees,BinnedDegrees,Bin";
     private const string SessionFolderRoot = "CSVLogger";
     #endregion
 
@@ -49,8 +46,7 @@ public class LoggerScript : MonoBehaviour
     #region public members
     public string RecordingInstance => m_recordingId;
     Dictionary<ulong, Vector3> gazeComparison;
-    Vector3 oneSecondGazeChangeDifference;
-    private float gazeErrorCorrectionThreshold = .15f;
+
 
 
     #endregion
@@ -60,6 +56,7 @@ public class LoggerScript : MonoBehaviour
         var prevGazeDirectionVector = CoreServices.InputSystem?.EyeGazeProvider.GazeDirection;
         await MakeNewSession();
         StartNewCSV();
+        flushCounter = 0;
 
     }
     async Task MakeNewSession()
@@ -102,8 +99,6 @@ public class LoggerScript : MonoBehaviour
                 
             if (flushCounter == 60)
             {
-                //GameObject cube = GameObject.Find("GazeThresholdCube");
-                //var cubeRenderer = cube.GetComponent<Renderer>();
 
                 var gazePairManagementComponent = GameObject.Find("GazePairConnectionManagement(Clone)");
                 foreach (ulong client in gazePairManagementComponent.GetComponent<GazePairConnectionManagement>().getClientsInLobby().Keys)
@@ -120,14 +115,20 @@ public class LoggerScript : MonoBehaviour
 
                     }
                 }
-                
+                GameObject cube = GameObject.Find("target_yellow(Clone)");
+                newRow.Add(cube.GetComponent<PairTargetNetworkFunctionality>().randomDegrees.ToString());
+                newRow.Add(cube.GetComponent<PairTargetNetworkFunctionality>().binnedDegrees.ToString());
+                newRow.Add(cube.GetComponent<PairTargetNetworkFunctionality>().bin.ToString());
                 AddRow(newRow);
+
+            }
+            if (flushCounter == 350)
+            {
                 FlushData();
                 flushCounter = 0;
 
-
             }
-            
+
         }
     }
 

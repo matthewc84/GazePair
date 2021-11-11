@@ -18,21 +18,17 @@ using System.Text;
 /// 
 public class GazePairCandidate : NetworkBehaviour
 {
-    private Vector3 prevGazeDirectionVector;
-    private Vector3 oneSecondGazeChange;
-    private String oneSecondGazeChangeString = null;
-    public float errorThreshold = .02f;
-    public GameObject gazeTargetPrefab;
-    int counter = 0;
+   
     Camera mainCamera;
+    Vector3 previousGazeValue;
+    Vector3 tempGazeVector;
+    double tempSecret;
+    Vector3 GazeData;
+    public int sampleRate;
+    int sampleCounter;
+    public int errorThreshold;
 
     public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
-    {
-        WritePermission = NetworkVariablePermission.OwnerOnly,
-        ReadPermission = NetworkVariablePermission.Everyone
-    });
-
-    public NetworkVariableVector3 GazeDirectionChange = new NetworkVariableVector3(new NetworkVariableSettings
     {
         WritePermission = NetworkVariablePermission.OwnerOnly,
         ReadPermission = NetworkVariablePermission.Everyone
@@ -46,7 +42,9 @@ public class GazePairCandidate : NetworkBehaviour
 
     void Start()
     {
-        var prevGazeDirectionVector = CoreServices.InputSystem?.EyeGazeProvider.GazeDirection;
+        previousGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
+        sampleCounter = 0;
+
     }
 
     static Vector3 GetPositionOnPlane()
@@ -76,64 +74,38 @@ public class GazePairCandidate : NetworkBehaviour
         }
     }
 
-    /*public void UpdateGazeDirectionChange()
-    {
-        var eyeGazeProvider = CoreServices.InputSystem?.EyeGazeProvider;
-
-
-        if (NetworkManager.Singleton.IsHost)
-        {
-            if (eyeGazeProvider != null)
-            {
-                //GazeDirectionChange.Value = eyeGazeProvider.GazeDirection - prevGazeDirectionVector;
-                GazeDirectionChange.Value = eyeGazeProvider.GazeDirection;
-            }
-        }
-        else
-        {
-            if(eyeGazeProvider != null)
-            {
-                //SubmitGazeDirectionRequestServerRpc((eyeGazeProvider.GazeDirection - prevGazeDirectionVector));
-                SubmitGazeDirectionRequestServerRpc(eyeGazeProvider.GazeDirection);
-            }
-        }
-
-        prevGazeDirectionVector = eyeGazeProvider.GazeDirection;
-    }*/
-
-    public void UpdateSharedSecret()
+    public void UpdateSharedSecret(Vector3 previousGazeValue, Vector3 GazeData, int sampleCounter)
     {
 
         if (NetworkManager.Singleton.IsHost)
         {
-            //SharedSecret.Value = oneSecondGazeChangeString;
-            //SharedSecret.Value = ((int)(oneSecondGazeChange.x * 1000000000)).ToString() + " " + ((int)(oneSecondGazeChange.y * 1000000000)).ToString() + " " + ((int)(oneSecondGazeChange.z * 1000000000)).ToString();
-            //SharedSecret.Value = ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.x / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.y / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.z / errorThreshold)).ToString();
-            if (CoreServices.InputSystem.EyeGazeProvider.GazeTarget)
+
+            tempGazeVector = (GazeData / sampleCounter) - previousGazeValue;
+            tempSecret = Math.Atan2(tempGazeVector.y, tempGazeVector.x);
+            if(tempSecret > 0)
             {
-                if (CoreServices.InputSystem.EyeGazeProvider.GazeTarget.name == "target_yellow(Clone)")
-                {
-                    SharedSecret.Value = ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeTarget.transform.position.x / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeTarget.transform.position.y / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeTarget.transform.position.z / errorThreshold)).ToString();
-                }
+                SharedSecret.Value = ((int)(((tempSecret * 180/Math.PI) + errorThreshold-1) / errorThreshold)).ToString();
             }
             else
             {
-                SharedSecret.Value = ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.x / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.y / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.z / errorThreshold)).ToString();
+                SharedSecret.Value = ((int)((((tempSecret + (2*Math.PI)) * 180/Math.PI) + errorThreshold - 1) / errorThreshold)).ToString();
             }
+
         }
         else
         {
-            if (CoreServices.InputSystem.EyeGazeProvider.GazeTarget)
+
+            tempGazeVector = (GazeData / sampleCounter) - previousGazeValue;
+            tempSecret = Math.Atan2(tempGazeVector.y, tempGazeVector.x);
+            if (tempSecret > 0)
             {
-                if (CoreServices.InputSystem.EyeGazeProvider.GazeTarget.name == "target_yellow(Clone)")
-                {
-                    SubmitSharedSecret_ServerRpc(((int)(CoreServices.InputSystem.EyeGazeProvider.GazeTarget.transform.position.x / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeTarget.transform.position.y / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeTarget.transform.position.z / errorThreshold)).ToString());
-                }
+                SubmitSharedSecret_ServerRpc(((int)(((tempSecret * 180 / Math.PI) + errorThreshold - 1) / errorThreshold)).ToString());
             }
             else
             {
-                SubmitSharedSecret_ServerRpc(((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.x / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.y / errorThreshold)).ToString() + " " + ((int)(CoreServices.InputSystem.EyeGazeProvider.GazeDirection.z / errorThreshold)).ToString());
+                SubmitSharedSecret_ServerRpc(((int)((((tempSecret + (2 * Math.PI)) * 180 / Math.PI) + errorThreshold - 1) / errorThreshold)).ToString());
             }
+
         }
     }
 
@@ -149,48 +121,29 @@ public class GazePairCandidate : NetworkBehaviour
         Position.Value = clientPosition;
     }
 
-    /*[ServerRpc]
-    void SubmitGazeDirectionRequestServerRpc(Vector3 gazeDirectionChange)
-    {
-        GazeDirectionChange.Value = gazeDirectionChange;
-
-    }*/
 
     void Update()
     {
         
         transform.position = Position.Value;
-        //oneSecondGazeChange = oneSecondGazeChange + GazeDirectionChange.Value;
-        //oneSecondGazeChange = GazeDirectionChange.Value - oneSecondGazeChange;
-        counter++;
+        GazeData = GazeData + (CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin);
+        sampleCounter++;
         if (IsOwner)
         {
             Move();
-            UpdateSharedSecret();
-            //UpdateGazeDirectionChange();
-            if (counter == 60)
+
+            if (sampleCounter == sampleRate)
             {
-                
-                counter = 0;
+                UpdateSharedSecret(previousGazeValue, GazeData, sampleCounter);
+                previousGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
+                GazeData = new Vector3(0, 0, 0);
+                sampleCounter = 0;
             }
         }
 
 
     }
 
-    static string FloatToBinary(float f)
-    {
-        StringBuilder sb = new StringBuilder();
-        Byte[] ba = BitConverter.GetBytes(f);
-        foreach (Byte b in ba)
-            for (int i = 0; i < 8; i++)
-            {
-                sb.Insert(0, ((b >> i) & 1) == 1 ? "1" : "0");
-            }
-        string s = sb.ToString();
-        string r = s.Substring(0, 1) + " " + s.Substring(1, 8) + " " + s.Substring(9); //sign exponent mantissa
-        return r;
-    }
 
 
 
