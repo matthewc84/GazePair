@@ -27,6 +27,7 @@ public class GazePairCandidate : NetworkBehaviour
     public int sampleRate;
     int sampleCounter;
     public int errorThreshold;
+    string sharedSecret;
 
     public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
     {
@@ -84,11 +85,11 @@ public class GazePairCandidate : NetworkBehaviour
             tempSecret = Math.Atan2(tempGazeVector.y, tempGazeVector.x);
             if(tempSecret > 0)
             {
-                SharedSecret.Value = ((int)(((tempSecret * 180/Math.PI) + errorThreshold-1) / errorThreshold)).ToString();
+                sharedSecret = SharedSecret.Value = ((int)(((tempSecret * 180/Math.PI) + errorThreshold-1) / errorThreshold)).ToString();
             }
             else
             {
-                SharedSecret.Value = ((int)((((tempSecret + (2*Math.PI)) * 180/Math.PI) + errorThreshold - 1) / errorThreshold)).ToString();
+                sharedSecret = SharedSecret.Value = ((int)((((tempSecret + (2*Math.PI)) * 180/Math.PI) + errorThreshold - 1) / errorThreshold)).ToString();
             }
 
         }
