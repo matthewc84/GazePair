@@ -27,7 +27,10 @@ public class GazePairCandidate : NetworkBehaviour
     public int sampleRate;
     int sampleCounter;
     public int errorThreshold;
-    string sharedSecret;
+    public string sharedSecret;
+    public bool targetSpawned = false;
+    public bool targetDestroyed = false;
+    private bool initialGazeVector = true;
 
     public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
     {
@@ -35,15 +38,8 @@ public class GazePairCandidate : NetworkBehaviour
         ReadPermission = NetworkVariablePermission.Everyone
     });
 
-    public NetworkVariableString SharedSecret = new NetworkVariableString(new NetworkVariableSettings
-    {
-        WritePermission = NetworkVariablePermission.OwnerOnly,
-        ReadPermission = NetworkVariablePermission.ServerOnly
-    });
-
     void Start()
     {
-        previousGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
         sampleCounter = 0;
 
     }
@@ -75,45 +71,20 @@ public class GazePairCandidate : NetworkBehaviour
         }
     }
 
-    public void UpdateSharedSecret(Vector3 previousGazeValue, Vector3 GazeData, int sampleCounter)
+    public void UpdateSharedSecret(Vector3 previousGazeValue, Vector3 GazeData)
     {
 
-        if (NetworkManager.Singleton.IsHost)
-        {
-
-            tempGazeVector = (GazeData / sampleCounter) - previousGazeValue;
+        tempGazeVector = GazeData;// - previousGazeValue;
             tempSecret = Math.Atan2(tempGazeVector.y, tempGazeVector.x);
             if(tempSecret > 0)
             {
-                sharedSecret = SharedSecret.Value = ((int)(((tempSecret * 180/Math.PI) + errorThreshold-1) / errorThreshold)).ToString();
+                sharedSecret = ((int)(((tempSecret * 180/Math.PI) + errorThreshold-1) / errorThreshold)).ToString();
             }
             else
             {
-                sharedSecret = SharedSecret.Value = ((int)((((tempSecret + (2*Math.PI)) * 180/Math.PI) + errorThreshold - 1) / errorThreshold)).ToString();
+                sharedSecret = ((int)((((tempSecret + (2*Math.PI)) * 180/Math.PI) + errorThreshold - 1) / errorThreshold)).ToString();
             }
 
-        }
-        else
-        {
-
-            tempGazeVector = (GazeData / sampleCounter) - previousGazeValue;
-            tempSecret = Math.Atan2(tempGazeVector.y, tempGazeVector.x);
-            if (tempSecret > 0)
-            {
-                SubmitSharedSecret_ServerRpc(((int)(((tempSecret * 180 / Math.PI) + errorThreshold - 1) / errorThreshold)).ToString());
-            }
-            else
-            {
-                SubmitSharedSecret_ServerRpc(((int)((((tempSecret + (2 * Math.PI)) * 180 / Math.PI) + errorThreshold - 1) / errorThreshold)).ToString());
-            }
-
-        }
-    }
-
-    [ServerRpc]
-    void SubmitSharedSecret_ServerRpc(String clientSharedSecretString)
-    {
-        SharedSecret.Value = clientSharedSecretString;
     }
 
     [ServerRpc]
@@ -125,27 +96,32 @@ public class GazePairCandidate : NetworkBehaviour
 
     void Update()
     {
-        
+
+        if (targetSpawned && initialGazeVector)
+        {
+            previousGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
+            initialGazeVector = false;
+        }
+
         transform.position = Position.Value;
-        GazeData = GazeData + (CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin);
+        //GazeData = GazeData + CoreServices.InputSystem.EyeGazeProvider.GazeDirection;// + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
         sampleCounter++;
+        
         if (IsOwner)
         {
             Move();
 
-            if (sampleCounter == sampleRate)
+            if (targetDestroyed)
             {
-                UpdateSharedSecret(previousGazeValue, GazeData, sampleCounter);
-                previousGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
-                GazeData = new Vector3(0, 0, 0);
-                sampleCounter = 0;
+                GazeData = CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
+                UpdateSharedSecret(previousGazeValue, GazeData);
+                targetDestroyed = false;
+
             }
         }
-
-
     }
 
-
+    //sampleCounter >= sampleRate && 
 
 
 

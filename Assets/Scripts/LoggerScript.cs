@@ -99,7 +99,7 @@ public class LoggerScript : MonoBehaviour
                 
             if (flushCounter == 60)
             {
-
+                /*
                 var gazePairManagementComponent = GameObject.Find("GazePairConnectionManagement(Clone)");
                 foreach (ulong client in gazePairManagementComponent.GetComponent<GazePairConnectionManagement>().getClientsInLobby().Keys)
                 {
@@ -114,7 +114,7 @@ public class LoggerScript : MonoBehaviour
                         }
 
                     }
-                }
+                }*/
                 GameObject cube = GameObject.Find("target_yellow(Clone)");
                 newRow.Add(cube.GetComponent<PairTargetNetworkFunctionality>().randomDegrees.ToString());
                 newRow.Add(cube.GetComponent<PairTargetNetworkFunctionality>().binnedDegrees.ToString());

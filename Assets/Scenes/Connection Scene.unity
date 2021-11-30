@@ -1170,11 +1170,20 @@ MonoBehaviour:
     RegisteredScenes:
     - Connection Scene
     - PairScene
+    - CryptoScene
     AllowRuntimeSceneChanges: 0
     NetworkPrefabs:
     - Prefab: {fileID: 3324581138846024523, guid: 4facc326ecdff4c4c8936c766cba2ec2, type: 3}
       PlayerPrefab: 1
     - Prefab: {fileID: 4220985400465758324, guid: 5d669c3f54f5c874697ae87f4121caa2, type: 3}
+      PlayerPrefab: 0
+    - Prefab: {fileID: 3066807679693424181, guid: 4b2da0b2173e1044bad2ae040986cba6, type: 3}
+      PlayerPrefab: 0
+    - Prefab: {fileID: 4906388138397180911, guid: 98f28ae03c77ccd43998756ed15f7c90, type: 3}
+      PlayerPrefab: 0
+    - Prefab: {fileID: 693400129722872727, guid: c5a5fa4816690464e842fffef9994bfa, type: 3}
+      PlayerPrefab: 0
+    - Prefab: {fileID: 4461325408341444607, guid: 7b3ed9eaf95deb341b9eb17ea6ae9226, type: 3}
       PlayerPrefab: 0
     PlayerPrefabHash:
       id: 0

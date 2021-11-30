@@ -1,89 +1,142 @@
 using MLAPI;
 using MLAPI.Messaging;
 using MLAPI.NetworkVariable;
-using MLAPI.Spawning;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.MixedReality.Toolkit.Input;
-using Microsoft.MixedReality.Toolkit.Utilities;
-using Microsoft.MixedReality.Toolkit;
 using System;
 using System.Text;
+using System.IO;
 using System.Security.Cryptography;
 
 
 public class GazePairCrypto : NetworkBehaviour
 {
-    string test1 = "test1";
     Aes aes = Aes.Create();
     static string pwd1;
     static byte[] salt1 = new byte[8];
+    string data1 = "";
+    static byte[] localIV = new byte[8];
+    static byte[] localkey = new byte[8];
+    int counter = 0;
+    static byte[] edata1 = new byte[8];
+    static byte[] edata2 = new byte[8];
+    Rfc2898DeriveBytes k1;
+    Aes AesAlg;
+    private NetworkObject player;
+    private int iterations = 10000;
+
+    public NetworkVariableString CipherText = new NetworkVariableString(new NetworkVariableSettings
+    {
+        WritePermission = NetworkVariablePermission.OwnerOnly,
+        ReadPermission = NetworkVariablePermission.Everyone
+    });
+
     void Start()
     {
-        using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
+        Debug.Log("Started");
+
+        salt1 = new System.Text.UTF8Encoding(false).GetBytes("Thisis8bytesbutthelongerthebetter"); ;
+
+        localIV = new System.Text.UTF8Encoding(false).GetBytes("ThisIVmustbe16by");
+
+        player = NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject;
+        pwd1 = player.GetComponent<GazePairCandidate>().sharedSecret;
+
+
+        if (IsHost)
         {
-            // Fill the array with a random value.
-            rngCsp.GetBytes(salt1);
+            data1 = "Message from the Host";
+        }
+        else
+        {
+            data1 = "Message from the Client";
         }
 
-        if (IsOwner)
+        AesAlg = SetCryptoParams(k1);
+
+        if (IsHost)
         {
-            pwd1 = GameObject.Find("PlayerPrefab(Clone)").sharedSecret;
+            Encrypt(data1, AesAlg);
         }
 
-        string data1 = "Some test data";
-        //The default iteration count is 1000 so the two methods use the same iteration count.
-        int myIterations = 1000;
-        try
-        {
-            Rfc2898DeriveBytes k1 = new Rfc2898DeriveBytes(pwd1, salt1, myIterations);
-            Rfc2898DeriveBytes k2 = new Rfc2898DeriveBytes(pwd1, salt1);
-            // Encrypt the data.
-            Aes encAlg = Aes.Create();
-            encAlg.Key = k1.GetBytes(16);
-            MemoryStream encryptionStream = new MemoryStream();
-            CryptoStream encrypt = new CryptoStream(encryptionStream,encAlg.CreateEncryptor(), CryptoStreamMode.Write);
-            byte[] utfD1 = new System.Text.UTF8Encoding(false).GetBytes(data1);
 
-            encrypt.Write(utfD1, 0, utfD1.Length);
-            encrypt.FlushFinalBlock();
-            encrypt.Close();
-            byte[] edata1 = encryptionStream.ToArray();
-            k1.Reset();
 
-            // Try to decrypt, thus showing it can be round-tripped.
-            Aes decAlg = Aes.Create();
-            decAlg.Key = k2.GetBytes(16);
-            decAlg.IV = encAlg.IV;
-            MemoryStream decryptionStreamBacking = new MemoryStream();
-            CryptoStream decrypt = new CryptoStream(decryptionStreamBacking, decAlg.CreateDecryptor(), CryptoStreamMode.Write);
-            decrypt.Write(edata1, 0, edata1.Length);
-            decrypt.Flush();
-            decrypt.Close();
-            k2.Reset();
-            string data2 = new UTF8Encoding(false).GetString(decryptionStreamBacking.ToArray());
 
-            if (!data1.Equals(data2))
-            {
-                Console.WriteLine("Error: The two values are not equal.");
-            }
-            else
-            {
-                Console.WriteLine("The two values are equal.");
-                Console.WriteLine("k1 iterations: {0}", k1.IterationCount);
-                Console.WriteLine("k2 iterations: {0}", k2.IterationCount);
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("Error: {0}", e);
-        }
 
     }
 
-    
-    
+    void Update()
+    {
+        if (counter == 100)
+        {
+
+            if (NetworkManager.Singleton.IsHost)
+            {
+                Debug.Log("This is the Hosts's pwd: " + pwd1 + " and this is the encrypted message: ");// + Decrypt(CipherText.Value, AesAlg));
+
+            }
+
+            else if (NetworkManager.Singleton.IsClient)
+            {
+                Debug.Log("This is the Client's pwd: " + pwd1 + " and this is the encrypted message: ");// + Decrypt(CipherText.Value, AesAlg));
+
+            }
+            
+            counter = 0;
+        }
+
+        counter++;
+    }
+
+    Aes SetCryptoParams(Rfc2898DeriveBytes k1)
+    {
+        Aes encAlg = Aes.Create();
+        encAlg.KeySize = 256;
+        k1 = new Rfc2898DeriveBytes(pwd1, salt1, iterations);
+        encAlg.Key = k1.GetBytes(32);
+        Debug.Log("Key: " + ByteArrayToString(encAlg.Key));
+        Debug.Log("Length: " + encAlg.Key.Length);
+        encAlg.IV = localIV;
+        return encAlg;
+    }
+
+    void Encrypt(string data1, Aes encAlg)
+    {
+
+            MemoryStream encryptionStream = new MemoryStream();
+            CryptoStream encrypt = new CryptoStream(encryptionStream, encAlg.CreateEncryptor(), CryptoStreamMode.Write);
+            byte[] utfD1 = new System.Text.UTF8Encoding(false).GetBytes(data1);
+            encrypt.Write(utfD1, 0, utfD1.Length);
+            encrypt.FlushFinalBlock();
+            encrypt.Close();
+            edata1 = encryptionStream.ToArray();
+            CipherText.Value = Convert.ToBase64String(edata1);
+
+    }
+
+    string Decrypt(string cipherText, Aes decAlg)
+    {
+        // Try to decrypt, thus showing it can be round-tripped.
+
+        MemoryStream decryptionStreamBacking = new MemoryStream();
+        CryptoStream decrypt = new CryptoStream(decryptionStreamBacking, decAlg.CreateDecryptor(), CryptoStreamMode.Write);
+        edata2 = Convert.FromBase64String(cipherText);
+        decrypt.Write(edata2, 0, edata2.Length);
+        decrypt.Flush();
+        decrypt.Close();
+        string data2 = new UTF8Encoding(false).GetString(decryptionStreamBacking.ToArray());
+
+        return data2;
+    }
+
+    public static string ByteArrayToString(byte[] ba)
+    {
+        StringBuilder hex = new StringBuilder(ba.Length * 2);
+        foreach (byte b in ba)
+            hex.AppendFormat("{0:x2}", b);
+        return hex.ToString();
+    }
 
 
 }

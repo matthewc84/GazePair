@@ -3,6 +3,7 @@ using MLAPI.Messaging;
 using MLAPI.NetworkVariable;
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class PairTargetNetworkFunctionality : NetworkBehaviour
 {
@@ -15,6 +16,11 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
     public int errorThreshold;
     public int binnedDegrees;
     public int bin;
+    public float timeRemaining = 10;
+    bool timerIsRunning = false;
+    public GameObject logger;
+    private GameObject GazeMonitor;
+    private NetworkObject player;
 
     public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
     {
@@ -25,8 +31,13 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
 
     void Start()
     {
+        timerIsRunning = true;
+        player = NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject;
+        player.GetComponent<GazePairCandidate>().targetSpawned =  true;
+
         if (NetworkManager.Singleton.IsHost)
         {
+            //GazeMonitor = Instantiate(logger);
             randomDegrees = UnityEngine.Random.Range(1, 360);
             bin = (int)(((randomDegrees + (errorThreshold - 1)) / errorThreshold));
             binnedDegrees = ((int)(((randomDegrees + (errorThreshold-1)) / errorThreshold)) * errorThreshold) - (errorThreshold/2);
@@ -55,7 +66,38 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
             //Debug.Log(Position.Value);
         }
 
+        if (timerIsRunning)
+        {
+            if (timeRemaining > 0)
+            {
+                timeRemaining -= Time.deltaTime;
+            }
+            else
+            {
+                player.GetComponent<GazePairCandidate>().targetSpawned = false;
+                player.GetComponent<GazePairCandidate>().targetDestroyed = true;
 
+                if (NetworkManager.Singleton.IsHost)
+                {
+                    StartCoroutine(wait());
+                    timeRemaining = 0;
+                    timerIsRunning = false;
+                    var obj = this.GetComponent<NetworkObject>();
+                    obj.Despawn(true);
+                    Destroy(this);
+
+                }
+
+
+
+            }
+        }
+
+        IEnumerator wait()
+        {
+            yield return new WaitForSecondsRealtime(3);
+
+        }
 
     }
 

@@ -129,6 +129,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sampleRate: 300
   errorThreshold: 5
+  TestSharedSecret: 
+  gazeTarget: {fileID: 4220985400465758324, guid: 5d669c3f54f5c874697ae87f4121caa2, type: 3}
   Position:
     m_InternalValue: {x: 0, y: 0, z: 0}
   SharedSecret:
