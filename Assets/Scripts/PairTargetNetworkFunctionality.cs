@@ -16,7 +16,7 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
     public int errorThreshold;
     public int binnedDegrees;
     public int bin;
-    public float timeRemaining = 8;
+    public float timeRemaining;
     bool timerIsRunning = false;
     private GameObject GazeMonitor;
     public GameObject GazeCapturePrefab;

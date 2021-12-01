@@ -14,6 +14,7 @@ public class GazePairCrypto : NetworkBehaviour
 {
     Aes aes = Aes.Create();
     static string pwd1;
+    static string magnitude;
     static byte[] salt1 = new byte[8];
     string data1 = "";
     static byte[] localIV = new byte[8];
@@ -42,6 +43,7 @@ public class GazePairCrypto : NetworkBehaviour
 
         pwd1 = GameObject.Find("GazeCapture(Clone)").GetComponent<GazeCapture>().sharedSecret;
 
+        magnitude = GameObject.Find("GazeCapture(Clone)").GetComponent<GazeCapture>().sharedSecretMagnitude;
 
         if (IsHost)
         {
@@ -80,13 +82,13 @@ public class GazePairCrypto : NetworkBehaviour
 
             if (NetworkManager.Singleton.IsHost)
             {
-                Debug.Log("This is the Hosts's pwd: " + pwd1 + " and this is the encrypted message: " + plaintext);
+                Debug.Log("This is the Hosts's pwd: " + pwd1 + " and this is the encrypted message: " + plaintext + " and this is the magnitude: " + magnitude);
 
             }
 
             else if (NetworkManager.Singleton.IsClient)
             {
-                Debug.Log("This is the Client's pwd: " + pwd1 + " and this is the encrypted message: " + plaintext);
+                Debug.Log("This is the Client's pwd: " + pwd1 + " and this is the encrypted message: " + plaintext + " and this is the magnitude: " + magnitude);
 
             }
             

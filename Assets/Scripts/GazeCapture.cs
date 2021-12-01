@@ -16,7 +16,8 @@ public class GazeCapture : MonoBehaviour
     Vector3 GazeData;
     public int errorThreshold;
     public string sharedSecret;
-    public float timeRemaining = 6;
+    public string sharedSecretMagnitude;
+    public float timeRemaining;
     bool timerIsRunning = false;
     bool startGazeCapture = true;
 
@@ -61,6 +62,7 @@ public class GazeCapture : MonoBehaviour
                 //We end capture before end of target hologram's lifespan, to ensure we don't mistrack
                 GazeData = CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
                 UpdateSharedSecret(previousGazeValue, GazeData);
+                UpdateSharedMagnitude(previousGazeValue, GazeData);
                 timerIsRunning = false;
             }
         }
@@ -82,6 +84,15 @@ public class GazeCapture : MonoBehaviour
         {
             sharedSecret = ((int)((((tempSecret + (2 * Math.PI)) * 180 / Math.PI) + errorThreshold - 1) / errorThreshold)).ToString();
         }
+
+    }
+
+    public void UpdateSharedMagnitude(Vector3 previousGazeValue, Vector3 GazeData)
+    {
+
+        sharedSecretMagnitude = Math.Sqrt((Math.Pow((GazeData.x + previousGazeValue.x), 2) + Math.Pow((GazeData.y + previousGazeValue.y), 2))).ToString();
+
+
 
     }
 }

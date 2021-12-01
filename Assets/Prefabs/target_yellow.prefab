@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4220985400465758324}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 1.25}
   m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children: []
   m_Father: {fileID: 0}
@@ -148,8 +148,7 @@ MonoBehaviour:
   errorThreshold: 5
   binnedDegrees: 0
   bin: 0
-  timeRemaining: 10
-  logger: {fileID: 1064144863081011438, guid: 3a53a9493ab92c64cbba8227081c1266, type: 3}
+  timeRemaining: 8
   GazeCapturePrefab: {fileID: 651908693298510381, guid: f42d769ccfddc1e41af2dafdf5c0064e, type: 3}
   Position:
     m_InternalValue: {x: 0, y: 0, z: 0}
