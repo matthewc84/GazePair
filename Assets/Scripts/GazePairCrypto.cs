@@ -25,6 +25,7 @@ public class GazePairCrypto : NetworkBehaviour
     Aes AesAlg;
     private NetworkObject player;
     private int iterations = 10000;
+    string plaintext;
 
     public NetworkVariableString CipherText = new NetworkVariableString(new NetworkVariableSettings
     {
@@ -34,14 +35,12 @@ public class GazePairCrypto : NetworkBehaviour
 
     void Start()
     {
-        Debug.Log("Started");
 
         salt1 = new System.Text.UTF8Encoding(false).GetBytes("Thisis8bytesbutthelongerthebetter"); ;
 
         localIV = new System.Text.UTF8Encoding(false).GetBytes("ThisIVmustbe16by");
 
-        player = NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject;
-        pwd1 = player.GetComponent<GazePairCandidate>().sharedSecret;
+        pwd1 = GameObject.Find("GazeCapture(Clone)").GetComponent<GazeCapture>().sharedSecret;
 
 
         if (IsHost)
@@ -70,16 +69,24 @@ public class GazePairCrypto : NetworkBehaviour
     {
         if (counter == 100)
         {
+            try
+            {
+                plaintext = Decrypt(CipherText.Value, AesAlg);
+            }
+            catch(CryptographicException e)
+            {
+                plaintext = "Incorrect Key";
+            }
 
             if (NetworkManager.Singleton.IsHost)
             {
-                Debug.Log("This is the Hosts's pwd: " + pwd1 + " and this is the encrypted message: ");// + Decrypt(CipherText.Value, AesAlg));
+                Debug.Log("This is the Hosts's pwd: " + pwd1 + " and this is the encrypted message: " + plaintext);
 
             }
 
             else if (NetworkManager.Singleton.IsClient)
             {
-                Debug.Log("This is the Client's pwd: " + pwd1 + " and this is the encrypted message: ");// + Decrypt(CipherText.Value, AesAlg));
+                Debug.Log("This is the Client's pwd: " + pwd1 + " and this is the encrypted message: " + plaintext);
 
             }
             

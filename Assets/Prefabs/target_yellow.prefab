@@ -150,5 +150,6 @@ MonoBehaviour:
   bin: 0
   timeRemaining: 10
   logger: {fileID: 1064144863081011438, guid: 3a53a9493ab92c64cbba8227081c1266, type: 3}
+  GazeCapturePrefab: {fileID: 651908693298510381, guid: f42d769ccfddc1e41af2dafdf5c0064e, type: 3}
   Position:
     m_InternalValue: {x: 0, y: 0, z: 0}

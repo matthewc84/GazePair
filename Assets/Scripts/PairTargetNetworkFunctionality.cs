@@ -7,7 +7,7 @@ using System.Collections;
 
 public class PairTargetNetworkFunctionality : NetworkBehaviour
 {
-    GameObject target;
+    //GameObject target;
     public float force;
     private Vector3 randomDirection;
     private Vector3 movement;
@@ -16,11 +16,12 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
     public int errorThreshold;
     public int binnedDegrees;
     public int bin;
-    public float timeRemaining = 10;
+    public float timeRemaining = 8;
     bool timerIsRunning = false;
-    public GameObject logger;
     private GameObject GazeMonitor;
-    private NetworkObject player;
+    public GameObject GazeCapturePrefab;
+    GameObject gazeCapture;
+
 
     public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
     {
@@ -31,13 +32,11 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
 
     void Start()
     {
+        gazeCapture = Instantiate(GazeCapturePrefab);
         timerIsRunning = true;
-        player = NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject;
-        player.GetComponent<GazePairCandidate>().targetSpawned =  true;
 
         if (NetworkManager.Singleton.IsHost)
         {
-            //GazeMonitor = Instantiate(logger);
             randomDegrees = UnityEngine.Random.Range(1, 360);
             bin = (int)(((randomDegrees + (errorThreshold - 1)) / errorThreshold));
             binnedDegrees = ((int)(((randomDegrees + (errorThreshold-1)) / errorThreshold)) * errorThreshold) - (errorThreshold/2);
@@ -63,7 +62,6 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
         if (NetworkManager.Singleton.IsClient)
         {
             this.transform.position = Position.Value;
-            //Debug.Log(Position.Value);
         }
 
         if (timerIsRunning)
@@ -74,12 +72,10 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
             }
             else
             {
-                player.GetComponent<GazePairCandidate>().targetSpawned = false;
-                player.GetComponent<GazePairCandidate>().targetDestroyed = true;
-
+                
                 if (NetworkManager.Singleton.IsHost)
                 {
-                    StartCoroutine(wait());
+                    
                     timeRemaining = 0;
                     timerIsRunning = false;
                     var obj = this.GetComponent<NetworkObject>();
@@ -93,11 +89,6 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
             }
         }
 
-        IEnumerator wait()
-        {
-            yield return new WaitForSecondsRealtime(3);
-
-        }
 
     }
 

@@ -443,6 +443,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DebugWindow
       objectReference: {fileID: 0}
+    - target: {fileID: 4679913627488335819, guid: 4b829e947ae32f846b74608a608dcb2a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4679913628774560306, guid: 4b829e947ae32f846b74608a608dcb2a, type: 3}
       propertyPath: m_textAlignment
       value: 65535
