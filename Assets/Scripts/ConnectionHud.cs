@@ -130,9 +130,9 @@ public class ConnectionHud : MonoBehaviour
         if (!NetworkManager.Singleton.IsHost && !NetworkManager.Singleton.IsClient)
         {
             //When Button pressed, start host
-            NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
+            //NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
             NetworkManager.Singleton.StartHost(maincam.transform.position, null, null, null, null);
-            
+
             //GazePairNetworkDiscovery.Instance.StartServer();
             startHostButton.GetComponentInChildren<TextMeshPro>().SetText("End Client Discovery");
             Instantiate(ConnectionManagementPrefab);
@@ -155,12 +155,6 @@ public class ConnectionHud : MonoBehaviour
         if (!NetworkManager.Singleton.IsClient)
         {
 
-            //byte[] buff = new byte[sizeof(float) * 3];
-            //System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.x), 0, buff, 0 * sizeof(float), sizeof(float));
-           // System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.y), 0, buff, 1 * sizeof(float), sizeof(float));
-            //System.Buffer.BlockCopy(System.BitConverter.GetBytes(GameObject.Find("Main Camera").transform.position.z), 0, buff, 2 * sizeof(float), sizeof(float));
-           // NetworkManager.Singleton.NetworkConfig.ConnectionData = buff;
-            //GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
             NetworkManager.Singleton.StartClient();
             startClientButton.GetComponentInChildren<TextMeshPro>().SetText("End Host Discovery");
             startHostButton.SetActive(false);

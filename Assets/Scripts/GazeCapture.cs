@@ -7,6 +7,7 @@ using Microsoft.MixedReality.Toolkit;
 using System;
 using System.Text;
 
+
 public class GazeCapture : MonoBehaviour
 {
     public static GazeCapture Instance = null;
@@ -17,9 +18,11 @@ public class GazeCapture : MonoBehaviour
     public int errorThreshold;
     public string sharedSecret;
     public string sharedSecretMagnitude;
-    public float timeRemaining;
+    public float lengthOfCapture;
+    float lengthOfCaptureTimer;
     bool timerIsRunning = false;
     bool startGazeCapture = true;
+
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +40,7 @@ public class GazeCapture : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         timerIsRunning = true;
-
+        lengthOfCaptureTimer = lengthOfCapture;
     }
 
 
@@ -47,11 +50,11 @@ public class GazeCapture : MonoBehaviour
 
         if (timerIsRunning)
         {
-            if (timeRemaining > 0)
+            if (lengthOfCaptureTimer > 0)
             {
-                timeRemaining -= Time.deltaTime;
+                lengthOfCaptureTimer -= Time.deltaTime;
                 //We want the "heart" of the gaze collection, so we only start capture after a second, to allow user to find and track target
-                if(timeRemaining < timeRemaining-1 && startGazeCapture)
+                if(lengthOfCaptureTimer < lengthOfCapture - 1 && startGazeCapture)
                 {
                     previousGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
                     startGazeCapture = false;
@@ -64,6 +67,7 @@ public class GazeCapture : MonoBehaviour
                 UpdateSharedSecret(previousGazeValue, GazeData);
                 UpdateSharedMagnitude(previousGazeValue, GazeData);
                 timerIsRunning = false;
+
             }
         }
 

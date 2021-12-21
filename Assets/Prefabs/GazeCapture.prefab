@@ -46,4 +46,4 @@ MonoBehaviour:
   errorThreshold: 5
   sharedSecret: 
   sharedSecretMagnitude: 
-  timeRemaining: 6
+  lengthOfCapture: 6

@@ -52,12 +52,12 @@ public class GazePairCryptoHud : MonoBehaviour
 
         if (NetworkManager.Singleton.IsListening)
         {
-            m_SceneProgress = NetworkSceneManager.SwitchScene("CryptoScene");
+            m_SceneProgress = NetworkSceneManager.SwitchScene("WorldSpace");
 
         }
         else
         {
-            SceneManager.LoadSceneAsync("CryptoScene");
+            SceneManager.LoadSceneAsync("WorldSpace");
         }
     }
 

@@ -15,14 +15,12 @@ public class GazePairCrypto : NetworkBehaviour
     Aes aes = Aes.Create();
     static string pwd1;
     static string magnitude;
-    static byte[] salt1 = new byte[8];
+    static byte[] salt = new byte[64];
     string data1 = "";
-    static byte[] localIV = new byte[8];
-    static byte[] localkey = new byte[8];
+    static byte[] localIV = new byte[16];
     int counter = 0;
     static byte[] edata1 = new byte[8];
     static byte[] edata2 = new byte[8];
-    Rfc2898DeriveBytes k1;
     Aes AesAlg;
     private NetworkObject player;
     private int iterations = 10000;
@@ -34,10 +32,14 @@ public class GazePairCrypto : NetworkBehaviour
         ReadPermission = NetworkVariablePermission.Everyone
     });
 
+    public NetworkVariableString Salt = new NetworkVariableString(new NetworkVariableSettings
+    {
+        WritePermission = NetworkVariablePermission.ServerOnly,
+        ReadPermission = NetworkVariablePermission.Everyone
+    });
+
     void Start()
     {
-
-        salt1 = new System.Text.UTF8Encoding(false).GetBytes("Thisis8bytesbutthelongerthebetter"); ;
 
         localIV = new System.Text.UTF8Encoding(false).GetBytes("ThisIVmustbe16by");
 
@@ -47,23 +49,30 @@ public class GazePairCrypto : NetworkBehaviour
 
         if (IsHost)
         {
-            data1 = "Message from the Host";
+            using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
+            {
+                // Fill the array with a random value.
+                rngCsp.GetBytes(salt);
+            }
+            Salt.Value = Encoding.ASCII.GetString(salt);
+            data1 = "Message from the Host Decrpyted - Pairing Sucessful!";
         }
         else
         {
-            data1 = "Message from the Client";
+            data1 = "Message from the Client Decrpyted - Pairing Sucessful!";
+            salt = new System.Text.UTF8Encoding(false).GetBytes(Salt.Value);
+            while (salt == null)
+            {
+                salt = new System.Text.UTF8Encoding(false).GetBytes(Salt.Value);
+            }
         }
 
-        AesAlg = SetCryptoParams(k1);
+        AesAlg = SetCryptoParams();
 
         if (IsHost)
         {
             Encrypt(data1, AesAlg);
         }
-
-
-
-
 
     }
 
@@ -75,37 +84,35 @@ public class GazePairCrypto : NetworkBehaviour
             {
                 plaintext = Decrypt(CipherText.Value, AesAlg);
             }
-            catch(CryptographicException e)
+            catch (CryptographicException e)
             {
-                plaintext = "Incorrect Key";
+                plaintext = "Incorrect Key, pairing failed!";
             }
 
             if (NetworkManager.Singleton.IsHost)
             {
-                Debug.Log("This is the Hosts's pwd: " + pwd1 + " and this is the encrypted message: " + plaintext + " and this is the magnitude: " + magnitude);
+                Debug.Log(plaintext + magnitude);
 
             }
 
             else if (NetworkManager.Singleton.IsClient)
             {
-                Debug.Log("This is the Client's pwd: " + pwd1 + " and this is the encrypted message: " + plaintext + " and this is the magnitude: " + magnitude);
+                Debug.Log(plaintext + magnitude);
 
             }
-            
+
             counter = 0;
         }
 
         counter++;
     }
 
-    Aes SetCryptoParams(Rfc2898DeriveBytes k1)
+    Aes SetCryptoParams()
     {
         Aes encAlg = Aes.Create();
         encAlg.KeySize = 256;
-        k1 = new Rfc2898DeriveBytes(pwd1, salt1, iterations);
-        encAlg.Key = k1.GetBytes(32);
-        Debug.Log("Key: " + ByteArrayToString(encAlg.Key));
-        Debug.Log("Length: " + encAlg.Key.Length);
+        byte[] pwdBytes = new System.Text.UTF8Encoding(false).GetBytes(pwd1);
+        encAlg.Key = PBKDF2Sha256GetBytes(32, pwdBytes, salt, iterations);
         encAlg.IV = localIV;
         return encAlg;
     }
@@ -113,20 +120,19 @@ public class GazePairCrypto : NetworkBehaviour
     void Encrypt(string data1, Aes encAlg)
     {
 
-            MemoryStream encryptionStream = new MemoryStream();
-            CryptoStream encrypt = new CryptoStream(encryptionStream, encAlg.CreateEncryptor(), CryptoStreamMode.Write);
-            byte[] utfD1 = new System.Text.UTF8Encoding(false).GetBytes(data1);
-            encrypt.Write(utfD1, 0, utfD1.Length);
-            encrypt.FlushFinalBlock();
-            encrypt.Close();
-            edata1 = encryptionStream.ToArray();
-            CipherText.Value = Convert.ToBase64String(edata1);
+        MemoryStream encryptionStream = new MemoryStream();
+        CryptoStream encrypt = new CryptoStream(encryptionStream, encAlg.CreateEncryptor(), CryptoStreamMode.Write);
+        byte[] utfD1 = new System.Text.UTF8Encoding(false).GetBytes(data1);
+        encrypt.Write(utfD1, 0, utfD1.Length);
+        encrypt.FlushFinalBlock();
+        encrypt.Close();
+        edata1 = encryptionStream.ToArray();
+        CipherText.Value = Convert.ToBase64String(edata1);
 
     }
 
     string Decrypt(string cipherText, Aes decAlg)
     {
-        // Try to decrypt, thus showing it can be round-tripped.
 
         MemoryStream decryptionStreamBacking = new MemoryStream();
         CryptoStream decrypt = new CryptoStream(decryptionStreamBacking, decAlg.CreateDecryptor(), CryptoStreamMode.Write);
@@ -139,13 +145,57 @@ public class GazePairCrypto : NetworkBehaviour
         return data2;
     }
 
-    public static string ByteArrayToString(byte[] ba)
+    //No native .NET standard PBKDF2 implementation exists with SHA256, credit to:
+    //https://stackoverflow.com/questions/18648084/rfc2898-pbkdf2-with-sha256-as-digest-in-c-sharp/18649357#18649357
+
+    public static byte[] PBKDF2Sha256GetBytes(int dklen, byte[] password, byte[] salt, int iterationCount)
     {
-        StringBuilder hex = new StringBuilder(ba.Length * 2);
-        foreach (byte b in ba)
-            hex.AppendFormat("{0:x2}", b);
-        return hex.ToString();
+        using (var hmac = new System.Security.Cryptography.HMACSHA256(password))
+        {
+            int hashLength = hmac.HashSize / 8;
+            if ((hmac.HashSize & 7) != 0)
+                hashLength++;
+            int keyLength = dklen / hashLength;
+            if ((long)dklen > (0xFFFFFFFFL * hashLength) || dklen < 0)
+                throw new ArgumentOutOfRangeException("dklen");
+            if (dklen % hashLength != 0)
+                keyLength++;
+            byte[] extendedkey = new byte[salt.Length + 4];
+            Buffer.BlockCopy(salt, 0, extendedkey, 0, salt.Length);
+            using (var ms = new System.IO.MemoryStream())
+            {
+                for (int i = 0; i < keyLength; i++)
+                {
+                    extendedkey[salt.Length] = (byte)(((i + 1) >> 24) & 0xFF);
+                    extendedkey[salt.Length + 1] = (byte)(((i + 1) >> 16) & 0xFF);
+                    extendedkey[salt.Length + 2] = (byte)(((i + 1) >> 8) & 0xFF);
+                    extendedkey[salt.Length + 3] = (byte)(((i + 1)) & 0xFF);
+                    byte[] u = hmac.ComputeHash(extendedkey);
+                    Array.Clear(extendedkey, salt.Length, 4);
+                    byte[] f = u;
+                    for (int j = 1; j < iterationCount; j++)
+                    {
+                        u = hmac.ComputeHash(u);
+                        for (int k = 0; k < f.Length; k++)
+                        {
+                            f[k] ^= u[k];
+                        }
+                    }
+                    ms.Write(f, 0, f.Length);
+                    Array.Clear(u, 0, u.Length);
+                    Array.Clear(f, 0, f.Length);
+                }
+                byte[] dk = new byte[dklen];
+                ms.Position = 0;
+                ms.Read(dk, 0, dklen);
+                ms.Position = 0;
+                for (long i = 0; i < ms.Length; i++)
+                {
+                    ms.WriteByte(0);
+                }
+                Array.Clear(extendedkey, 0, extendedkey.Length);
+                return dk;
+            }
+        }
     }
-
-
 }

@@ -129,7 +129,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 2
+  m_fontSize: 1
   m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -245,9 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeRemaining: 5
-  timer: {fileID: 4906388138397180911}
   targetPrefab: {fileID: 4220985400465758324, guid: 5d669c3f54f5c874697ae87f4121caa2, type: 3}
-  LoggerPrefab: {fileID: 1064144863081011438, guid: 3a53a9493ab92c64cbba8227081c1266, type: 3}
   HollowTargetPrefab: {fileID: 693400129722872727, guid: c5a5fa4816690464e842fffef9994bfa, type: 3}
   indicatorPrefab: {fileID: 4461325408341444607, guid: 7b3ed9eaf95deb341b9eb17ea6ae9226, type: 3}
 --- !u!114 &6700992792344746550

@@ -4,6 +4,9 @@ using MLAPI.NetworkVariable;
 using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using MLAPI.SceneManagement;
+using MLAPI.Transports.UNET;
 
 public class PairTargetNetworkFunctionality : NetworkBehaviour
 {
@@ -11,17 +14,17 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
     public float force;
     private Vector3 randomDirection;
     private Vector3 movement;
-    public int randomDegrees;
+    int randomDegrees;
     double randomRadian;
     public int errorThreshold;
-    public int binnedDegrees;
-    public int bin;
+    int binnedDegrees;
+    int bin;
     public float timeRemaining;
     bool timerIsRunning = false;
     private GameObject GazeMonitor;
     public GameObject GazeCapturePrefab;
     GameObject gazeCapture;
-
+    private SceneSwitchProgress m_SceneProgress;
 
     public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
     {
@@ -78,6 +81,14 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
                     
                     timeRemaining = 0;
                     timerIsRunning = false;
+                    if (NetworkManager.Singleton.IsListening)
+                    {
+                        m_SceneProgress = NetworkSceneManager.SwitchScene("CryptoScene");
+                    }
+                    else
+                    {
+                        SceneManager.LoadSceneAsync("CryptoScene");
+                    }
                     var obj = this.GetComponent<NetworkObject>();
                     obj.Despawn(true);
                     Destroy(this);

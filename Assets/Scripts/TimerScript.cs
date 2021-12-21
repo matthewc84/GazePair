@@ -8,29 +8,51 @@ using MLAPI.Transports.UNET;
 using UnityEngine.SceneManagement;
 using MLAPI.SceneManagement;
 
+
 public class TimerScript : MonoBehaviour
 {
 
     public float timeRemaining = 10;
     bool timerIsRunning = false;
-    public GameObject timer;
     public GameObject targetPrefab;
-    public GameObject LoggerPrefab;
     public GameObject HollowTargetPrefab;
     GameObject hollowTarget;
     public GameObject indicatorPrefab;
     GameObject indicator;
-
+    private int randomX;
+    private int randomY;
+    private int randomZ;
+    Vector3 randomPosition;
+    Vector3 targetScale;
     // Start is called before the first frame update
     void Start()
     {
         timerIsRunning = true;
         if (NetworkManager.Singleton.IsHost)
         {
-            hollowTarget = Instantiate(HollowTargetPrefab);
+            randomX = UnityEngine.Random.Range(-4, 4);
+            randomY = UnityEngine.Random.Range(-2, 4);
+            randomZ = UnityEngine.Random.Range(1, 4);
+            if (randomZ == 1)
+            {
+                targetScale = new Vector3(.04f, .04f, .04f);
+            }
+            if (randomZ == 2)
+            {
+                targetScale = new Vector3(.06f, .06f, .06f);
+            }
+            if (randomZ == 3)
+            {
+                targetScale = new Vector3(.1f, .1f, .1f);
+            }
+            if (randomZ == 4)
+            {
+                targetScale = new Vector3(.15f, .15f, .15f);
+            }
+            randomPosition = new Vector3((float)randomX/2, (float)randomY/2, (float)randomZ/2);
+            hollowTarget = Instantiate(HollowTargetPrefab, randomPosition, Quaternion.identity);
+            hollowTarget.transform.localScale = targetScale;
             hollowTarget.GetComponent<NetworkObject>().Spawn();
-            indicator = Instantiate(indicatorPrefab);
-            indicator.GetComponent<NetworkObject>().Spawn();
         }
     }
 
@@ -48,11 +70,9 @@ public class TimerScript : MonoBehaviour
             {
                 if (NetworkManager.Singleton.IsHost)
                 {
-                    var targetObj = hollowTarget.GetComponent<NetworkObject>();
-                    targetObj.Despawn(true);
-                    var indicatorObj = indicator.GetComponent<NetworkObject>();
-                    indicatorObj.Despawn(true);
-                    GameObject target = Instantiate(targetPrefab);
+                    hollowTarget.GetComponent<NetworkObject>().Despawn(true);
+                    GameObject target = Instantiate(targetPrefab, randomPosition, Quaternion.identity);
+                    target.transform.localScale = targetScale;
                     target.GetComponent<NetworkObject>().Spawn();
                     
                     timeRemaining = 0;
@@ -74,6 +94,6 @@ public class TimerScript : MonoBehaviour
 
         
 
-        timer.GetComponent<TextMeshPro>().SetText("Countdown to target spawn: " + string.Format("{0:00}:{1:00}", minutes, seconds));
+        this.GetComponent<TextMeshPro>().SetText("Find the white target outline, countdown to target spawn: " + string.Format("{0:00}:{1:00}", minutes, seconds));
     }
 }
