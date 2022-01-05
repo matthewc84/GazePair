@@ -11,17 +11,20 @@ using System.Text;
 public class GazeCapture : MonoBehaviour
 {
     public static GazeCapture Instance = null;
+    Vector3 currentGazeValue;
     Vector3 previousGazeValue;
     Vector3 tempGazeVector;
-    double tempSecret;
-    Vector3 GazeData;
+    double tempDirectionSecret;
+    double tempSharedSecret = 0d;
+    int sampleCounter = 0;
     public int errorThreshold;
+    public float sampleRate;
     public string sharedSecret;
-    public string sharedSecretMagnitude;
     public float lengthOfCapture;
     float lengthOfCaptureTimer;
     bool timerIsRunning = false;
-    bool startGazeCapture = true;
+    bool initialGazeCapture = false;
+
 
 
     // Start is called before the first frame update
@@ -40,7 +43,8 @@ public class GazeCapture : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         timerIsRunning = true;
-        lengthOfCaptureTimer = lengthOfCapture;
+        lengthOfCaptureTimer = lengthOfCapture-1;
+        
     }
 
 
@@ -53,50 +57,61 @@ public class GazeCapture : MonoBehaviour
             if (lengthOfCaptureTimer > 0)
             {
                 lengthOfCaptureTimer -= Time.deltaTime;
-                //We want the "heart" of the gaze collection, so we only start capture after a second, to allow user to find and track target
-                if(lengthOfCaptureTimer < lengthOfCapture - 1 && startGazeCapture)
+
+                //We want the "heart" of the gaze collection, so we only start capture after a second, to allow user to find and track target and take an initial gaze direction reading
+                if (lengthOfCaptureTimer < lengthOfCapture && !initialGazeCapture)
                 {
-                    previousGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
-                    startGazeCapture = false;
+                    previousGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection - CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
+                    lengthOfCapture -= sampleRate;
+                    initialGazeCapture = true;
+                }
+
+                //take a sample of the gaze direction roughly every second
+                if (lengthOfCaptureTimer < lengthOfCapture)
+                {
+                    currentGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection - CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
+                    StartCoroutine(UpdateSharedSecret(previousGazeValue, currentGazeValue));
+                    previousGazeValue = currentGazeValue;
+                    lengthOfCapture -= sampleRate;
                 }
             }
             else
             {
                 //We end capture before end of target hologram's lifespan, to ensure we don't mistrack
-                GazeData = CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
-                UpdateSharedSecret(previousGazeValue, GazeData);
-                UpdateSharedMagnitude(previousGazeValue, GazeData);
+                StartCoroutine(FinalizeSharedSecret(sampleCounter));
                 timerIsRunning = false;
 
             }
         }
 
-
-
     }
 
-    public void UpdateSharedSecret(Vector3 previousGazeValue, Vector3 GazeData)
+    IEnumerator UpdateSharedSecret(Vector3 previousGazeValue, Vector3 currentGazeValue)
     {
-
-        tempGazeVector = GazeData + previousGazeValue;
-        tempSecret = Math.Atan2(tempGazeVector.y, tempGazeVector.x);
-        if (tempSecret > 0)
+        //Update a temporary variable with the sum of all the sampled gaze directions, to be averaged later
+        tempGazeVector = (currentGazeValue - previousGazeValue);
+        tempDirectionSecret = Math.Atan2(tempGazeVector.y, tempGazeVector.x);
+        if (tempDirectionSecret > 0)
         {
-            sharedSecret = ((int)(((tempSecret * 180 / Math.PI) + errorThreshold - 1) / errorThreshold)).ToString();
+            tempSharedSecret = tempSharedSecret + (tempDirectionSecret * 180 / Math.PI);
         }
         else
         {
-            sharedSecret = ((int)((((tempSecret + (2 * Math.PI)) * 180 / Math.PI) + errorThreshold - 1) / errorThreshold)).ToString();
+            tempSharedSecret = tempSharedSecret + ((tempDirectionSecret + (2 * Math.PI)) * 180 / Math.PI);
         }
 
+        sampleCounter+=1;
+
+        yield return null;
     }
 
-    public void UpdateSharedMagnitude(Vector3 previousGazeValue, Vector3 GazeData)
+    IEnumerator FinalizeSharedSecret(int sampleCounter)
     {
+        sharedSecret = ((int)(((tempSharedSecret / sampleCounter) + errorThreshold - 1) / errorThreshold)).ToString();
 
-        sharedSecretMagnitude = Math.Sqrt((Math.Pow((GazeData.x + previousGazeValue.x), 2) + Math.Pow((GazeData.y + previousGazeValue.y), 2))).ToString();
-
-
+        yield return null;
 
     }
+
+ 
 }

@@ -20,9 +20,9 @@ public class GazePairCandidate : NetworkBehaviour
 {
    
     Camera mainCamera;
+    bool CipherTextUpdated = false;
 
-
-    public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
+    public NetworkVariableString CipherText = new NetworkVariableString(new NetworkVariableSettings
     {
         WritePermission = NetworkVariablePermission.OwnerOnly,
         ReadPermission = NetworkVariablePermission.Everyone
@@ -37,40 +37,44 @@ public class GazePairCandidate : NetworkBehaviour
     public override void NetworkStart()
     {
 
-        if (IsOwner)
-        {
-            Move();
-        }
     }
 
-    public void Move()
+
+    public void UpdateCipherText()
     {
         if (NetworkManager.Singleton.IsHost)
         {
-            Position.Value = Camera.main.transform.position;
+            if(GameObject.Find("GazePairCrypto") != null && !CipherTextUpdated)
+            {
+                CipherText.Value = GameObject.Find("GazePairCrypto").GetComponent<GazePairCrypto>().ciphertext;
+                CipherTextUpdated = true;
+            }
+
         }
-        else if(NetworkManager.Singleton.IsClient)
+        else if (NetworkManager.Singleton.IsClient)
         {
-           SubmitPositionRequest_ServerRpc(Camera.main.transform.position);
+            if (GameObject.Find("GazePairCrypto") != null && !CipherTextUpdated)
+            {
+                SubmitEncryptedValue_ServerRpc(GameObject.Find("GazePairCrypto").GetComponent<GazePairCrypto>().ciphertext);
+                CipherTextUpdated = true;
+            }
         }
     }
 
-   
-
     [ServerRpc]
-    void SubmitPositionRequest_ServerRpc(Vector3 clientPosition)
+    void SubmitEncryptedValue_ServerRpc(string encryptedValue)
     {
-        Position.Value = clientPosition;
+        CipherText.Value = encryptedValue;
     }
 
 
     void Update()
     {
+        //Camera.main.transform.position = Vector3.zero;
 
-        transform.position = Position.Value;
         if (IsOwner)
         {
-            Move();
+            UpdateCipherText();
         }
 
     }

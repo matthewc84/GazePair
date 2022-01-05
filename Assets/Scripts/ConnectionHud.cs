@@ -23,9 +23,7 @@ public class ConnectionHud : MonoBehaviour
     Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new Dictionary<IPAddress, DiscoveryResponseData>();
 
     public GameObject ConnectionManagementPrefab;
-
-    public Vector2 DrawOffset = new Vector2(10, 210);
-
+    public GameObject ConnectionHudPrefab;
     public GameObject startClientButton;
     public GameObject startHostButton;
     public GameObject nextSceneButton;
@@ -38,32 +36,17 @@ public class ConnectionHud : MonoBehaviour
 
     void Update()
     {
-
+        if (NetworkManager.Singleton.IsHost)
+        {
+            var gazePairManagementComponent = GameObject.Find("GazePairConnectionManagement(Clone)");
+            var gazePairHudComponent = GameObject.Find("ConnectionHud(Clone)");
+            gazePairHudComponent.GetComponent<TextMeshPro>().SetText("The Number of Pairing Partners in the Lobby is: " + gazePairManagementComponent.GetComponent<GazePairConnectionManagement>().getNumClientsInLobby());
+        }
     }
     public void OnServerFound(IPEndPoint sender, DiscoveryResponseData response)
     {
         Debug.Log("Found Server");
         discoveredServers[sender.Address] = response;
-    }
-
-
-    void OnGUI()
-    {
-        GUILayout.BeginArea(new Rect(DrawOffset, new Vector2(200, 600)));
-
-        if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsClient)
-        {
-            if (NetworkManager.Singleton.IsServer)
-            {
-                ServerControlsGUI();
-            }
-        }
-        else
-        {
-            ClientSearchGUI();
-        }
-
-        GUILayout.EndArea();
     }
 
     void ClientSearchGUI()
@@ -105,39 +88,22 @@ public class ConnectionHud : MonoBehaviour
         }
     }
 
-    void ServerControlsGUI()
-    {
-        if (GazePairNetworkDiscovery.Instance.IsRunning)
-        {
-            if (GUILayout.Button("Stop Server Discovery"))
-            {
-                GazePairNetworkDiscovery.Instance.StopDiscovery();
-            }
-        }
-        else
-        {
-            if (GUILayout.Button("Start Server Discovery"))
-            {
-                GazePairNetworkDiscovery.Instance.StartServer();
-            }
-        }
-    }
-
     public void serverButtonPressed()
     {
-        Camera maincam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        //Camera maincam = GameObject.Find("Main Camera").GetComponent<Camera>();
 
         if (!NetworkManager.Singleton.IsHost && !NetworkManager.Singleton.IsClient)
         {
             //When Button pressed, start host
-            //NetworkManager.Singleton.ConnectionApprovalCallback += ApprovalCheck;
-            NetworkManager.Singleton.StartHost(maincam.transform.position, null, null, null, null);
-
+            NetworkManager.Singleton.StartHost(new Vector3(0,0,0), null, null, null, null);
             //GazePairNetworkDiscovery.Instance.StartServer();
             startHostButton.GetComponentInChildren<TextMeshPro>().SetText("End Client Discovery");
             Instantiate(ConnectionManagementPrefab);
+            Instantiate(ConnectionHudPrefab);
             nextSceneButton.SetActive(true);
             startClientButton.SetActive(false);
+            
+            
         }
         else
         {
@@ -146,6 +112,8 @@ public class ConnectionHud : MonoBehaviour
             startHostButton.GetComponentInChildren<TextMeshPro>().SetText("Start Host");
             nextSceneButton.SetActive(false);
             startClientButton.SetActive(true);
+            var gazePairHudComponent = GameObject.Find("ConnectionHud(Clone)");
+            Destroy(gazePairHudComponent);
         }
     }
 
@@ -185,19 +153,6 @@ public class ConnectionHud : MonoBehaviour
         }
     }
 
-    private void ApprovalCheck(byte[] connectionData, ulong clientId, MLAPI.NetworkManager.ConnectionApprovedDelegate callback)
-    {
-        //Your logic here
-        bool approve = true;
-        bool createPlayerObject = true;
-
-        Vector3 vect = Vector3.zero;
-        vect.x = System.BitConverter.ToSingle(connectionData, 0 * sizeof(float));
-        vect.y = System.BitConverter.ToSingle(connectionData, 1 * sizeof(float));
-        vect.z = System.BitConverter.ToSingle(connectionData, 2 * sizeof(float));
-        //If approve is true, the connection gets added. If it's false. The client gets disconnected
-        callback(createPlayerObject, null, approve, vect, null);
-    }
 
 
 }

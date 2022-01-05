@@ -1027,85 +1027,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &1206498175
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1206498177}
-  - component: {fileID: 1206498176}
-  - component: {fileID: 1206498178}
-  m_Layer: 0
-  m_Name: GazePairNetworkDiscovery
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1206498176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1206498175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30c48526620c5a846b7509e2820449f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Port: 47777
-  m_UniqueApplicationId: -1222546608300202862
-  ServerName: PairServer
-  OnServerFound:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1206498178}
-        m_TargetAssemblyTypeName: GazePairHud, Assembly-CSharp
-        m_MethodName: OnServerFound
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!4 &1206498177
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1206498175}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.031539917, y: -0.09524536, z: 1.6441956}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1206498178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1206498175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c196ecd25d75c0f4aa9833f113c53705, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConnectionManagementPrefab: {fileID: 0}
-  DrawOffset: {x: 10, y: 210}
-  startClientButton: {fileID: 0}
-  startHostButton: {fileID: 0}
-  nextSceneButton: {fileID: 0}
 --- !u!1 &1221816455
 GameObject:
   m_ObjectHideFlags: 0
@@ -1171,7 +1092,6 @@ MonoBehaviour:
     - Connection Scene
     - PairScene
     - CryptoScene
-    - WorldSpace
     AllowRuntimeSceneChanges: 0
     NetworkPrefabs:
     - Prefab: {fileID: 3324581138846024523, guid: 4facc326ecdff4c4c8936c766cba2ec2, type: 3}
@@ -1185,6 +1105,8 @@ MonoBehaviour:
     - Prefab: {fileID: 693400129722872727, guid: c5a5fa4816690464e842fffef9994bfa, type: 3}
       PlayerPrefab: 0
     - Prefab: {fileID: 4461325408341444607, guid: 7b3ed9eaf95deb341b9eb17ea6ae9226, type: 3}
+      PlayerPrefab: 0
+    - Prefab: {fileID: 1527056782850117341, guid: 4b3c5b50e35ec97458f3af65c8381187, type: 3}
       PlayerPrefab: 0
     PlayerPrefabHash:
       id: 0
@@ -1287,7 +1209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConnectionManagementPrefab: {fileID: 5628702893645104175, guid: 33adb7c5ddc0c3c44b24a8e5f2d1f3e7, type: 3}
-  DrawOffset: {x: 10, y: 210}
+  ConnectionHudPrefab: {fileID: 1480150490870790048, guid: 3b8337b363f39434db5378d004165ea3, type: 3}
   startClientButton: {fileID: 8529076334060326794}
   startHostButton: {fileID: 5772514277101963476}
   nextSceneButton: {fileID: 1280410047}
@@ -2056,7 +1978,7 @@ Transform:
   m_Children:
   - {fileID: 741890648}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1429657597
 GameObject:
@@ -7458,7 +7380,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2266953341096184573
 Transform:
   m_ObjectHideFlags: 0
@@ -7475,7 +7397,7 @@ Transform:
   - {fileID: 8618912741602101115}
   - {fileID: 3726832027022374563}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2266953341096184574
 MonoBehaviour:
@@ -9067,7 +8989,7 @@ Transform:
   - {fileID: 5772514277621534261}
   - {fileID: 1280410048}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2421676016713847722
 MonoBehaviour:
@@ -9527,10 +9449,10 @@ RectTransform:
   m_Father: {fileID: 4574189903835237149}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 115.28, y: -27.71}
+  m_SizeDelta: {x: 230.56, y: 55.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2788148260166192891
 MonoBehaviour:
@@ -10981,13 +10903,26 @@ GameObject:
   - component: {fileID: 3726832027022374567}
   - component: {fileID: 3726832027022374564}
   - component: {fileID: 3726832027022374565}
+  - component: {fileID: 3726832027022374561}
   m_Layer: 0
   m_Name: PressableButtonsTestCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
+--- !u!114 &3726832027022374561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3726832027022374560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4e3b9019304b5aaec5664de0778d21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &3726832027022374563
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13056,9 +12991,9 @@ RectTransform:
   m_Father: {fileID: 4574189903835237149}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -55.42}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &5331484917517005894
@@ -14108,7 +14043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConnectionManagementPrefab: {fileID: 5628702893645104175, guid: 33adb7c5ddc0c3c44b24a8e5f2d1f3e7, type: 3}
-  DrawOffset: {x: 10, y: 210}
+  ConnectionHudPrefab: {fileID: 1480150490870790048, guid: 3b8337b363f39434db5378d004165ea3, type: 3}
   startClientButton: {fileID: 8529076334060326794}
   startHostButton: {fileID: 5772514277101963476}
   nextSceneButton: {fileID: 1280410047}
@@ -15868,6 +15803,14 @@ PrefabInstance:
     - target: {fileID: 4200772337318736365, guid: b09cac727abde4844a76298517a619d3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4200772337499841086, guid: b09cac727abde4844a76298517a619d3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7198381180327662942, guid: b09cac727abde4844a76298517a619d3, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b09cac727abde4844a76298517a619d3, type: 3}
@@ -17902,7 +17845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConnectionManagementPrefab: {fileID: 5628702893645104175, guid: 33adb7c5ddc0c3c44b24a8e5f2d1f3e7, type: 3}
-  DrawOffset: {x: 10, y: 210}
+  ConnectionHudPrefab: {fileID: 1480150490870790048, guid: 3b8337b363f39434db5378d004165ea3, type: 3}
   startClientButton: {fileID: 8529076334060326794}
   startHostButton: {fileID: 5772514277101963476}
   nextSceneButton: {fileID: 1280410047}

@@ -13,111 +13,118 @@ using System.Security.Cryptography;
 public class GazePairCrypto : NetworkBehaviour
 {
     Aes aes = Aes.Create();
-    static string pwd1;
-    static string magnitude;
+    static string SharedSecret;
     static byte[] salt = new byte[64];
     string data1 = "";
     static byte[] localIV = new byte[16];
-    int counter = 0;
     static byte[] edata1 = new byte[8];
     static byte[] edata2 = new byte[8];
     Aes AesAlg;
-    private NetworkObject player;
+    //private NetworkObject player;
     private int iterations = 10000;
     string plaintext;
+    bool keysTested = false;
+    public string ciphertext = null;
 
-    public NetworkVariableString CipherText = new NetworkVariableString(new NetworkVariableSettings
-    {
-        WritePermission = NetworkVariablePermission.OwnerOnly,
-        ReadPermission = NetworkVariablePermission.Everyone
-    });
-
-    public NetworkVariableString Salt = new NetworkVariableString(new NetworkVariableSettings
-    {
-        WritePermission = NetworkVariablePermission.ServerOnly,
-        ReadPermission = NetworkVariablePermission.Everyone
-    });
+    
 
     void Start()
     {
 
         localIV = new System.Text.UTF8Encoding(false).GetBytes("ThisIVmustbe16by");
-
-        pwd1 = GameObject.Find("GazeCapture(Clone)").GetComponent<GazeCapture>().sharedSecret;
-
-        magnitude = GameObject.Find("GazeCapture(Clone)").GetComponent<GazeCapture>().sharedSecretMagnitude;
+        plaintext = "Success!";
+        SharedSecret = GameObject.Find("GazeLocationCapture(Clone)").GetComponent<GazeLocationCapture>().sharedSecret;
+        SharedSecret = SharedSecret + GameObject.Find("GazeCapture(Clone)").GetComponent<GazeCapture>().sharedSecret;
 
         if (IsHost)
         {
-            using (RNGCryptoServiceProvider rngCsp = new RNGCryptoServiceProvider())
-            {
-                // Fill the array with a random value.
-                rngCsp.GetBytes(salt);
-            }
-            Salt.Value = Encoding.ASCII.GetString(salt);
             data1 = "Message from the Host Decrpyted - Pairing Sucessful!";
         }
-        else
+
+        if (IsClient)
         {
             data1 = "Message from the Client Decrpyted - Pairing Sucessful!";
-            salt = new System.Text.UTF8Encoding(false).GetBytes(Salt.Value);
-            while (salt == null)
-            {
-                salt = new System.Text.UTF8Encoding(false).GetBytes(Salt.Value);
-            }
         }
 
-        AesAlg = SetCryptoParams();
+        salt = new System.Text.UTF8Encoding(false).GetBytes(GameObject.Find("Salt(Clone)").GetComponent<Salt>().SaltValue.Value);
+        while (salt == null)
+        {
+            salt = new System.Text.UTF8Encoding(false).GetBytes(GameObject.Find("Salt(Clone)").GetComponent<Salt>().SaltValue.Value);
+        }
 
         if (IsHost)
         {
-            Encrypt(data1, AesAlg);
+            Destroy(GameObject.Find("Salt(Clone)"));
         }
+        
+        Destroy(GameObject.Find("GazeLocationCapture(Clone)"));
+        Destroy(GameObject.Find("GazeCapture(Clone)"));
+
+        AesAlg = SetCryptoParams();
+        ciphertext = Encrypt(data1, AesAlg);
+
 
     }
 
     void Update()
     {
-        if (counter == 100)
+        if(keysTested == false && IsHost)
         {
-            try
+            var gazePairManagementComponent = GameObject.Find("GazePairConnectionManagement(Clone)");
+            foreach (ulong client in gazePairManagementComponent.GetComponent<GazePairConnectionManagement>().getClientsInLobby().Keys)
             {
-                plaintext = Decrypt(CipherText.Value, AesAlg);
-            }
-            catch (CryptographicException e)
-            {
-                plaintext = "Incorrect Key, pairing failed!";
-            }
+                if (NetworkManager.Singleton.ConnectedClients.TryGetValue(client, out var networkedClient))
+                {
+                    var player = networkedClient.PlayerObject.GetComponent<GazePairCandidate>();
+                    if (player)
+                    {
+                        try
+                        {
+                            //Debug.Log("Decrypting");
+                            Decrypt(player.CipherText.Value, AesAlg);
+                        }
+                        catch (CryptographicException e)
+                        {
+                            plaintext = "Incorrect Key for atleast one pairing partner, pairing failed!";
+                        }
 
+                    }
+
+                }
+            }
             if (NetworkManager.Singleton.IsHost)
             {
-                Debug.Log(plaintext + magnitude);
+                Debug.Log(plaintext + " " + SharedSecret);
 
             }
 
             else if (NetworkManager.Singleton.IsClient)
             {
-                Debug.Log(plaintext + magnitude);
+                Debug.Log(plaintext + " " + SharedSecret);
 
             }
-
-            counter = 0;
+            keysTested = true;
         }
 
-        counter++;
-    }
+        if (keysTested == false && IsClient)
+        {
+            Debug.Log(plaintext + " " + SharedSecret);
+            keysTested = true;
+        }
+
+        }
 
     Aes SetCryptoParams()
     {
         Aes encAlg = Aes.Create();
         encAlg.KeySize = 256;
-        byte[] pwdBytes = new System.Text.UTF8Encoding(false).GetBytes(pwd1);
-        encAlg.Key = PBKDF2Sha256GetBytes(32, pwdBytes, salt, iterations);
+        byte[] SharedSecretBytes = new System.Text.UTF8Encoding(false).GetBytes(SharedSecret);
+        encAlg.Key = PBKDF2Sha256GetBytes(32, SharedSecretBytes, salt, iterations);
         encAlg.IV = localIV;
         return encAlg;
     }
 
-    void Encrypt(string data1, Aes encAlg)
+    string Encrypt(string data1, Aes encAlg)
     {
 
         MemoryStream encryptionStream = new MemoryStream();
@@ -127,7 +134,7 @@ public class GazePairCrypto : NetworkBehaviour
         encrypt.FlushFinalBlock();
         encrypt.Close();
         edata1 = encryptionStream.ToArray();
-        CipherText.Value = Convert.ToBase64String(edata1);
+       return Convert.ToBase64String(edata1);
 
     }
 
@@ -144,6 +151,7 @@ public class GazePairCrypto : NetworkBehaviour
 
         return data2;
     }
+
 
     //No native .NET standard PBKDF2 implementation exists with SHA256, credit to:
     //https://stackoverflow.com/questions/18648084/rfc2898-pbkdf2-with-sha256-as-digest-in-c-sharp/18649357#18649357

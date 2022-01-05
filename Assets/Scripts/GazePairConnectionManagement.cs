@@ -58,5 +58,8 @@ public class GazePairConnectionManagement : NetworkBehaviour
         return m_ClientsInLobby;
     }
 
-
+    public int getNumClientsInLobby()
+    {
+        return m_ClientsInLobby.Count-1;
+    }
 }

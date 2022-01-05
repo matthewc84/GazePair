@@ -16,7 +16,11 @@ public class TimerScript : MonoBehaviour
     bool timerIsRunning = false;
     public GameObject targetPrefab;
     public GameObject HollowTargetPrefab;
+    public GameObject SaltPrefab;
+    GameObject SaltInstance;
     GameObject hollowTarget;
+    GameObject gazeLocationCapture;
+    public GameObject GazeLocationCapturePrefab;
     public GameObject indicatorPrefab;
     GameObject indicator;
     private int randomX;
@@ -30,30 +34,36 @@ public class TimerScript : MonoBehaviour
         timerIsRunning = true;
         if (NetworkManager.Singleton.IsHost)
         {
-            randomX = UnityEngine.Random.Range(-4, 4);
-            randomY = UnityEngine.Random.Range(-2, 4);
-            randomZ = UnityEngine.Random.Range(1, 4);
-            if (randomZ == 1)
+            //Since The Random.Range only makes integers, and we want to randomize the start position of the target hologram by .5 meters, we take a random integer, and divide by 2 later to get the desired range.
+            randomX = UnityEngine.Random.Range(-3, 3);
+            randomY = UnityEngine.Random.Range(-2, 2);
+            randomZ = UnityEngine.Random.Range(3, 5);
+            //Based on the z value, scale the size of the target to conform with ARETT parameters to ensure accuracy of gaze and hit data
+            if (randomZ == 2)
             {
                 targetScale = new Vector3(.04f, .04f, .04f);
             }
-            if (randomZ == 2)
-            {
-                targetScale = new Vector3(.06f, .06f, .06f);
-            }
             if (randomZ == 3)
             {
-                targetScale = new Vector3(.1f, .1f, .1f);
+                targetScale = new Vector3(.05f, .05f, .05f);
             }
             if (randomZ == 4)
             {
-                targetScale = new Vector3(.15f, .15f, .15f);
+                targetScale = new Vector3(.06f, .06f, .06f);
             }
+            if (randomZ == 5)
+            {
+                targetScale = new Vector3(.1f, .1f, .1f);
+            }
+            //The randomized position with range -2 to 2 on X plane ( in .5m increments), -1 to 2 on Y plane ( in .5m increments), and 1 to 2.5 on Z plane (in .5m increments)
             randomPosition = new Vector3((float)randomX/2, (float)randomY/2, (float)randomZ/2);
             hollowTarget = Instantiate(HollowTargetPrefab, randomPosition, Quaternion.identity);
-            hollowTarget.transform.localScale = targetScale;
+            SaltInstance = Instantiate(SaltPrefab);
             hollowTarget.GetComponent<NetworkObject>().Spawn();
+            SaltInstance.GetComponent<NetworkObject>().Spawn();
         }
+
+        gazeLocationCapture = Instantiate(GazeLocationCapturePrefab);
     }
 
     // Update is called once per frame
@@ -70,10 +80,12 @@ public class TimerScript : MonoBehaviour
             {
                 if (NetworkManager.Singleton.IsHost)
                 {
+                    //If the time desired for the hollow orientation target is elapsed, detroy it and instantiate the real target at its location
                     hollowTarget.GetComponent<NetworkObject>().Despawn(true);
                     GameObject target = Instantiate(targetPrefab, randomPosition, Quaternion.identity);
-                    target.transform.localScale = targetScale;
+                   // target.transform.localScale = targetScale;
                     target.GetComponent<NetworkObject>().Spawn();
+                    target.GetComponent<PairTargetNetworkFunctionality>().Scale.Value = targetScale;
                     
                     timeRemaining = 0;
                     timerIsRunning = false;

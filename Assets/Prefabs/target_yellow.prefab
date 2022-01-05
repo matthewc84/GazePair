@@ -144,11 +144,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 0.15
-  randomDegrees: 0
-  errorThreshold: 5
-  binnedDegrees: 0
-  bin: 0
+  errorThreshold: 8
   timeRemaining: 8
   GazeCapturePrefab: {fileID: 651908693298510381, guid: f42d769ccfddc1e41af2dafdf5c0064e, type: 3}
   Position:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  Scale:
     m_InternalValue: {x: 0, y: 0, z: 0}

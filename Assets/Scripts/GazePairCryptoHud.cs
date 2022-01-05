@@ -13,11 +13,8 @@ using UnityEditor;
 using UnityEditor.Events;
 #endif
 
-public class GazePairCryptoHud : MonoBehaviour
+public class GazePairCryptoHud : NetworkBehaviour
 {
-
-    public GameObject CryptoPrefab;
-    public GameObject spawnButton;
 
     private SceneSwitchProgress m_SceneProgress;
 
@@ -25,7 +22,7 @@ public class GazePairCryptoHud : MonoBehaviour
     {
         if (!NetworkManager.Singleton.IsHost)
         {
-            spawnButton.SetActive(false);
+            //spawnButton.SetActive(false);
         }
     }
     void Update()
@@ -33,32 +30,24 @@ public class GazePairCryptoHud : MonoBehaviour
 
     }
 
-    public void spawnButtonPressed()
+
+    public void restartGazePair()
     {
-
-        if (NetworkManager.Singleton.IsHost)
+        if (IsHost)
         {
-            GameObject go = Instantiate(CryptoPrefab);
-            go.GetComponent<NetworkObject>().Spawn();
-
+            NetworkManager.Singleton.StopHost();
+        }
+        else if (IsClient)
+        {
+            NetworkManager.Singleton.StopClient();
+        }
+        else if (IsServer)
+        {
+            NetworkManager.Singleton.StopServer();
         }
 
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Connection Scene");
 
-    }
-
-
-    public void nextScene()
-    {
-
-        if (NetworkManager.Singleton.IsListening)
-        {
-            m_SceneProgress = NetworkSceneManager.SwitchScene("WorldSpace");
-
-        }
-        else
-        {
-            SceneManager.LoadSceneAsync("WorldSpace");
-        }
     }
 
 

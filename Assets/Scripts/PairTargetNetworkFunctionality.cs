@@ -18,7 +18,6 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
     double randomRadian;
     public int errorThreshold;
     int binnedDegrees;
-    int bin;
     public float timeRemaining;
     bool timerIsRunning = false;
     private GameObject GazeMonitor;
@@ -27,6 +26,12 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
     private SceneSwitchProgress m_SceneProgress;
 
     public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
+    {
+        WritePermission = NetworkVariablePermission.ServerOnly,
+        ReadPermission = NetworkVariablePermission.Everyone
+    });
+
+    public NetworkVariableVector3 Scale = new NetworkVariableVector3(new NetworkVariableSettings
     {
         WritePermission = NetworkVariablePermission.ServerOnly,
         ReadPermission = NetworkVariablePermission.Everyone
@@ -41,7 +46,6 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
         if (NetworkManager.Singleton.IsHost)
         {
             randomDegrees = UnityEngine.Random.Range(1, 360);
-            bin = (int)(((randomDegrees + (errorThreshold - 1)) / errorThreshold));
             binnedDegrees = ((int)(((randomDegrees + (errorThreshold-1)) / errorThreshold)) * errorThreshold) - (errorThreshold/2);
             randomRadian = binnedDegrees * (System.Math.PI / 180);
             randomDirection = new Vector3((float)System.Math.Cos(randomRadian), (float)System.Math.Sin(randomRadian) , 0);
@@ -59,12 +63,14 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
         if (NetworkManager.Singleton.IsHost)
         {
             Position.Value = this.transform.position;
+            Scale.Value = this.transform.localScale;
 
         }
 
         if (NetworkManager.Singleton.IsClient)
         {
             this.transform.position = Position.Value;
+            this.transform.localScale = Scale.Value;
         }
 
         if (timerIsRunning)
