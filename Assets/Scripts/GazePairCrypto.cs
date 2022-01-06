@@ -1,18 +1,22 @@
-using MLAPI;
-using MLAPI.Transports.UNET;
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Text;
 using System.IO;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using MLAPI;
+using MLAPI.Transports.UNET;
+using UnityEngine.SceneManagement;
+using MLAPI.SceneManagement;
 using System.Security.Cryptography;
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.Utilities;
 using Microsoft.MixedReality.Toolkit;
 
 
-public class GazePairCrypto : MonoBehaviour
+public class GazePairCrypto : NetworkBehaviour
 {
     Aes aes = Aes.Create();
     static string SharedSecret;
@@ -25,8 +29,9 @@ public class GazePairCrypto : MonoBehaviour
     Aes AesAlg;
     private int iterations = 10000;
     string plaintext;
-    bool keysTested = false;
+    bool pairingSuccess = true;
     int counter = 0;
+    int sucessfullDecrypt = 0;
 
     
 
@@ -40,13 +45,12 @@ public class GazePairCrypto : MonoBehaviour
 
         if (NetworkManager.Singleton.IsHost)
         {
-            Debug.Log("Here Host");
+            
             hostData = "Message from the Host Decrpyted - Pairing Sucessful!";
         }
-
-        if (NetworkManager.Singleton.IsClient)
+        else if (NetworkManager.Singleton.IsClient)
         {
-            Debug.Log("Here Client");
+            
             clientData = "Message from the Client Decrpyted - Pairing Sucessful!";
         }
 
@@ -56,7 +60,7 @@ public class GazePairCrypto : MonoBehaviour
             salt = new System.Text.UTF8Encoding(false).GetBytes(GameObject.Find("Salt(Clone)").GetComponent<Salt>().SaltValue.Value);
         }
 
-        if (IsHost)
+        if (NetworkManager.Singleton.IsHost)
         {
             //Destroy(GameObject.Find("Salt(Clone)"));
         }
@@ -65,11 +69,11 @@ public class GazePairCrypto : MonoBehaviour
         //Destroy(GameObject.Find("GazeCapture(Clone)"));
 
         AesAlg = SetCryptoParams();
-        if (IsHost)
+        if (NetworkManager.Singleton.IsHost)
         {
             NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject.GetComponent<GazePairCandidate>().CipherText.Value = Encrypt(hostData, AesAlg);
         }
-        if (IsClient)
+        else if (NetworkManager.Singleton.IsClient)
         {
             NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject.GetComponent<GazePairCandidate>().SubmitEncryptedValue_ServerRpc(Encrypt(clientData, AesAlg));
         }
@@ -80,8 +84,9 @@ public class GazePairCrypto : MonoBehaviour
 
     void Update()
     {
-        if (IsHost && counter == 30)
+        if (NetworkManager.Singleton.IsHost && counter == 30 && sucessfullDecrypt < NetworkManager.Singleton.ConnectedClients.Count)
         {
+            sucessfullDecrypt = NetworkManager.Singleton.ConnectedClients.Count;
             foreach (ulong client in NetworkManager.Singleton.ConnectedClients.Keys)
             {
                 if (NetworkManager.Singleton.ConnectedClients.TryGetValue(client, out var networkedClient))
@@ -96,7 +101,7 @@ public class GazePairCrypto : MonoBehaviour
                         }
                         catch (CryptographicException e)
                         {
-                            plaintext = "Incorrect Key for atleast one pairing partner, pairing failed!";
+                            sucessfullDecrypt -= 1;
                         }
 
                     }
@@ -104,7 +109,6 @@ public class GazePairCrypto : MonoBehaviour
                 }
             }
             
-            keysTested = true;
             counter = 0;
         }
         counter++;

@@ -68,7 +68,7 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
 
         }
 
-        if (NetworkManager.Singleton.IsClient)
+        else if (NetworkManager.Singleton.IsClient)
         {
             this.transform.position = Position.Value;
             this.transform.localScale = Scale.Value;
