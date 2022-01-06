@@ -19,6 +19,12 @@ public class GazeLocationCaptureGrid : MonoBehaviour
     private SceneSwitchProgress m_SceneProgress;
     public GameObject SaltPrefab;
     GameObject SaltInstance;
+    public GameObject keypadPrefab;
+    GameObject keypadInstance;
+    private int randomX;
+    private int randomY;
+    private int randomZ;
+    Vector3 randomPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -32,12 +38,19 @@ public class GazeLocationCaptureGrid : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
         DontDestroyOnLoad(gameObject);
+
+        randomX = UnityEngine.Random.Range(-5, 5);
+        randomY = UnityEngine.Random.Range(-2, 4);
+        randomZ = UnityEngine.Random.Range(3, 5);
+        randomPosition = new Vector3(randomX / 2, randomY / 2, randomZ / 2);
+        
         if (NetworkManager.Singleton.IsHost)
         {
             SaltInstance = Instantiate(SaltPrefab);
             SaltInstance.GetComponent<NetworkObject>().Spawn();
+            keypadInstance = Instantiate(keypadPrefab, randomPosition, Quaternion.identity);
+            keypadInstance.GetComponent<NetworkObject>().Spawn();
         }
 
     }

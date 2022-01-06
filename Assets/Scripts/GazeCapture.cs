@@ -108,7 +108,7 @@ public class GazeCapture : MonoBehaviour
 
     IEnumerator FinalizeSharedSecret(int sampleCounter)
     {
-        var sharedSecretComponent = GameObject.Find("SharedSecretCapture(Clone)").GetComponent<SharedSecretCapture>();
+        var sharedSecretComponent = GameObject.Find("SharedSecretCapture").GetComponent<SharedSecretCapture>();
         sharedSecretComponent.sharedSecret = sharedSecretComponent.sharedSecret + ((int)(((tempSharedSecret / sampleCounter) + errorThreshold - 1) / errorThreshold)).ToString();
 
         yield return null;

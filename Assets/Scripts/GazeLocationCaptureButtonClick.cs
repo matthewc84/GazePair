@@ -28,7 +28,7 @@ public class GazeLocationCaptureButtonClick : MonoBehaviour
     IEnumerator FinalizeSharedSecret(Vector3 initialGazeHitPosition)
     {
         //Updated Shared Secret with the binned x, y, and z values, then add the binned gaze direction and concatentate the binned, average gaze direction
-        var sharedSecretComponent = GameObject.Find("SharedSecretCapture(Clone)").GetComponent<SharedSecretCapture>();
+        var sharedSecretComponent = GameObject.Find("SharedSecretCapture").GetComponent<SharedSecretCapture>();
         var gazeLocationCaptureGridComponent = GameObject.Find("GazeLocationCaptureGrid").GetComponent<GazeLocationCaptureGrid>();
         sharedSecretComponent.sharedSecret = sharedSecretComponent.sharedSecret + findBin(initialGazeHitPosition.x).ToString() + findBin(initialGazeHitPosition.y).ToString() + findBin(initialGazeHitPosition.z).ToString();
         gazeLocationCaptureGridComponent.clickCount += 1;
@@ -39,49 +39,77 @@ public class GazeLocationCaptureButtonClick : MonoBehaviour
     //very inelegant way to determine the bin for the hit position of the beginning of the gaze collection
     private int findBin(float input)
     {
+        if (input >= -3.25f && input < -2.75f)
+        {
+            return -6;
+        }
+        if (input >= -2.75f && input < -2.25f)
+        {
+            return -5;
+        }
         if (input >= -2.25f && input < -1.75f)
         {
-            return 1;
+            return -4;
         }
         if (input >= -1.75 && input < -1.25f)
         {
-            return 2;
+            return -3;
         }
         if (input >= -1.25 && input < -.75f)
         {
-            return 3;
+            return -2;
         }
         if (input >= -.75 && input < -.25f)
         {
-            return 4;
+            return -1;
         }
         if (input >= -.25 && input < .25f)
         {
-            return 5;
+            return 0;
         }
         if (input >= .25 && input < .75f)
         {
-            return 6;
+            return 1;
         }
         if (input >= .75 && input < 1.25f)
         {
-            return 7;
+            return 2;
         }
         if (input >= 1.25 && input < 1.75f)
         {
-            return 8;
+            return 3;
         }
         if (input >= 1.75 && input <= 2.25f)
         {
-            return 9;
+            return 4;
         }
         if (input >= 2.25 && input <= 2.75f)
         {
+            return 5;
+        }
+        if (input >= 2.75 && input <= 3.25f)
+        {
+            return 6;
+        }
+        if (input >= 3.25 && input <= 3.75f)
+        {
+            return 7;
+        }
+        if (input >= 3.75 && input <= 4.25f)
+        {
+            return 8;
+        }
+        if (input >= 4.25 && input <= 4.75f)
+        {
             return 9;
+        }
+        if (input >= 4.75 && input <= 5.25f)
+        {
+            return 10;
         }
         else
         {
-            return 0;
+            return -9;
         }
     }
 
@@ -92,12 +120,10 @@ public class GazeLocationCaptureButtonClick : MonoBehaviour
         testHit = CoreServices.InputSystem.EyeGazeProvider.HitPosition;
         if (testHit != Vector3.zero)
         {
-            if (!initialPositionCapture)
-            {
                 initialGazeHitPosition = testHit;
                 initialPositionCapture = true;
                 StartCoroutine(FinalizeSharedSecret(initialGazeHitPosition));
-            }
+
         }
     }
 

@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 215efdc165bb8e24b941f754303ff302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedSecret: 
   clickMax: 5
   clickCount: 0
   SaltPrefab: {fileID: 1527056782850117341, guid: 4b3c5b50e35ec97458f3af65c8381187, type: 3}
+  keypadPrefab: {fileID: 8986102446361656675, guid: b8bb0f120c0a7b74c87ce6a4561405dc, type: 3}
 --- !u!114 &-2699177278172755453
 MonoBehaviour:
   m_ObjectHideFlags: 0

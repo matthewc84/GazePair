@@ -98,7 +98,6 @@ public class ConnectionHud : MonoBehaviour
             NetworkManager.Singleton.StartHost(new Vector3(0,0,0), null, null, null, null);
             //GazePairNetworkDiscovery.Instance.StartServer();
             startHostButton.GetComponentInChildren<TextMeshPro>().SetText("End Client Discovery");
-            //Instantiate(ConnectionManagementPrefab);
             Instantiate(ConnectionHudPrefab);
             directionSceneButton.SetActive(true);
             gridSceneButton.SetActive(true);
@@ -144,10 +143,11 @@ public class ConnectionHud : MonoBehaviour
 
     public void pairScene()
     {
+        //var sharedSecretInstance = Instantiate(SharedSecretCapturePrefab);
         if (NetworkManager.Singleton.IsHost)
         {
-            var sharedSecretInstance = Instantiate(SharedSecretCapturePrefab);
-            sharedSecretInstance.GetComponent<NetworkObject>().Spawn();
+            //var sharedSecretInstance = Instantiate(SharedSecretCapturePrefab);
+            //sharedSecretInstance.GetComponent<NetworkObject>().Spawn();
         }
             
         if (NetworkManager.Singleton.IsListening)
@@ -162,10 +162,11 @@ public class ConnectionHud : MonoBehaviour
 
     public void gridScene()
     {
+        //var sharedSecretInstance = Instantiate(SharedSecretCapturePrefab);
         if (NetworkManager.Singleton.IsHost)
         {
-            var sharedSecretInstance = Instantiate(SharedSecretCapturePrefab);
-            sharedSecretInstance.GetComponent<NetworkObject>().Spawn();
+            //var sharedSecretInstance = Instantiate(SharedSecretCapturePrefab);
+            //sharedSecretInstance.GetComponent<NetworkObject>().Spawn();
         }
 
         if (NetworkManager.Singleton.IsListening)

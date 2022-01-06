@@ -32,26 +32,32 @@ public class GazePairCrypto : NetworkBehaviour
     bool pairingSuccess = true;
     int counter = 0;
     int sucessfullDecrypt = 0;
+    GameObject cubeGrid;
 
     
 
     void Start()
     {
-
+        if (NetworkManager.Singleton.IsHost && GameObject.Find("CubeGrid(Clone)"))
+        {
+            cubeGrid = GameObject.Find("CubeGrid(Clone)");
+            cubeGrid.GetComponent<NetworkObject>().Despawn();
+            Destroy(cubeGrid);
+        }
         localIV = new System.Text.UTF8Encoding(false).GetBytes("ThisIVmustbe16by");
         plaintext = "Success!";
 
-        SharedSecret = GameObject.Find("SharedSecretCapture(Clone)").GetComponent<SharedSecretCapture>().sharedSecret;
+        SharedSecret = GameObject.Find("SharedSecretCapture").GetComponent<SharedSecretCapture>().sharedSecret;
 
         if (NetworkManager.Singleton.IsHost)
         {
             
-            hostData = "Message from the Host Decrpyted - Pairing Sucessful!";
+            hostData = "Message from the Host Decrpyted";
         }
         else if (NetworkManager.Singleton.IsClient)
         {
             
-            clientData = "Message from the Client Decrpyted - Pairing Sucessful!";
+            clientData = "Message from the Client Decrpyted";
         }
 
         salt = new System.Text.UTF8Encoding(false).GetBytes(GameObject.Find("Salt(Clone)").GetComponent<Salt>().SaltValue.Value);
@@ -64,9 +70,6 @@ public class GazePairCrypto : NetworkBehaviour
         {
             //Destroy(GameObject.Find("Salt(Clone)"));
         }
-        
-        //Destroy(GameObject.Find("GazeLocationCapture(Clone)"));
-        //Destroy(GameObject.Find("GazeCapture(Clone)"));
 
         AesAlg = SetCryptoParams();
         if (NetworkManager.Singleton.IsHost)
@@ -78,7 +81,15 @@ public class GazePairCrypto : NetworkBehaviour
             NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject.GetComponent<GazePairCandidate>().SubmitEncryptedValue_ServerRpc(Encrypt(clientData, AesAlg));
         }
 
-
+        Destroy(GameObject.Find("SharedSecretCapture"));
+        if (GameObject.Find("GazeLocationCapture(Clone)"))
+        {
+            Destroy(GameObject.Find("GazeLocationCapture(Clone)"));
+        }
+        if (GameObject.Find("GazeCapture(Clone)"))
+        {
+            Destroy(GameObject.Find("GazeCapture(Clone)"));
+        }
 
     }
 
@@ -102,6 +113,7 @@ public class GazePairCrypto : NetworkBehaviour
                         catch (CryptographicException e)
                         {
                             sucessfullDecrypt -= 1;
+                            Debug.Log("Decrypt for one of the clients failed!");
                         }
 
                     }
@@ -110,6 +122,16 @@ public class GazePairCrypto : NetworkBehaviour
             }
             
             counter = 0;
+
+
+            if (NetworkManager.Singleton.IsHost)
+            {
+                Debug.Log("Shared Secret is: " + SharedSecret);
+            }
+            else if (NetworkManager.Singleton.IsClient)
+            {
+                Debug.Log("Shared Secret is: " + SharedSecret);
+            }
         }
         counter++;
 
