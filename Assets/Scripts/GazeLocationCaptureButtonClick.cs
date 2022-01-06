@@ -7,45 +7,31 @@ using Microsoft.MixedReality.Toolkit;
 using System;
 using System.Text;
 
-public class GazeLocationCapture : MonoBehaviour
+public class GazeLocationCaptureButtonClick : MonoBehaviour
 {
-    public static GazeLocationCapture Instance = null;
     Vector3 testHit;
     bool initialPositionCapture = false;
     Vector3 initialGazeHitPosition;
-    
 
     // Start is called before the first frame update
     void Start()
     {
 
-        initialGazeHitPosition = Vector3.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
-        testHit = CoreServices.InputSystem.EyeGazeProvider.HitPosition;
-        if (testHit != Vector3.zero)
-        {
-            if (!initialPositionCapture && CoreServices.InputSystem.EyeGazeProvider.HitInfo.collider.name == "HollowTarget(Clone)")
-            {
-                initialGazeHitPosition = testHit;
-                initialPositionCapture = true;
-                StartCoroutine(FinalizeSharedSecret(initialGazeHitPosition));
-            }
-        }
-
-
 
     }
 
     IEnumerator FinalizeSharedSecret(Vector3 initialGazeHitPosition)
     {
         //Updated Shared Secret with the binned x, y, and z values, then add the binned gaze direction and concatentate the binned, average gaze direction
-        var sharedSecretComponent = GameObject.Find("SharedSecretCapture").GetComponent<SharedSecretCapture>();
+        var sharedSecretComponent = GameObject.Find("SharedSecretCapture(Clone)").GetComponent<SharedSecretCapture>();
+        var gazeLocationCaptureGridComponent = GameObject.Find("GazeLocationCaptureGrid").GetComponent<GazeLocationCaptureGrid>();
         sharedSecretComponent.sharedSecret = sharedSecretComponent.sharedSecret + findBin(initialGazeHitPosition.x).ToString() + findBin(initialGazeHitPosition.y).ToString() + findBin(initialGazeHitPosition.z).ToString();
-
+        gazeLocationCaptureGridComponent.clickCount += 1;
         yield return null;
 
     }
@@ -98,4 +84,22 @@ public class GazeLocationCapture : MonoBehaviour
             return 0;
         }
     }
+
+    public void onButtonClick()
+    {
+
+        this.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        testHit = CoreServices.InputSystem.EyeGazeProvider.HitPosition;
+        if (testHit != Vector3.zero)
+        {
+            if (!initialPositionCapture)
+            {
+                initialGazeHitPosition = testHit;
+                initialPositionCapture = true;
+                StartCoroutine(FinalizeSharedSecret(initialGazeHitPosition));
+            }
+        }
+    }
+
+
 }

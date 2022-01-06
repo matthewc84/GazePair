@@ -20,7 +20,6 @@ public class GazePairCandidate : NetworkBehaviour
 {
    
     Camera mainCamera;
-    bool CipherTextUpdated = false;
 
     public NetworkVariableString CipherText = new NetworkVariableString(new NetworkVariableSettings
     {
@@ -28,9 +27,18 @@ public class GazePairCandidate : NetworkBehaviour
         ReadPermission = NetworkVariablePermission.Everyone
     });
 
+    public NetworkVariableBool SharedSecretReady = new NetworkVariableBool(new NetworkVariableSettings
+    {
+        WritePermission = NetworkVariablePermission.OwnerOnly,
+        ReadPermission = NetworkVariablePermission.Everyone
+    });
+
     void Start()
     {
-        
+        if (IsOwner)
+        {
+            SharedSecretReady.Value = false;
+        }
 
     }
 
@@ -39,43 +47,15 @@ public class GazePairCandidate : NetworkBehaviour
 
     }
 
-
-    public void UpdateCipherText()
-    {
-        if (NetworkManager.Singleton.IsHost)
-        {
-            if(GameObject.Find("GazePairCrypto") != null && !CipherTextUpdated)
-            {
-                CipherText.Value = GameObject.Find("GazePairCrypto").GetComponent<GazePairCrypto>().ciphertext;
-                CipherTextUpdated = true;
-            }
-
-        }
-        else if (NetworkManager.Singleton.IsClient)
-        {
-            if (GameObject.Find("GazePairCrypto") != null && !CipherTextUpdated)
-            {
-                SubmitEncryptedValue_ServerRpc(GameObject.Find("GazePairCrypto").GetComponent<GazePairCrypto>().ciphertext);
-                CipherTextUpdated = true;
-            }
-        }
-    }
-
     [ServerRpc]
-    void SubmitEncryptedValue_ServerRpc(string encryptedValue)
+    public void SubmitEncryptedValue_ServerRpc(string encryptedValue)
     {
         CipherText.Value = encryptedValue;
-    }
 
+    }
 
     void Update()
     {
-        //Camera.main.transform.position = Vector3.zero;
-
-        if (IsOwner)
-        {
-            UpdateCipherText();
-        }
 
     }
 

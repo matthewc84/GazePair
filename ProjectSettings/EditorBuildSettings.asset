@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CryptoScene.unity
     guid: 54c5175f36639034cb5f8050fb321db4
+  - enabled: 1
+    path: Assets/Scenes/PairScene2.unity
+    guid: 99eed7c85ac9dd54dad1bcea3d5ecef2
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 24ed366107a967f44b9866174acf3c2e, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: bfc417da4d441244eb5dcef8a0dd4490, type: 2}

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3066807679693424180}
   - component: {fileID: 3066807679693424179}
-  - component: {fileID: 3066807679693424178}
   m_Layer: 0
   m_Name: GazePairCrypto
   m_TagString: Untagged
@@ -44,23 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c1444d547d89f545bc390349c7b9fcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GazeCapturePrefab: {fileID: 651908693298510381, guid: f42d769ccfddc1e41af2dafdf5c0064e, type: 3}
-  CipherText:
-    m_InternalValue: 
---- !u!114 &3066807679693424178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3066807679693424181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkInstanceId: 0
-  PrefabHash: 6510975625829444789
-  PrefabHashGenerator: GazePairCrypto
-  AlwaysReplicateAsRoot: 0
-  DontDestroyWithOwner: 0
+  ciphertext: 

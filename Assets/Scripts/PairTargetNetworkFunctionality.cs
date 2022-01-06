@@ -46,7 +46,8 @@ public class PairTargetNetworkFunctionality : NetworkBehaviour
         if (NetworkManager.Singleton.IsHost)
         {
             randomDegrees = UnityEngine.Random.Range(1, 360);
-            binnedDegrees = ((int)(((randomDegrees + (errorThreshold-1)) / errorThreshold)) * errorThreshold) - (errorThreshold/2);
+            binnedDegrees = (((int)((randomDegrees + (errorThreshold-1)) / errorThreshold)) * errorThreshold) - (errorThreshold/2);
+            //Debug.Log(binnedDegrees);
             randomRadian = binnedDegrees * (System.Math.PI / 180);
             randomDirection = new Vector3((float)System.Math.Cos(randomRadian), (float)System.Math.Sin(randomRadian) , 0);
 

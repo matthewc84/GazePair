@@ -61,7 +61,7 @@ public class GazeCapture : MonoBehaviour
                 //We want the "heart" of the gaze collection, so we only start capture after a second, to allow user to find and track target and take an initial gaze direction reading
                 if (lengthOfCaptureTimer < lengthOfCapture && !initialGazeCapture)
                 {
-                    previousGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection - CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
+                    previousGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
                     lengthOfCapture -= sampleRate;
                     initialGazeCapture = true;
                 }
@@ -69,9 +69,9 @@ public class GazeCapture : MonoBehaviour
                 //take a sample of the gaze direction roughly every second
                 if (lengthOfCaptureTimer < lengthOfCapture)
                 {
-                    currentGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection - CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
+                    currentGazeValue = CoreServices.InputSystem.EyeGazeProvider.GazeDirection + CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
                     StartCoroutine(UpdateSharedSecret(previousGazeValue, currentGazeValue));
-                    previousGazeValue = currentGazeValue;
+                    //previousGazeValue = currentGazeValue;
                     lengthOfCapture -= sampleRate;
                 }
             }
@@ -101,13 +101,15 @@ public class GazeCapture : MonoBehaviour
         }
 
         sampleCounter+=1;
-
+        //Debug.Log(sampleCounter);
+        //Debug.Log(tempSharedSecret);
         yield return null;
     }
 
     IEnumerator FinalizeSharedSecret(int sampleCounter)
     {
-        sharedSecret = ((int)(((tempSharedSecret / sampleCounter) + errorThreshold - 1) / errorThreshold)).ToString();
+        var sharedSecretComponent = GameObject.Find("SharedSecretCapture(Clone)").GetComponent<SharedSecretCapture>();
+        sharedSecretComponent.sharedSecret = sharedSecretComponent.sharedSecret + ((int)(((tempSharedSecret / sampleCounter) + errorThreshold - 1) / errorThreshold)).ToString();
 
         yield return null;
 

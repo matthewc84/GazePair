@@ -22,11 +22,12 @@ public class ConnectionHud : MonoBehaviour
 
     Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new Dictionary<IPAddress, DiscoveryResponseData>();
 
-    public GameObject ConnectionManagementPrefab;
+    public GameObject SharedSecretCapturePrefab;
     public GameObject ConnectionHudPrefab;
     public GameObject startClientButton;
     public GameObject startHostButton;
-    public GameObject nextSceneButton;
+    public GameObject directionSceneButton;
+    public GameObject gridSceneButton;
     private SceneSwitchProgress m_SceneProgress;
 
     void Start()
@@ -38,9 +39,8 @@ public class ConnectionHud : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsHost)
         {
-            var gazePairManagementComponent = GameObject.Find("GazePairConnectionManagement(Clone)");
             var gazePairHudComponent = GameObject.Find("ConnectionHud(Clone)");
-            gazePairHudComponent.GetComponent<TextMeshPro>().SetText("The Number of Pairing Partners in the Lobby is: " + gazePairManagementComponent.GetComponent<GazePairConnectionManagement>().getNumClientsInLobby());
+            gazePairHudComponent.GetComponent<TextMeshPro>().SetText("The Number of Pairing Partners in the Lobby is: " + ((int)NetworkManager.Singleton.ConnectedClients.Keys.Count-1).ToString());
         }
     }
     public void OnServerFound(IPEndPoint sender, DiscoveryResponseData response)
@@ -98,9 +98,10 @@ public class ConnectionHud : MonoBehaviour
             NetworkManager.Singleton.StartHost(new Vector3(0,0,0), null, null, null, null);
             //GazePairNetworkDiscovery.Instance.StartServer();
             startHostButton.GetComponentInChildren<TextMeshPro>().SetText("End Client Discovery");
-            Instantiate(ConnectionManagementPrefab);
+            //Instantiate(ConnectionManagementPrefab);
             Instantiate(ConnectionHudPrefab);
-            nextSceneButton.SetActive(true);
+            directionSceneButton.SetActive(true);
+            gridSceneButton.SetActive(true);
             startClientButton.SetActive(false);
             
             
@@ -110,7 +111,8 @@ public class ConnectionHud : MonoBehaviour
             NetworkManager.Singleton.StopServer();
             //GazePairNetworkDiscovery.Instance.StopDiscovery();
             startHostButton.GetComponentInChildren<TextMeshPro>().SetText("Start Host");
-            nextSceneButton.SetActive(false);
+            directionSceneButton.SetActive(false);
+            gridSceneButton.SetActive(false);
             startClientButton.SetActive(true);
             var gazePairHudComponent = GameObject.Find("ConnectionHud(Clone)");
             Destroy(gazePairHudComponent);
@@ -140,9 +142,14 @@ public class ConnectionHud : MonoBehaviour
 
     }
 
-    public void nextScene()
+    public void pairScene()
     {
-
+        if (NetworkManager.Singleton.IsHost)
+        {
+            var sharedSecretInstance = Instantiate(SharedSecretCapturePrefab);
+            sharedSecretInstance.GetComponent<NetworkObject>().Spawn();
+        }
+            
         if (NetworkManager.Singleton.IsListening)
         {
             m_SceneProgress = NetworkSceneManager.SwitchScene("PairScene");
@@ -150,6 +157,24 @@ public class ConnectionHud : MonoBehaviour
         else
         {
             SceneManager.LoadSceneAsync("PairScene");
+        }
+    }
+
+    public void gridScene()
+    {
+        if (NetworkManager.Singleton.IsHost)
+        {
+            var sharedSecretInstance = Instantiate(SharedSecretCapturePrefab);
+            sharedSecretInstance.GetComponent<NetworkObject>().Spawn();
+        }
+
+        if (NetworkManager.Singleton.IsListening)
+        {
+            m_SceneProgress = NetworkSceneManager.SwitchScene("PairScene2");
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync("PairScene2");
         }
     }
 
