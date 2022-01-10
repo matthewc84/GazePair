@@ -14,6 +14,8 @@ using System.Security.Cryptography;
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.Utilities;
 using Microsoft.MixedReality.Toolkit;
+using System.Linq;
+using TMPro;
 
 
 public class GazePairCrypto : NetworkBehaviour
@@ -32,18 +34,30 @@ public class GazePairCrypto : NetworkBehaviour
     bool pairingSuccess = true;
     int counter = 0;
     int sucessfullDecrypt = 0;
-    GameObject cubeGrid;
+    GameObject keyInstance;
+    Dictionary<int, bool> clientsKeysMatch = new Dictionary<int, bool>();
+    int numberClientsKeysMatch = 0;
 
-    
+
 
     void Start()
     {
-        if (NetworkManager.Singleton.IsHost && GameObject.Find("CubeGrid(Clone)"))
+        foreach (ulong client in NetworkManager.Singleton.ConnectedClients.Keys)
         {
-            cubeGrid = GameObject.Find("CubeGrid(Clone)");
-            cubeGrid.GetComponent<NetworkObject>().Despawn();
-            Destroy(cubeGrid);
+            clientsKeysMatch.Add((int)client, false);
+
         }
+
+        for (int i = 0; i < 10; i++)
+        {
+            if (NetworkManager.Singleton.IsHost && GameObject.Find("Key" + i + "(Clone)"))
+            {
+                keyInstance = GameObject.Find("Key" + i + "(Clone)");
+                keyInstance.GetComponent<NetworkObject>().Despawn();
+                Destroy(keyInstance);
+            }
+        }
+
         localIV = new System.Text.UTF8Encoding(false).GetBytes("ThisIVmustbe16by");
         plaintext = "Success!";
 
@@ -108,6 +122,7 @@ public class GazePairCrypto : NetworkBehaviour
                         try
                         {
                             var test = Decrypt(player.CipherText.Value, AesAlg);
+                            clientsKeysMatch[(int)client] = true;
                             Debug.Log(test);
                         }
                         catch (CryptographicException e)
@@ -124,13 +139,13 @@ public class GazePairCrypto : NetworkBehaviour
             counter = 0;
 
 
-            if (NetworkManager.Singleton.IsHost)
+            if (NetworkManager.Singleton.IsHost && clientsKeysMatch.All(x => x.Value == true))
             {
-                Debug.Log("Shared Secret is: " + SharedSecret);
+                this.GetComponent<TextMeshPro>().SetText("All Client Keys Match! - Pair Sucessfull");
             }
-            else if (NetworkManager.Singleton.IsClient)
+            else if (NetworkManager.Singleton.IsHost && !clientsKeysMatch.All(x => x.Value == true))
             {
-                Debug.Log("Shared Secret is: " + SharedSecret);
+                this.GetComponent<TextMeshPro>().SetText("All Client Keys Do Not Match - Pair Failed!");
             }
         }
         counter++;

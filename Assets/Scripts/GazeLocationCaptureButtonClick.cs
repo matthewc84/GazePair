@@ -13,6 +13,14 @@ public class GazeLocationCaptureButtonClick : MonoBehaviour
     bool initialPositionCapture = false;
     Vector3 initialGazeHitPosition;
 
+    [Tooltip("Euler angles by which the object should be rotated by.")]
+    [SerializeField]
+    private Vector3 RotateByEulerAngles = Vector3.zero;
+
+    [Tooltip("Rotation speed factor.")]
+    [SerializeField]
+    private float speed = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -115,8 +123,8 @@ public class GazeLocationCaptureButtonClick : MonoBehaviour
 
     public void onButtonClick()
     {
-
         this.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        this.transform.eulerAngles = transform.eulerAngles + RotateByEulerAngles * speed;
         testHit = CoreServices.InputSystem.EyeGazeProvider.HitPosition;
         if (testHit != Vector3.zero)
         {

@@ -83,7 +83,6 @@ public class TimerScript : MonoBehaviour
                     //If the time desired for the hollow orientation target is elapsed, detroy it and instantiate the real target at its location
                     hollowTarget.GetComponent<NetworkObject>().Despawn(true);
                     GameObject target = Instantiate(targetPrefab, randomPosition, Quaternion.identity);
-                   // target.transform.localScale = targetScale;
                     target.GetComponent<NetworkObject>().Spawn();
                     target.GetComponent<PairTargetNetworkFunctionality>().Scale.Value = targetScale;
                     
@@ -103,8 +102,6 @@ public class TimerScript : MonoBehaviour
 
         float minutes = Mathf.FloorToInt(timeToDisplay / 60);
         float seconds = Mathf.FloorToInt(timeToDisplay % 60);
-
-        
 
         this.GetComponent<TextMeshPro>().SetText("Find the white target outline, countdown to target spawn: " + string.Format("{0:00}:{1:00}", minutes, seconds));
     }
