@@ -39,6 +39,7 @@ public class GazeLocationCaptureGrid : MonoBehaviour
     Vector3 randomPosition;
     List<float> usedXValues = new List<float>();
     List<float> usedYValues = new List<float>();
+    List<float> usedZValues = new List<float>();
     List<int> usedPasswordValues = new List<int>();
     private string password;
     Dictionary<int, GameObject> keyPrefab = new Dictionary<int, GameObject>();
@@ -90,12 +91,13 @@ public class GazeLocationCaptureGrid : MonoBehaviour
                 
             }
             this.GetComponent<TextMeshPro>().SetText("Tell the group the pairing password is: " + password);
-            randomZ = UnityEngine.Random.Range(6, 9)/2;
-
+            //To prevent hiding a key, we spawn all of them on the same Z value, randomly chosen
+            randomZ = UnityEngine.Random.Range(6, 9) / 2;
+            //Assign a random, non repeating location to each key and spawn them
             for (int i = 0; i < 10; i++)
             {
                 randomX = (float)UnityEngine.Random.Range(-5, 5) / 2;
-                //Debug.Log(randomX);
+
                 while (usedXValues.Contains(randomX))
                 {
                     randomX = (float)UnityEngine.Random.Range(-5, 5) / 2;
@@ -103,7 +105,7 @@ public class GazeLocationCaptureGrid : MonoBehaviour
                 usedXValues.Add(randomX);
 
                 randomY = (float)UnityEngine.Random.Range(-5, 5) / 2;
-                //Debug.Log(randomY);
+
                 while (usedYValues.Contains(randomY))
                 {
                     randomY = (float)UnityEngine.Random.Range(-5, 5) / 2;
@@ -116,7 +118,7 @@ public class GazeLocationCaptureGrid : MonoBehaviour
                 keyInstance = Instantiate(keyPrefabInstance, randomPosition, Quaternion.identity);
                 keyInstance.GetComponent<NetworkObject>().Spawn();
             }
-
+            //The networked Salt value for Crypto purposes
             SaltInstance = Instantiate(SaltPrefab);
             SaltInstance.GetComponent<NetworkObject>().Spawn();
 

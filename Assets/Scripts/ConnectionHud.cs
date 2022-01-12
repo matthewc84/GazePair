@@ -7,6 +7,7 @@ using Object = UnityEngine.Object;
 using TMPro;
 using UnityEngine.SceneManagement;
 using MLAPI.SceneManagement;
+using Microsoft.MixedReality.Toolkit;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,14 +27,13 @@ public class ConnectionHud : MonoBehaviour
     public GameObject ConnectionHudPrefab;
     public GameObject startClientButton;
     public GameObject startHostButton;
-    public GameObject directionSceneButton;
     public GameObject gridSceneButton;
     public GameObject loggerPrefab;
     private SceneSwitchProgress m_SceneProgress;
 
     void Start()
     {
-
+        CoreServices.DiagnosticsSystem.ShowDiagnostics = false;
     }
 
     void Update()
@@ -59,7 +59,6 @@ public class ConnectionHud : MonoBehaviour
             //GazePairNetworkDiscovery.Instance.StartServer();
             startHostButton.GetComponentInChildren<TextMeshPro>().SetText("End Client Discovery");
             Instantiate(ConnectionHudPrefab);
-            //directionSceneButton.SetActive(true);
             gridSceneButton.SetActive(true);
             startClientButton.SetActive(false);
             var loggerInstance = Instantiate(loggerPrefab);
@@ -72,7 +71,6 @@ public class ConnectionHud : MonoBehaviour
             NetworkManager.Singleton.StopServer();
             //GazePairNetworkDiscovery.Instance.StopDiscovery();
             startHostButton.GetComponentInChildren<TextMeshPro>().SetText("Start Host");
-            //directionSceneButton.SetActive(false);
             gridSceneButton.SetActive(false);
             startClientButton.SetActive(true);
             var gazePairHudComponent = GameObject.Find("ConnectionHud(Clone)");
