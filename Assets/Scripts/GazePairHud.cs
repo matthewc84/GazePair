@@ -15,17 +15,22 @@ using UnityEditor.Events;
 
 public class GazePairHud : MonoBehaviour
 {
-    public GameObject myPrefab;
+    
+    public GameObject spawnButton;
+    public GameObject timerPrefab;
 
     private SceneSwitchProgress m_SceneProgress;
+
+
 
     void Awake()
     {
         if (!NetworkManager.Singleton.IsHost)
         {
-            GameObject spawnButton = GameObject.Find("ButtonParent/SpawnTarget");
             spawnButton.SetActive(false);
         }
+
+        
     }
     void Update()
     {
@@ -37,11 +42,15 @@ public class GazePairHud : MonoBehaviour
 
         if (NetworkManager.Singleton.IsHost)
         {
-            GameObject go = Instantiate(myPrefab);
-            go.GetComponent<NetworkObject>().Spawn();
+            
+            GameObject timer = Instantiate(timerPrefab);
+            timer.GetComponent<NetworkObject>().Spawn();
+
         }
 
+
     }
+
 
 
     public void nextScene()
@@ -49,11 +58,12 @@ public class GazePairHud : MonoBehaviour
 
         if (NetworkManager.Singleton.IsListening)
         {
-            m_SceneProgress = NetworkSceneManager.SwitchScene("PairScene");
+            m_SceneProgress = NetworkSceneManager.SwitchScene("CryptoScene");
+            
         }
         else
         {
-            SceneManager.LoadSceneAsync("PairScene");
+            SceneManager.LoadSceneAsync("CryptoScene");
         }
     }
 

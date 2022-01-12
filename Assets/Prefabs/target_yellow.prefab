@@ -12,12 +12,8 @@ GameObject:
   - component: {fileID: 4220985400465758319}
   - component: {fileID: 4220985400465758318}
   - component: {fileID: 4220985400465758321}
-  - component: {fileID: 4220985400465758320}
-  - component: {fileID: 4220985400465758323}
-  - component: {fileID: 4220985400465758322}
   - component: {fileID: 4220985400465758316}
   - component: {fileID: 637830154679643576}
-  - component: {fileID: 223014021116715554}
   - component: {fileID: -6440468729826359388}
   m_Layer: 0
   m_Name: target_yellow
@@ -33,9 +29,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4220985400465758324}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.207, y: -0.025, z: 5.696}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.25}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -47,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4220985400465758324}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &4220985400465758318
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -100,129 +96,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4220985400465758320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4220985400465758324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1e6657bab90ac149872e5361b42ea62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectAction:
-    id: 0
-    description: 
-    axisConstraint: 0
-  voiceSelect: []
-  dwellTimeInSec: 0.8
-  onLookAtStart:
-    m_PersistentCalls:
-      m_Calls: []
-  whileLookingAtTarget:
-    m_PersistentCalls:
-      m_Calls: []
-  onLookAway:
-    m_PersistentCalls:
-      m_Calls: []
-  onDwell:
-    m_PersistentCalls:
-      m_Calls: []
-  onSelected:
-    m_PersistentCalls:
-      m_Calls: []
-  onTapDown:
-    m_PersistentCalls:
-      m_Calls: []
-  onTapUp:
-    m_PersistentCalls:
-      m_Calls: []
-  eyeCursorSnapToTargetCenter: 0
---- !u!114 &4220985400465758323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4220985400465758324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42a6dd72d566c7c4e85d7a39b6f494bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useEyeSupportedTargetPlacement: 1
-  minLookAwayDistToEnableEyeWarp: 5
-  handInputEnabled: 1
-  handmapping: 2
-  deltaHandMovemThresh: 0.05
-  transparency_inTransition: 0.5
-  transparency_preview: 0.2
-  previewPlacemDistThresh: 0.05
-  freezeX: 0
-  freezeY: 0
-  freezeZ: 0
-  LocalMinMax_X: {x: -Infinity, y: Infinity}
-  LocalMinMax_Y: {x: -Infinity, y: Infinity}
-  LocalMinMax_Z: {x: -Infinity, y: Infinity}
-  PlacementSurface: 0
-  audio_OnDragStart: {fileID: 8300000, guid: 9a10debaf8483ae49aa91211098634f1, type: 3}
-  audio_OnDragStop: {fileID: 8300000, guid: 59244bce6dca9494ebc881d9543fa339, type: 3}
-  voiceAction_PutThis:
-    id: 0
-    description: StartToDrag
-    axisConstraint: 0
-  voiceAction_OverHere:
-    id: 0
-    description: StopToDrag
-    axisConstraint: 0
-  OnDragStart:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDrop:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: TargetDropped
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  useAsSlider: 0
-  txtOutput_sliderValue: {fileID: 0}
-  slider_snapToNearestDecimal: 0
---- !u!114 &4220985400465758322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4220985400465758324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92ccc66cc8439d047be737bcfdba2662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Overlay_UseIt: 0
-  Overlay_GameObj: {fileID: 0}
-  startTransparency: 0.126
-  endTransparency: 0.728
-  Highlight_UseIt: 1
-  Highlight_Color: {r: 0.15686275, g: 0.15686275, b: 0.15686275, a: 1}
-  MinDwellTimeInMs: 30
-  MaxDwellTimeInMs: 800
-  MinLookAwayTimeInMs: 30
-  MaxLookAwayTimeInMs: 300
-  BlendType: 1
+  m_Size: {x: 0.1, y: 0.1, z: 0.1}
+  m_Center: {x: 0.0015890598, y: -0.0013420582, z: -0.0009045601}
 --- !u!54 &4220985400465758316
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -256,18 +131,6 @@ MonoBehaviour:
   PrefabHashGenerator: target_yellow
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
---- !u!114 &223014021116715554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4220985400465758324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7d4049f77dc55e41b8b77e795e89e98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-6440468729826359388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,5 +143,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e91e3fcb0d59e5a4f87d5b4513f73b16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  force: 0.15
+  errorThreshold: 8
+  timeRemaining: 8
+  GazeCapturePrefab: {fileID: 651908693298510381, guid: f42d769ccfddc1e41af2dafdf5c0064e, type: 3}
   Position:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  Scale:
     m_InternalValue: {x: 0, y: 0, z: 0}

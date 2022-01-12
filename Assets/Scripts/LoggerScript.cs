@@ -9,6 +9,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MLAPI;
+using MLAPI.Messaging;
+using MLAPI.NetworkVariable;
+using System.Diagnostics;
 
 #if WINDOWS_UWP
 using Windows.Storage;
@@ -19,11 +23,14 @@ using Windows.Storage.Streams;
 
 public class LoggerScript : MonoBehaviour
 {
-
+    /// <summary>
+    ///     Logging Script designed to produce detail Gaze Logs from Host and all CLients for research  
+    /// </summary>
+    /// 
     //define filePath
     #region Constants to modify
     private const string DataSuffix = "data";
-    private const string CSVHeader = "Timestamp,TimeInMs,SessionID,RecordingID,GazeOrigin_x,GazeOrigin_y,GazeOrigin_z,GazeDirection_x,GazeDirection_y,GazeDirection_z,Hit Object_Name,Hit_Object_Distance,Hit_Object_x,Hit_Object_y,Hit_Object_z";
+    private const string CSVHeader = "Timestamp,TimeInMs,Time to Conduct Pairing,Number of Clients,Pairing Success?";
     private const string SessionFolderRoot = "CSVLogger";
     #endregion
 
@@ -33,17 +40,37 @@ public class LoggerScript : MonoBehaviour
     private string m_recordingId;
     private string m_sessionId;
     private int flushCounter;
+    Stopwatch clock;
+
 
     private StringBuilder m_csvData;
     #endregion
     #region public members
     public string RecordingInstance => m_recordingId;
+    public static LoggerScript Instance = null;
+
+
+
     #endregion
 
     async void Start()
     {
+
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
+
         await MakeNewSession();
         StartNewCSV();
+        flushCounter = 0;
 
     }
     async Task MakeNewSession()
@@ -61,7 +88,7 @@ public class LoggerScript : MonoBehaviour
 #endif
         m_sessionPath = Path.Combine(rootPath, m_sessionId);
         Directory.CreateDirectory(m_sessionPath);
-        Debug.Log("CSVLogger logging data to " + m_sessionPath);
+        UnityEngine.Debug.Log("CSVLogger logging data to " + m_sessionPath);
     }
 
     public void StartNewCSV()
@@ -75,63 +102,35 @@ public class LoggerScript : MonoBehaviour
 
     void Update()
     {
-        var eyeGazeProvider = CoreServices.InputSystem?.EyeGazeProvider;
-        if (eyeGazeProvider != null)
-        {
 
-            EyeTrackingTarget lookedAtEyeTarget = EyeTrackingTarget.LookedAtEyeTarget;
-            // If gaze hit GameObject
-            if (lookedAtEyeTarget != null)
-            {
-                List<String> newRow = RowWithStartData();
-                newRow.Add(eyeGazeProvider.GazeOrigin.x.ToString());
-                newRow.Add(eyeGazeProvider.GazeOrigin.y.ToString());
-                newRow.Add(eyeGazeProvider.GazeOrigin.z.ToString());
-                newRow.Add(eyeGazeProvider.GazeDirection.normalized.x.ToString());
-                newRow.Add(eyeGazeProvider.GazeDirection.normalized.y.ToString());
-                newRow.Add(eyeGazeProvider.GazeDirection.normalized.z.ToString());
-                newRow.Add(eyeGazeProvider.HitInfo.collider.ToString());
-                newRow.Add(eyeGazeProvider.HitInfo.distance.ToString());
-                newRow.Add(eyeGazeProvider.HitInfo.point.x.ToString());
-                newRow.Add(eyeGazeProvider.HitInfo.point.y.ToString());
-                newRow.Add(eyeGazeProvider.HitInfo.point.z.ToString());
-                flushCounter += 1;
 
-                AddRow(newRow);
-                if (flushCounter == 60)
-                {
-                    FlushData();
-                    flushCounter = 0;
-                }
-            }
-            else
-            {
-                // If no target is hit, show the object at a default distance along the gaze ray.
-                List<String> newRow = RowWithStartData();
-                newRow.Add(eyeGazeProvider.GazeOrigin.x.ToString());
-                newRow.Add(eyeGazeProvider.GazeOrigin.y.ToString());
-                newRow.Add(eyeGazeProvider.GazeOrigin.z.ToString());
-                newRow.Add(eyeGazeProvider.GazeDirection.normalized.x.ToString());
-                newRow.Add(eyeGazeProvider.GazeDirection.y.ToString());
-                newRow.Add(eyeGazeProvider.GazeDirection.z.ToString());
-                flushCounter += 1;
-
-                AddRow(newRow);
-                if (flushCounter == 60)
-                {
-                    FlushData();
-                    flushCounter = 0;
-                }
-
-            }
-
-            
-        }
     }
 
     public void OnDestroy()
     {
+        FlushData();
+    }
+    public void startGridPairAttempt()
+    {
+
+        clock = Stopwatch.StartNew();
         
+    }
+
+    public void stopGridPairAttempt()
+    {
+        if (NetworkManager.Singleton.IsHost)
+        {
+            clock.Stop();
+            List<String> newRow = RowWithStartData();
+            newRow.Add(clock.Elapsed.ToString());
+            newRow.Add(NetworkManager.Singleton.ConnectedClients.Keys.Count.ToString());
+            var cryptoInstance = GameObject.Find("GazePairCrypto");
+            newRow.Add(cryptoInstance.GetComponent<GazePairCrypto>().pairSucessful.ToString());
+            AddRow(newRow);
+            FlushData();
+
+        }
     }
 
     public void AddRow(List<String> rowData)
@@ -160,8 +159,6 @@ public class LoggerScript : MonoBehaviour
         rowData.Add(DateTime.Now.ToString());
         long milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         rowData.Add(milliseconds.ToString());
-        rowData.Add(m_recordingId);
-        rowData.Add(m_recordingId);
         return rowData;
     }
 }

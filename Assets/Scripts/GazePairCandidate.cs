@@ -1,56 +1,64 @@
 using MLAPI;
 using MLAPI.Messaging;
 using MLAPI.NetworkVariable;
+using MLAPI.Spawning;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using Microsoft.MixedReality.Toolkit.Input;
+using Microsoft.MixedReality.Toolkit.Utilities;
+using Microsoft.MixedReality.Toolkit;
+using System;
+using System.Text;
 
+/// <summary>
+///     The default player object, spawned for each host and client in the Connection Scene.  Holds the functionality for both tracking the location of the player, 
+///     and for the NetworkVariableVector3 that has their individual GazeDirectionChange.
+/// </summary>
+/// 
 public class GazePairCandidate : NetworkBehaviour
 {
-
+   
     Camera mainCamera;
 
-    public NetworkVariableVector3 Position = new NetworkVariableVector3(new NetworkVariableSettings
+    public NetworkVariableString CipherText = new NetworkVariableString(new NetworkVariableSettings
     {
         WritePermission = NetworkVariablePermission.OwnerOnly,
         ReadPermission = NetworkVariablePermission.Everyone
     });
 
-    public override void NetworkStart()
+    public NetworkVariableBool SharedSecretReady = new NetworkVariableBool(new NetworkVariableSettings
     {
-        Move();
+        WritePermission = NetworkVariablePermission.OwnerOnly,
+        ReadPermission = NetworkVariablePermission.Everyone
+    });
+
+    void Start()
+    {
+        if (IsOwner)
+        {
+            SharedSecretReady.Value = false;
+        }
+
     }
 
-    public void Move()
+    public override void NetworkStart()
     {
-
-            var randomPosition = GetRandomPositionOnPlane();
-            transform.position = randomPosition;
-            Position.Value = randomPosition;
 
     }
 
     [ServerRpc]
-    void SubmitPositionRequestServerRpc(ServerRpcParams rpcParams = default)
+    public void SubmitEncryptedValue_ServerRpc(string encryptedValue)
     {
-        Position.Value = GetRandomPositionOnPlane();
-    }
+        CipherText.Value = encryptedValue;
 
-    static Vector3 GetRandomPositionOnPlane()
-    {
-        return GameObject.Find("Main Camera").transform.position;
     }
 
     void Update()
     {
-        transform.position = Position.Value;
-        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(NetworkManager.Singleton.LocalClientId,
-    out var networkedClient))
-        {
-            var player = networkedClient.PlayerObject.GetComponent<GazePairCandidate>();
-            if (player)
-            {
-                player.Move();
-            }
-        }
+
     }
+
+
 
 }
