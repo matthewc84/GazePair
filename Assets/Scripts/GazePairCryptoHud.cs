@@ -36,6 +36,11 @@ public class GazePairCryptoHud : NetworkBehaviour
         if (IsHost)
         {
             NetworkManager.Singleton.StopHost();
+            if(GameObject.Find("GazePairCrypto").GetComponent<GazePairCrypto>().pairSucessful == false)
+            {
+                GameObject.Find("LoggerScript(Clone)").GetComponent<LoggerScript>().stopGridPairAttempt();
+            }
+            Destroy(GameObject.Find("LoggerScript(Clone)"));
         }
         else if (IsClient)
         {

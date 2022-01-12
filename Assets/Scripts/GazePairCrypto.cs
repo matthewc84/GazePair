@@ -32,16 +32,17 @@ public class GazePairCrypto : NetworkBehaviour
     private int iterations = 10000;
     string plaintext;
     bool pairingSuccess = true;
-    int counter = 0;
     int sucessfullDecrypt = 0;
     GameObject keyInstance;
     Dictionary<int, bool> clientsKeysMatch = new Dictionary<int, bool>();
     int numberClientsKeysMatch = 0;
+    public bool pairSucessful = false;
 
 
 
     void Start()
     {
+        pairSucessful = false;
         foreach (ulong client in NetworkManager.Singleton.ConnectedClients.Keys)
         {
             clientsKeysMatch.Add((int)client, false);
@@ -109,7 +110,8 @@ public class GazePairCrypto : NetworkBehaviour
 
     void Update()
     {
-        if (NetworkManager.Singleton.IsHost && counter == 30 && sucessfullDecrypt < NetworkManager.Singleton.ConnectedClients.Count)
+        
+        if (NetworkManager.Singleton.IsHost && !pairSucessful)
         {
             sucessfullDecrypt = NetworkManager.Singleton.ConnectedClients.Count;
             foreach (ulong client in NetworkManager.Singleton.ConnectedClients.Keys)
@@ -123,32 +125,36 @@ public class GazePairCrypto : NetworkBehaviour
                         {
                             var test = Decrypt(player.CipherText.Value, AesAlg);
                             clientsKeysMatch[(int)client] = true;
-                            Debug.Log(test);
+                            //Debug.Log(test);
                         }
                         catch (CryptographicException e)
                         {
                             sucessfullDecrypt -= 1;
-                            Debug.Log("Decrypt for one of the clients failed!");
+                            //Debug.Log("Decrypt for one of the clients failed!");
                         }
 
                     }
 
                 }
             }
-            
-            counter = 0;
 
-
-            if (NetworkManager.Singleton.IsHost && clientsKeysMatch.All(x => x.Value == true))
+            if (clientsKeysMatch.All(x => x.Value == true))
             {
                 this.GetComponent<TextMeshPro>().SetText("All Client Keys Match! - Pair Sucessfull");
+                pairSucessful = true;
+                GameObject.Find("LoggerScript(Clone)").GetComponent<LoggerScript>().stopGridPairAttempt();
             }
             else if (NetworkManager.Singleton.IsHost && !clientsKeysMatch.All(x => x.Value == true))
             {
                 this.GetComponent<TextMeshPro>().SetText("All Client Keys Do Not Match - Pair Failed!");
+                pairSucessful = false;
+
             }
+
         }
-        counter++;
+
+
+
 
     }
 

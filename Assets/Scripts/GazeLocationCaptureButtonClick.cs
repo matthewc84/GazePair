@@ -44,6 +44,21 @@ public class GazeLocationCaptureButtonClick : MonoBehaviour
 
     }
 
+
+    public void onButtonClick()
+    {
+        this.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        this.transform.eulerAngles = transform.eulerAngles + RotateByEulerAngles * speed;
+        testHit = CoreServices.InputSystem.EyeGazeProvider.HitPosition;
+        if (testHit != Vector3.zero && !initialPositionCapture)
+        {
+                initialGazeHitPosition = testHit;
+                initialPositionCapture = true;
+                StartCoroutine(FinalizeSharedSecret(initialGazeHitPosition));
+
+        }
+    }
+
     //very inelegant way to determine the bin for the hit position of the beginning of the gaze collection
     private int findBin(float input)
     {
@@ -118,20 +133,6 @@ public class GazeLocationCaptureButtonClick : MonoBehaviour
         else
         {
             return -9;
-        }
-    }
-
-    public void onButtonClick()
-    {
-        this.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-        this.transform.eulerAngles = transform.eulerAngles + RotateByEulerAngles * speed;
-        testHit = CoreServices.InputSystem.EyeGazeProvider.HitPosition;
-        if (testHit != Vector3.zero)
-        {
-                initialGazeHitPosition = testHit;
-                initialPositionCapture = true;
-                StartCoroutine(FinalizeSharedSecret(initialGazeHitPosition));
-
         }
     }
 

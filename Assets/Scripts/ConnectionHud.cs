@@ -28,6 +28,7 @@ public class ConnectionHud : MonoBehaviour
     public GameObject startHostButton;
     public GameObject directionSceneButton;
     public GameObject gridSceneButton;
+    public GameObject loggerPrefab;
     private SceneSwitchProgress m_SceneProgress;
 
     void Start()
@@ -49,49 +50,8 @@ public class ConnectionHud : MonoBehaviour
         discoveredServers[sender.Address] = response;
     }
 
-    void ClientSearchGUI()
-    {
-        if (GazePairNetworkDiscovery.Instance.IsRunning)
-        {
-            if (GUILayout.Button("Stop Client Discovery"))
-            {
-                GazePairNetworkDiscovery.Instance.StopDiscovery();
-                discoveredServers.Clear();
-            }
-
-            if (GUILayout.Button("Refresh List"))
-            {
-                discoveredServers.Clear();
-                GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
-            }
-
-            GUILayout.Space(40);
-
-            foreach (var discoveredServer in discoveredServers)
-            {
-                if (GUILayout.Button($"{discoveredServer.Value.ServerName}[{discoveredServer.Key.ToString()}]"))
-                {
-                    UNetTransport transport = (UNetTransport)NetworkManager.Singleton.NetworkConfig.NetworkTransport;
-                    transport.ConnectAddress = discoveredServer.Key.ToString();
-                    transport.ConnectPort = discoveredServer.Value.Port;
-                    NetworkManager.Singleton.StartClient();
-                }
-            }
-        }
-        else
-        {
-            if (GUILayout.Button("Discover Servers"))
-            {
-                GazePairNetworkDiscovery.Instance.StartClient();
-                GazePairNetworkDiscovery.Instance.ClientBroadcast(new DiscoveryBroadcastData());
-            }
-        }
-    }
-
     public void serverButtonPressed()
     {
-        //Camera maincam = GameObject.Find("Main Camera").GetComponent<Camera>();
-
         if (!NetworkManager.Singleton.IsHost && !NetworkManager.Singleton.IsClient)
         {
             //When Button pressed, start host
@@ -99,18 +59,20 @@ public class ConnectionHud : MonoBehaviour
             //GazePairNetworkDiscovery.Instance.StartServer();
             startHostButton.GetComponentInChildren<TextMeshPro>().SetText("End Client Discovery");
             Instantiate(ConnectionHudPrefab);
-            directionSceneButton.SetActive(true);
+            //directionSceneButton.SetActive(true);
             gridSceneButton.SetActive(true);
             startClientButton.SetActive(false);
-            
-            
+            var loggerInstance = Instantiate(loggerPrefab);
+            loggerInstance.GetComponent<LoggerScript>().startGridPairAttempt();
+
+
         }
         else
         {
             NetworkManager.Singleton.StopServer();
             //GazePairNetworkDiscovery.Instance.StopDiscovery();
             startHostButton.GetComponentInChildren<TextMeshPro>().SetText("Start Host");
-            directionSceneButton.SetActive(false);
+            //directionSceneButton.SetActive(false);
             gridSceneButton.SetActive(false);
             startClientButton.SetActive(true);
             var gazePairHudComponent = GameObject.Find("ConnectionHud(Clone)");
@@ -143,12 +105,6 @@ public class ConnectionHud : MonoBehaviour
 
     public void pairScene()
     {
-        //var sharedSecretInstance = Instantiate(SharedSecretCapturePrefab);
-        if (NetworkManager.Singleton.IsHost)
-        {
-            //var sharedSecretInstance = Instantiate(SharedSecretCapturePrefab);
-            //sharedSecretInstance.GetComponent<NetworkObject>().Spawn();
-        }
             
         if (NetworkManager.Singleton.IsListening)
         {
@@ -162,12 +118,6 @@ public class ConnectionHud : MonoBehaviour
 
     public void gridScene()
     {
-        //var sharedSecretInstance = Instantiate(SharedSecretCapturePrefab);
-        if (NetworkManager.Singleton.IsHost)
-        {
-            //var sharedSecretInstance = Instantiate(SharedSecretCapturePrefab);
-            //sharedSecretInstance.GetComponent<NetworkObject>().Spawn();
-        }
 
         if (NetworkManager.Singleton.IsListening)
         {

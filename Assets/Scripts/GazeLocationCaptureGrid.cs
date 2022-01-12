@@ -90,7 +90,7 @@ public class GazeLocationCaptureGrid : MonoBehaviour
                 
             }
             this.GetComponent<TextMeshPro>().SetText("Tell the group the pairing password is: " + password);
-            randomZ = UnityEngine.Random.Range(5, 8)/2;
+            randomZ = UnityEngine.Random.Range(6, 9)/2;
 
             for (int i = 0; i < 10; i++)
             {

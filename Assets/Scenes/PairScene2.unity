@@ -223,7 +223,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &720289450
 GameObject:
@@ -267,7 +267,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1323989251
 PrefabInstance:
@@ -467,7 +467,7 @@ Transform:
   m_Children:
   - {fileID: 2040406177}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2006343432
 GameObject:
@@ -560,7 +560,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &2040406174
 GameObject:
@@ -720,6 +720,14 @@ PrefabInstance:
       propertyPath: SaltPrefab
       value: 
       objectReference: {fileID: 1527056782850117341, guid: 4b3c5b50e35ec97458f3af65c8381187, type: 3}
+    - target: {fileID: 6199502411755046565, guid: 4c7830de9534bc74a95d8bfff59bba3a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6199502411755046565, guid: 4c7830de9534bc74a95d8bfff59bba3a, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8335910545769017073, guid: 4c7830de9534bc74a95d8bfff59bba3a, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -763,6 +771,14 @@ PrefabInstance:
     - target: {fileID: 8335910545769017073, guid: 4c7830de9534bc74a95d8bfff59bba3a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586400229056350033, guid: 4c7830de9534bc74a95d8bfff59bba3a, type: 3}
+      propertyPath: m_fontSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8586400229056350033, guid: 4c7830de9534bc74a95d8bfff59bba3a, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c7830de9534bc74a95d8bfff59bba3a, type: 3}
