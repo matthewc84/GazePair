@@ -130,6 +130,22 @@ public class GazeLocationCaptureButtonClick : MonoBehaviour
         {
             return 10;
         }
+        if (input >= 5.25 && input <= 5.75f)
+        {
+            return 11;
+        }
+        if (input >= 5.75 && input <= 6.25f)
+        {
+            return 12;
+        }
+        if (input >= 6.25 && input <= 6.75f)
+        {
+            return 12;
+        }
+        if (input >= 6.75 && input <= 8.25f)
+        {
+            return 12;
+        }
         else
         {
             return -9;

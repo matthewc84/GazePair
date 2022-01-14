@@ -33,7 +33,7 @@ public class ConnectionHud : MonoBehaviour
 
     void Start()
     {
-        CoreServices.DiagnosticsSystem.ShowDiagnostics = false;
+        //CoreServices.DiagnosticsSystem.ShowDiagnostics = false;
     }
 
     void Update()
@@ -62,7 +62,7 @@ public class ConnectionHud : MonoBehaviour
             gridSceneButton.SetActive(true);
             startClientButton.SetActive(false);
             var loggerInstance = Instantiate(loggerPrefab);
-            loggerInstance.GetComponent<LoggerScript>().startGridPairAttempt();
+            
 
 
         }
