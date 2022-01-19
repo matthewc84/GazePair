@@ -24,11 +24,11 @@ public class GazePairCrypto : NetworkBehaviour
     static string SharedSecret;
     static byte[] salt = new byte[64];
     string testData = "";
-    static byte[] localIV = new byte[16];
+    static byte[] IV = new byte[16];
     static byte[] edata1 = new byte[8];
     static byte[] edata2 = new byte[8];
     Aes AesAlg;
-    private int iterations = 10000;
+    private int iterations = 50000;
     bool pairingSuccess = true;
     int sucessfullDecrypt = 0;
     GameObject keyInstance;
@@ -64,18 +64,17 @@ public class GazePairCrypto : NetworkBehaviour
             }
         }
 
-        localIV = new System.Text.UTF8Encoding(false).GetBytes("ThisIVmustbe16by");
         SharedSecret = GameObject.Find("SharedSecretCapture").GetComponent<SharedSecretCapture>().sharedSecret;
 
         if (NetworkManager.Singleton.IsHost)
         {
 
-            testData = "Message from the Host Decrpyted";
+            testData = "Message from the Host Decrypted";
         }
         else if (NetworkManager.Singleton.IsClient)
         {
 
-            testData = "Message from the Client Decrpyted";
+            testData = "Message from the Client Decrypted";
         }
 
         salt = new System.Text.UTF8Encoding(false).GetBytes(GameObject.Find("Salt(Clone)").GetComponent<Salt>().SaltValue.Value);
@@ -83,10 +82,10 @@ public class GazePairCrypto : NetworkBehaviour
         {
             salt = new System.Text.UTF8Encoding(false).GetBytes(GameObject.Find("Salt(Clone)").GetComponent<Salt>().SaltValue.Value);
         }
-
-        if (NetworkManager.Singleton.IsHost)
+        IV = new System.Text.UTF8Encoding(false).GetBytes(GameObject.Find("IV(Clone)").GetComponent<IV>().RandomIV.Value);
+        while (IV == null)
         {
-            //Destroy(GameObject.Find("Salt(Clone)"));
+            IV = new System.Text.UTF8Encoding(false).GetBytes(GameObject.Find("IV(Clone)").GetComponent<IV>().RandomIV.Value);
         }
 
         AesAlg = SetCryptoParams();
@@ -159,7 +158,7 @@ public class GazePairCrypto : NetworkBehaviour
         encAlg.KeySize = 256;
         byte[] SharedSecretBytes = new System.Text.UTF8Encoding(false).GetBytes(SharedSecret);
         encAlg.Key = PBKDF2Sha256GetBytes(32, SharedSecretBytes, salt, iterations);
-        encAlg.IV = localIV;
+        encAlg.IV = IV;
         return encAlg;
     }
 

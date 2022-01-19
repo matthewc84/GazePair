@@ -21,6 +21,8 @@ public class GazeLocationCaptureGrid : MonoBehaviour
     private SceneSwitchProgress m_SceneProgress;
     public GameObject SaltPrefab;
     GameObject SaltInstance;
+    public GameObject IVPrefab;
+    GameObject IVInstance;
     public GameObject key0Prefab;
     public GameObject key1Prefab;
     public GameObject key2Prefab;
@@ -80,10 +82,10 @@ public class GazeLocationCaptureGrid : MonoBehaviour
 
             for (int i = 0; i < clickMax; i++)
             {
-                int randomInt = UnityEngine.Random.Range(0, 9);
+                int randomInt = UnityEngine.Random.Range(0, 10);
                 while (usedPasswordValues.Contains(randomInt))
                 {
-                    randomInt = UnityEngine.Random.Range(0, 9);
+                    randomInt = UnityEngine.Random.Range(0, 10);
                 }
                 usedPasswordValues.Add(randomInt);
                 password = password + randomInt.ToString();
@@ -112,6 +114,8 @@ public class GazeLocationCaptureGrid : MonoBehaviour
             //The networked Salt value for Crypto purposes
             SaltInstance = Instantiate(SaltPrefab);
             SaltInstance.GetComponent<NetworkObject>().Spawn();
+            IVInstance = Instantiate(IVPrefab);
+            IVInstance.GetComponent<NetworkObject>().Spawn();
 
         }
 

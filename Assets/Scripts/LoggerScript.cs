@@ -24,7 +24,7 @@ using Windows.Storage.Streams;
 public class LoggerScript : MonoBehaviour
 {
     /// <summary>
-    ///     Logging Script designed to produce detail Gaze Logs from Host and all CLients for research  
+    ///     Logging Script designed to produce detailed Gaze Logs from Host and all CLients for research  
     /// </summary>
     /// 
     //define filePath

@@ -1336,6 +1336,8 @@ MonoBehaviour:
       PlayerPrefab: 0
     - Prefab: {fileID: 5827464058768780900, guid: b8223b48d8b9daa42ad8fe36d61b16bd, type: 3}
       PlayerPrefab: 0
+    - Prefab: {fileID: 9125396048595819149, guid: b61ffa28544081d41ab2f0ef1432d254, type: 3}
+      PlayerPrefab: 0
     PlayerPrefabHash:
       id: 0
     CreatePlayerPrefab: 1
@@ -15871,7 +15873,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4200772337499841086, guid: b09cac727abde4844a76298517a619d3, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7198381180327662942, guid: b09cac727abde4844a76298517a619d3, type: 3}
       propertyPath: m_Enabled

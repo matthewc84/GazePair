@@ -54,6 +54,7 @@ MonoBehaviour:
   clickMax: 3
   clickCount: 0
   SaltPrefab: {fileID: 1527056782850117341, guid: 4b3c5b50e35ec97458f3af65c8381187, type: 3}
+  IVPrefab: {fileID: 9125396048595819149, guid: b61ffa28544081d41ab2f0ef1432d254, type: 3}
   key0Prefab: {fileID: 3684650668430807535, guid: f34eea0571caa634f9d8c6bc4badb164, type: 3}
   key1Prefab: {fileID: 2810811616158059852, guid: cd4aed7adec70b24b967d1091752ddd6, type: 3}
   key2Prefab: {fileID: 2452148363585398063, guid: 485aef22340d97846bbcb82e60bcdf1a, type: 3}
