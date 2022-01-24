@@ -21,7 +21,8 @@ public class GazeLocationCaptureGrid : MonoBehaviour
     private SceneSwitchProgress m_SceneProgress;
     public GameObject SaltPrefab;
     GameObject SaltInstance;
-    public GameObject keypadPrefab;
+    public GameObject IVPrefab;
+    GameObject IVInstance;
     public GameObject key0Prefab;
     public GameObject key1Prefab;
     public GameObject key2Prefab;
@@ -33,16 +34,14 @@ public class GazeLocationCaptureGrid : MonoBehaviour
     public GameObject key8Prefab;
     public GameObject key9Prefab;
     GameObject keyInstance;
-    private float randomX;
-    private float randomY;
     private float randomZ;
     Vector3 randomPosition;
-    List<float> usedXValues = new List<float>();
-    List<float> usedYValues = new List<float>();
+    List<Tuple<float, float>> usedKeyLocationValues = new List<Tuple<float, float>>();
     List<int> usedPasswordValues = new List<int>();
     private string password;
     Dictionary<int, GameObject> keyPrefab = new Dictionary<int, GameObject>();
     Dictionary<int, bool> clientsReady = new Dictionary<int, bool>();
+    
 
     // Start is called before the first frame update
     void Start()
@@ -58,67 +57,65 @@ public class GazeLocationCaptureGrid : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
-        keyPrefab.Add(0, key0Prefab);
-        keyPrefab.Add(1, key1Prefab);
-        keyPrefab.Add(2, key2Prefab);
-        keyPrefab.Add(3, key3Prefab);
-        keyPrefab.Add(4, key4Prefab);
-        keyPrefab.Add(5, key5Prefab);
-        keyPrefab.Add(6, key6Prefab);
-        keyPrefab.Add(7, key7Prefab);
-        keyPrefab.Add(8, key8Prefab);
-        keyPrefab.Add(9, key9Prefab);
-
-        foreach (ulong client in NetworkManager.Singleton.ConnectedClients.Keys)
+        if (NetworkManager.Singleton.IsHost)
         {
-            clientsReady.Add((int)client, false);
 
+            keyPrefab.Add(0, key0Prefab);
+            keyPrefab.Add(1, key1Prefab);
+            keyPrefab.Add(2, key2Prefab);
+            keyPrefab.Add(3, key3Prefab);
+            keyPrefab.Add(4, key4Prefab);
+            keyPrefab.Add(5, key5Prefab);
+            keyPrefab.Add(6, key6Prefab);
+            keyPrefab.Add(7, key7Prefab);
+            keyPrefab.Add(8, key8Prefab);
+            keyPrefab.Add(9, key9Prefab);
 
-        }
+            foreach (ulong client in NetworkManager.Singleton.ConnectedClients.Keys)
+            {
+                clientsReady.Add((int)client, false);
+            }
+        
 
-            if (NetworkManager.Singleton.IsHost)
-        {
+        
+            GameObject.Find("LoggerScript(Clone)").GetComponent<LoggerScript>().startGridPairAttempt();
+
             for (int i = 0; i < clickMax; i++)
             {
-                int randomInt = UnityEngine.Random.Range(0, 9);
+                int randomInt = UnityEngine.Random.Range(0, 10);
                 while (usedPasswordValues.Contains(randomInt))
                 {
-                    randomInt = UnityEngine.Random.Range(0, 9);
+                    randomInt = UnityEngine.Random.Range(0, 10);
                 }
                 usedPasswordValues.Add(randomInt);
                 password = password + randomInt.ToString();
                 
             }
             this.GetComponent<TextMeshPro>().SetText("Tell the group the pairing password is: " + password);
-            randomZ = UnityEngine.Random.Range(6, 9)/2;
-
+            //To prevent hiding a key, we spawn all of them on the same Z value, randomly chosen
+            randomZ = UnityEngine.Random.Range(9, 14) / 2;
+            //Assign a random, non repeating location to each key and spawn them
             for (int i = 0; i < 10; i++)
             {
-                randomX = (float)UnityEngine.Random.Range(-5, 5) / 2;
-                //Debug.Log(randomX);
-                while (usedXValues.Contains(randomX))
+                Tuple<float, float> testKeyLocation = new Tuple<float, float>((float)UnityEngine.Random.Range(-3, 4) / 2, (float)UnityEngine.Random.Range(-4, 2) / 2);
+                //If X,Y value in use, try again, also, we dont use 0,0, so we dont obscure the Hosts passcode prompt
+                while (usedKeyLocationValues.Contains(testKeyLocation) || (testKeyLocation.Item1 == 0 && testKeyLocation.Item2 == 0))
                 {
-                    randomX = (float)UnityEngine.Random.Range(-5, 5) / 2;
+                    testKeyLocation = new Tuple<float, float>((float)UnityEngine.Random.Range(-3, 4) / 2, (float)UnityEngine.Random.Range(-4, 2) / 2);
                 }
-                usedXValues.Add(randomX);
+                usedKeyLocationValues.Add(testKeyLocation);
 
-                randomY = (float)UnityEngine.Random.Range(-5, 5) / 2;
-                //Debug.Log(randomY);
-                while (usedYValues.Contains(randomY))
-                {
-                    randomY = (float)UnityEngine.Random.Range(-5, 5) / 2;
-                }
-                usedYValues.Add(randomY);
-
-                randomPosition = new Vector3(randomX, randomY, randomZ);
+                randomPosition = new Vector3(testKeyLocation.Item1, testKeyLocation.Item2, randomZ);
                 GameObject keyPrefabInstance;
                 keyPrefab.TryGetValue(i, out keyPrefabInstance);
                 keyInstance = Instantiate(keyPrefabInstance, randomPosition, Quaternion.identity);
                 keyInstance.GetComponent<NetworkObject>().Spawn();
             }
-
+            //The networked Salt value for Crypto purposes
             SaltInstance = Instantiate(SaltPrefab);
             SaltInstance.GetComponent<NetworkObject>().Spawn();
+            IVInstance = Instantiate(IVPrefab);
+            IVInstance.GetComponent<NetworkObject>().Spawn();
 
         }
 
@@ -129,6 +126,7 @@ public class GazeLocationCaptureGrid : MonoBehaviour
     {
         if(clickCount == clickMax)
         {
+            //Once click count reached, set progress variable to true and wait for other members of pairing...
             NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject.GetComponent<GazePairCandidate>().SharedSecretReady.Value = true;
             if (NetworkManager.Singleton.IsHost)
             {

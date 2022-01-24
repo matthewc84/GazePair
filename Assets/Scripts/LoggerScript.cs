@@ -24,7 +24,7 @@ using Windows.Storage.Streams;
 public class LoggerScript : MonoBehaviour
 {
     /// <summary>
-    ///     Logging Script designed to produce detail Gaze Logs from Host and all CLients for research  
+    ///     Logging Script designed to produce detailed Gaze Logs from Host and all CLients for research  
     /// </summary>
     /// 
     //define filePath
@@ -117,11 +117,15 @@ public class LoggerScript : MonoBehaviour
         
     }
 
+
+    public void stopTimer()
+    {
+        clock.Stop();
+
+    }
+
     public void stopGridPairAttempt()
     {
-        if (NetworkManager.Singleton.IsHost)
-        {
-            clock.Stop();
             List<String> newRow = RowWithStartData();
             newRow.Add(clock.Elapsed.ToString());
             newRow.Add(NetworkManager.Singleton.ConnectedClients.Keys.Count.ToString());
@@ -130,7 +134,6 @@ public class LoggerScript : MonoBehaviour
             AddRow(newRow);
             FlushData();
 
-        }
     }
 
     public void AddRow(List<String> rowData)

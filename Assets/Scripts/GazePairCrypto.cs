@@ -23,14 +23,12 @@ public class GazePairCrypto : NetworkBehaviour
     Aes aes = Aes.Create();
     static string SharedSecret;
     static byte[] salt = new byte[64];
-    string hostData = "";
-    string clientData = "";
-    static byte[] localIV = new byte[16];
+    string testData = "";
+    static byte[] IV = new byte[16];
     static byte[] edata1 = new byte[8];
     static byte[] edata2 = new byte[8];
     Aes AesAlg;
-    private int iterations = 10000;
-    string plaintext;
+    private int iterations = 50000;
     bool pairingSuccess = true;
     int sucessfullDecrypt = 0;
     GameObject keyInstance;
@@ -43,36 +41,40 @@ public class GazePairCrypto : NetworkBehaviour
     void Start()
     {
         pairSucessful = false;
+        //Add starter entry for each client that keys do not match as a base case
         foreach (ulong client in NetworkManager.Singleton.ConnectedClients.Keys)
         {
             clientsKeysMatch.Add((int)client, false);
 
         }
 
-        for (int i = 0; i < 10; i++)
+
+
+        if (IsHost)
         {
-            if (NetworkManager.Singleton.IsHost && GameObject.Find("Key" + i + "(Clone)"))
+            GameObject.Find("LoggerScript(Clone)").GetComponent<LoggerScript>().stopTimer();
+            for (int i = 0; i < 10; i++)
             {
-                keyInstance = GameObject.Find("Key" + i + "(Clone)");
-                keyInstance.GetComponent<NetworkObject>().Despawn();
-                Destroy(keyInstance);
+                if (GameObject.Find("Key" + i + "(Clone)"))
+                {
+                    keyInstance = GameObject.Find("Key" + i + "(Clone)");
+                    keyInstance.GetComponent<NetworkObject>().Despawn();
+                    Destroy(keyInstance);
+                }
             }
         }
-
-        localIV = new System.Text.UTF8Encoding(false).GetBytes("ThisIVmustbe16by");
-        plaintext = "Success!";
 
         SharedSecret = GameObject.Find("SharedSecretCapture").GetComponent<SharedSecretCapture>().sharedSecret;
 
         if (NetworkManager.Singleton.IsHost)
         {
-            
-            hostData = "Message from the Host Decrpyted";
+
+            testData = "Message from the Host Decrypted";
         }
         else if (NetworkManager.Singleton.IsClient)
         {
-            
-            clientData = "Message from the Client Decrpyted";
+
+            testData = "Message from the Client Decrypted";
         }
 
         salt = new System.Text.UTF8Encoding(false).GetBytes(GameObject.Find("Salt(Clone)").GetComponent<Salt>().SaltValue.Value);
@@ -80,31 +82,16 @@ public class GazePairCrypto : NetworkBehaviour
         {
             salt = new System.Text.UTF8Encoding(false).GetBytes(GameObject.Find("Salt(Clone)").GetComponent<Salt>().SaltValue.Value);
         }
-
-        if (NetworkManager.Singleton.IsHost)
+        IV = new System.Text.UTF8Encoding(false).GetBytes(GameObject.Find("IV(Clone)").GetComponent<IV>().RandomIV.Value);
+        while (IV == null)
         {
-            //Destroy(GameObject.Find("Salt(Clone)"));
+            IV = new System.Text.UTF8Encoding(false).GetBytes(GameObject.Find("IV(Clone)").GetComponent<IV>().RandomIV.Value);
         }
 
         AesAlg = SetCryptoParams();
-        if (NetworkManager.Singleton.IsHost)
-        {
-            NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject.GetComponent<GazePairCandidate>().CipherText.Value = Encrypt(hostData, AesAlg);
-        }
-        else if (NetworkManager.Singleton.IsClient)
-        {
-            NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject.GetComponent<GazePairCandidate>().SubmitEncryptedValue_ServerRpc(Encrypt(clientData, AesAlg));
-        }
+        NetworkManager.Singleton.ConnectedClients[NetworkManager.Singleton.LocalClientId].PlayerObject.GetComponent<GazePairCandidate>().CipherText.Value = Encrypt(testData, AesAlg);
 
         Destroy(GameObject.Find("SharedSecretCapture"));
-        if (GameObject.Find("GazeLocationCapture(Clone)"))
-        {
-            Destroy(GameObject.Find("GazeLocationCapture(Clone)"));
-        }
-        if (GameObject.Find("GazeCapture(Clone)"))
-        {
-            Destroy(GameObject.Find("GazeCapture(Clone)"));
-        }
 
     }
 
@@ -125,12 +112,12 @@ public class GazePairCrypto : NetworkBehaviour
                         {
                             var test = Decrypt(player.CipherText.Value, AesAlg);
                             clientsKeysMatch[(int)client] = true;
-                            //Debug.Log(test);
+                            Debug.Log(test);
                         }
                         catch (CryptographicException e)
                         {
                             sucessfullDecrypt -= 1;
-                            //Debug.Log("Decrypt for one of the clients failed!");
+                            Debug.Log("Decrypt for one of the clients failed!");
                         }
 
                     }
@@ -153,6 +140,13 @@ public class GazePairCrypto : NetworkBehaviour
 
         }
 
+        if (clientsKeysMatch.All(x => x.Value == true))
+        {
+            this.GetComponent<TextMeshPro>().SetText("All Client Keys Match! - Pair Sucessfull");
+            pairSucessful = true;
+            //GameObject.Find("LoggerScript(Clone)").GetComponent<LoggerScript>().stopGridPairAttempt();
+        }
+
 
 
 
@@ -164,7 +158,7 @@ public class GazePairCrypto : NetworkBehaviour
         encAlg.KeySize = 256;
         byte[] SharedSecretBytes = new System.Text.UTF8Encoding(false).GetBytes(SharedSecret);
         encAlg.Key = PBKDF2Sha256GetBytes(32, SharedSecretBytes, salt, iterations);
-        encAlg.IV = localIV;
+        encAlg.IV = IV;
         return encAlg;
     }
 

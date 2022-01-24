@@ -12,8 +12,7 @@ using System;
 using System.Text;
 
 /// <summary>
-///     The default player object, spawned for each host and client in the Connection Scene.  Holds the functionality for both tracking the location of the player, 
-///     and for the NetworkVariableVector3 that has their individual GazeDirectionChange.
+///     The default player object, spawned for each host and client in the Connection Scene.  Holds the functionality to record if the player has gathered a shared secret and is ready to proceed and the ciphertext the Host will use to test keys.
 /// </summary>
 /// 
 public class GazePairCandidate : NetworkBehaviour
