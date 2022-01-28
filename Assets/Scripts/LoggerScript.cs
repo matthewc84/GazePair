@@ -127,7 +127,7 @@ public class LoggerScript : MonoBehaviour
     public void stopGridPairAttempt()
     {
             List<String> newRow = RowWithStartData();
-            newRow.Add(clock.Elapsed.ToString());
+            newRow.Add(clock.Elapsed.TotalSeconds.ToString());
             newRow.Add(NetworkManager.Singleton.ConnectedClients.Keys.Count.ToString());
             var cryptoInstance = GameObject.Find("GazePairCrypto");
             newRow.Add(cryptoInstance.GetComponent<GazePairCrypto>().pairSucessful.ToString());
