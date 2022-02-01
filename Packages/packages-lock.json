@@ -110,21 +110,6 @@
         "com.unity.textmeshpro": "1.4.1"
       }
     },
-    "com.microsoft.mixedreality.worldlockingsamples": {
-      "version": "file:MixedReality/com.microsoft.mixedreality.worldlockingsamples-1.4.0.tgz",
-      "depth": 0,
-      "source": "local-tarball",
-      "dependencies": {
-        "com.microsoft.mixedreality.toolkit.foundation": "2.7.0",
-        "com.microsoft.mixedreality.worldlockingtools": "1.4.0"
-      }
-    },
-    "com.microsoft.mixedreality.worldlockingtools": {
-      "version": "file:MixedReality/com.microsoft.mixedreality.worldlockingtools-1.4.0.tgz",
-      "depth": 0,
-      "source": "local-tarball",
-      "dependencies": {}
-    },
     "com.microsoft.spatialaudio.spatializer.unity": {
       "version": "file:MixedReality/com.microsoft.spatialaudio.spatializer.unity-1.0.196.tgz",
       "depth": 0,

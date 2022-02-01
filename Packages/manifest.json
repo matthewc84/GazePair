@@ -15,8 +15,6 @@
     "com.microsoft.mixedreality.toolkit.tools": "file:MixedReality/com.microsoft.mixedreality.toolkit.tools-2.7.2.tgz",
     "com.microsoft.mixedreality.webrtc": "file:MixedReality/com.microsoft.mixedreality.webrtc-2.0.2.tgz",
     "com.microsoft.mixedreality.webrtc.samples": "file:MixedReality/com.microsoft.mixedreality.webrtc.samples-2.0.2.tgz",
-    "com.microsoft.mixedreality.worldlockingsamples": "file:MixedReality/com.microsoft.mixedreality.worldlockingsamples-1.4.0.tgz",
-    "com.microsoft.mixedreality.worldlockingtools": "file:MixedReality/com.microsoft.mixedreality.worldlockingtools-1.4.0.tgz",
     "com.microsoft.spatialaudio.spatializer.unity": "file:MixedReality/com.microsoft.spatialaudio.spatializer.unity-1.0.196.tgz",
     "com.microsoft.windows.mixedreality.dotnetwinrt": "file:MixedReality/com.microsoft.windows.mixedreality.dotnetwinrt-0.5.2009.tgz",
     "com.unity.collab-proxy": "1.7.1",
