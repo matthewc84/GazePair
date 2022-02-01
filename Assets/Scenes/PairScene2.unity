@@ -136,7 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4200772337318736365, guid: b09cac727abde4844a76298517a619d3, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4200772337318736365, guid: b09cac727abde4844a76298517a619d3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4200772337318736365, guid: b09cac727abde4844a76298517a619d3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -176,6 +180,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4200772337318736365, guid: b09cac727abde4844a76298517a619d3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4200772337499841086, guid: b09cac727abde4844a76298517a619d3, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -716,6 +724,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2806222744517353182, guid: 4c7830de9534bc74a95d8bfff59bba3a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3498068627507264054, guid: 4c7830de9534bc74a95d8bfff59bba3a, type: 3}
       propertyPath: m_Name
       value: GazeLocationCaptureGrid

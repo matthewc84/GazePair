@@ -50,7 +50,7 @@ public class GazeLocationCaptureButtonClick : MonoBehaviour
         this.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
         this.transform.eulerAngles = transform.eulerAngles + RotateByEulerAngles * speed;
         testHit = CoreServices.InputSystem.EyeGazeProvider.HitPosition;
-        if (testHit != Vector3.zero && !initialPositionCapture)
+        if (!initialPositionCapture)
         {
                 initialGazeHitPosition = testHit;
                 initialPositionCapture = true;
