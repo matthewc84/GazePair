@@ -75,8 +75,8 @@ public class LoggerScript : MonoBehaviour
     }
     async Task MakeNewSession()
     {
-        m_sessionId = DateTime.Now.ToString("yyyyMMdd_HHmmss");
         string rootPath = "";
+        m_sessionId = DateTime.Now.ToString("yyyyMMdd_HHmmss");
 #if WINDOWS_UWP
             StorageFolder sessionParentFolder = await KnownFolders.PicturesLibrary
                 .CreateFolderAsync(SessionFolderRoot,

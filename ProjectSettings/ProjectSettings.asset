@@ -163,6 +163,8 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: -6420167776258033221, guid: 6693ecf6357383b4690aab5d5873e0b8, type: 2}
   - {fileID: -1217770976678781616, guid: f610df41c22c0fe4aac9469e9ad2de83, type: 2}
   metroInputSource: 0
@@ -640,9 +642,9 @@ PlayerSettings:
   metroPackageVersion: 1.0.0.0
   metroCertificatePath: Assets/WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: DefaultCompany
-  metroCertificateIssuer: DefaultCompany
-  metroCertificateNotAfter: 80e03d9efebcd801
+  metroCertificateSubject: VirginiaTech
+  metroCertificateIssuer: VirginiaTech
+  metroCertificateNotAfter: 00cd825b7c0bda01
   metroApplicationDescription: GazePair
   wsaImages: {}
   metroTileShortName: Net

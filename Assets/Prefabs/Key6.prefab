@@ -11,8 +11,25 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.02, y: 0.02, z: 0.02}
+  m_Size: {x: 0.03, y: 0.03, z: 0.03}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-2600383389571199771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2888366582740376502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkInstanceId: 0
+  PrefabHash: 13991983095737733456
+  PrefabHashGenerator: Key6
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
 --- !u!114 &5075277081580556588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30,7 +47,7 @@ MonoBehaviour:
     description: Select
     axisConstraint: 2
   voiceSelect: []
-  dwellTimeInSec: 0.8
+  dwellTimeInSec: 2
   onLookAtStart:
     m_PersistentCalls:
       m_Calls: []
@@ -79,23 +96,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotateByEulerAngles: {x: 0, y: 90, z: 0}
   speed: 10
---- !u!114 &-2600383389571199771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2888366582740376502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkInstanceId: 0
-  PrefabHash: 13991983095737733456
-  PrefabHashGenerator: Key6
-  AlwaysReplicateAsRoot: 0
-  DontDestroyWithOwner: 0
 --- !u!1001 &2653996543414396647
 PrefabInstance:
   m_ObjectHideFlags: 0

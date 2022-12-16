@@ -11,7 +11,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.02, y: 0.02, z: 0.02}
+  m_Size: {x: 0.03, y: 0.03, z: 0.03}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-9114165178254813417
 MonoBehaviour:
@@ -30,7 +30,7 @@ MonoBehaviour:
     description: Select
     axisConstraint: 2
   voiceSelect: []
-  dwellTimeInSec: 0.8
+  dwellTimeInSec: 2
   onLookAtStart:
     m_PersistentCalls:
       m_Calls: []
@@ -42,7 +42,19 @@ MonoBehaviour:
       m_Calls: []
   onDwell:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -1339516136719999070}
+        m_TargetAssemblyTypeName: GazeLocationCaptureButtonClick, Assembly-CSharp
+        m_MethodName: onButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onSelected:
     m_PersistentCalls:
       m_Calls:
